@@ -10,9 +10,9 @@
 ////////////////////////////////////
 // clock AND protoThreads configure!
 // You MUST check this file!
-#include "config.h"
+#include "config_1_3_2.h"
 // threading library
-#include "pt_cornell_1_2.h"
+#include "pt_cornell_1_3_2.h"
 
 
 // === thread structures ============================================
@@ -28,8 +28,8 @@ static struct pt pt_cmd, pt_time, pt_input, pt_output, pt_DMA_output ;
 int sys_time_seconds ;
 
 //The actual period of the wave
-int generate_period = 2000 ;
-int pwm_on_time = 500 ;
+static int generate_period = (int)((20.0/32) * 40000) ;
+static int pwm_on_time = 0.5 * 40000 ;
 //print state variable
 int printing=0 ;
 
@@ -54,40 +54,35 @@ static PT_THREAD (protothread_cmd(struct pt *pt))
 {
     PT_BEGIN(pt);
       while(1) {
-          
-            // send the prompt via DMA to serial
-            sprintf(PT_send_buffer,"cmd>");
-            // by spawning a print thread
-            PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output) );
- 
-          //spawn a thread to handle terminal input
-            // the input thread waits for input
-            // -- BUT does NOT block other threads
-            // string is returned in "PT_term_buffer"
-            PT_SPAWN(pt, &pt_input, PT_GetSerialBuffer(&pt_input) );
-            // returns when the thead dies
-            // in this case, when <enter> is pushed
-            // now parse the string
-             sscanf(PT_term_buffer, "%s %d", cmd, &value);
-         
-             if (cmd[0]=='p' ) {
-                 generate_period = value;
+            PT_YIELD_TIME_msec(100) ;
+             if (sys_time_seconds == 0) {
                  // update the timer period
-                 WritePeriod2(generate_period);
                  // update the pulse start/stop
-                 SetPulseOC2(generate_period>>2, generate_period>>1);
+                 //generate_period = 1.9 * 40000;
+                 pwm_on_time = generate_period / 4 ;
+                 //WritePeriod3(generate_period);
+                 SetDCOC3PWM(pwm_on_time);
              }
              
-             if (cmd[0]=='d' ) {
-                 pwm_on_time = value ;
+             if (sys_time_seconds == 1) {
+                 //generate_period = 1.5 * 40000;
+                 pwm_on_time = generate_period / 2 ;
+                 WritePeriod3(generate_period);
                  SetDCOC3PWM(pwm_on_time);
              } //  
              
-             if (cmd[0]=='t' ) {
-                 sprintf(PT_send_buffer,"%d ", sys_time_seconds);
-                // by spawning a print thread
-                PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output) );
+             if (sys_time_seconds == 2) {
+                 //generate_period = 1.9 * 40000;
+                 pwm_on_time = 3 * generate_period / 4 ;
+                 //WritePeriod3(generate_period);
+                 SetDCOC3PWM(pwm_on_time);
              } //  
+            if (sys_time_seconds == 3) {
+                 //generate_period = 1.5 * 40000;
+                 pwm_on_time = generate_period / 2 ;
+                 //WritePeriod3(generate_period);
+                 SetDCOC3PWM(pwm_on_time);
+             } // 
             // never exit while
       } // END WHILE(1)
   PT_END(pt);
@@ -101,8 +96,8 @@ static PT_THREAD (protothread_time(struct pt *pt))
 
       while(1) {
             // yield time 1 second
-            PT_YIELD_TIME_msec(1000) ;
-            sys_time_seconds++ ;
+            PT_YIELD_TIME_msec(2000) ;
+            sys_time_seconds = (sys_time_seconds + 1) % 4 ;
             // NEVER exit while
       } // END WHILE(1)
 
@@ -115,7 +110,7 @@ int main(void)
 {
   // === Config timer and output compares to make pulses ========
   // set up timer2 to generate the wave period
-  OpenTimer2(T2_ON | T2_SOURCE_INT | T2_PS_1_1, generate_period);
+  OpenTimer2(T2_ON | T2_SOURCE_INT | T2_PS_1_32, generate_period);
   ConfigIntTimer2(T2_INT_ON | T2_INT_PRIOR_2);
   mT2ClearIntFlag(); // and clear the interrupt flag
 
