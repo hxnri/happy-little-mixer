@@ -28,8 +28,8 @@ static struct pt pt_cmd, pt_time, pt_input, pt_output, pt_DMA_output ;
 int sys_time_seconds ;
 
 //The actual period of the wave
-static int generate_period = (int)((20.0/32) * 40000) ;
-static int pwm_on_time = 0.5 * 40000 ;
+static int generate_period = (int)(((20.0 + 1.5)/32.0) * 40000) ;
+static int pwm_on_time = (int)( 1.5 / (20.0 + 1.5) * 40000) ;
 //print state variable
 int printing=0 ;
 
@@ -58,31 +58,27 @@ static PT_THREAD (protothread_cmd(struct pt *pt))
              if (sys_time_seconds == 0) {
                  // update the timer period
                  // update the pulse start/stop
-                 //generate_period = 1.9 * 40000;
-                 pwm_on_time = generate_period / 4 ;
-                 //WritePeriod3(generate_period);
+                 generate_period = (int)(((20.0 + 1.5)/32.0) * 40000) ;
+                 pwm_on_time = (int)( 1.5 / (20.0 + 1.5) * 40000) ;
+                 WritePeriod2(generate_period);
                  SetDCOC3PWM(pwm_on_time);
              }
              
              if (sys_time_seconds == 1) {
                  //generate_period = 1.5 * 40000;
-                 pwm_on_time = generate_period / 2 ;
-                 WritePeriod3(generate_period);
+                 generate_period = (int)(((20.0 + 1.25)/32.0) * 40000) ;
+                 pwm_on_time = (int)( 1.25 / (20.0 + 1.25) * 40000) ;
+                 WritePeriod2(generate_period);
                  SetDCOC3PWM(pwm_on_time);
              } //  
-             
+            
              if (sys_time_seconds == 2) {
-                 //generate_period = 1.9 * 40000;
-                 pwm_on_time = 3 * generate_period / 4 ;
-                 //WritePeriod3(generate_period);
+                 //generate_period = 1.5 * 40000;
+                 generate_period = (int)(((20.0 + 1.0)/32.0) * 40000) ;
+                 pwm_on_time = (int)( 1.0 / (20.0 + 1.0) * 40000) ;
+                 WritePeriod2(generate_period);
                  SetDCOC3PWM(pwm_on_time);
              } //  
-            if (sys_time_seconds == 3) {
-                 //generate_period = 1.5 * 40000;
-                 pwm_on_time = generate_period / 2 ;
-                 //WritePeriod3(generate_period);
-                 SetDCOC3PWM(pwm_on_time);
-             } // 
             // never exit while
       } // END WHILE(1)
   PT_END(pt);
@@ -96,8 +92,8 @@ static PT_THREAD (protothread_time(struct pt *pt))
 
       while(1) {
             // yield time 1 second
-            PT_YIELD_TIME_msec(2000) ;
-            sys_time_seconds = (sys_time_seconds + 1) % 4 ;
+            PT_YIELD_TIME_msec(1000) ;
+            sys_time_seconds = (sys_time_seconds + 1) % 3 ;
             // NEVER exit while
       } // END WHILE(1)
 
@@ -116,6 +112,7 @@ int main(void)
 
   // set up compare3 for PWM mode
   OpenOC3(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE , pwm_on_time, pwm_on_time); //
+  //OpenOC3(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_ENABLE , pwm_on_time, pwm_on_time); //
   // OC3 is PPS group 4, map to RPB9 (pin 18)
   PPSOutput(4, RPB9, OC3);
 
