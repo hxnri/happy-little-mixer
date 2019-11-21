@@ -2,9 +2,11 @@
  * This is a very small example that shows how to use
  * === OUTPUT COMPARE  ===
 /*
- * File:        PWM example
- * Author:      Bruce Land
+ * File:        Happy Little Mixer
+ * Author:      Henri Clarke (hxc2), Michael Rivera (mr858), Priya Kattappurath (psk92)
  * Target PIC:  PIC32MX250F128B
+ * Using sample code provided by Bruce Land.
+ * ECE 4760, Fall 2019
  */
 
 ////////////////////////////////////
@@ -13,7 +15,11 @@
 #include "config_1_3_2.h"
 // threading library
 #include "pt_cornell_1_3_2.h"
-
+// port expander
+#include "port_expander_brl4.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 // === thread structures ============================================
 // thread control structs
 
@@ -64,7 +70,7 @@ static char temp_bin_char;
   [hex_to_binary_char hex_char] is the binary string representation of 
   [hex_char]
 */
-char hex_to_binary_char(hex_char)
+char hex_to_binary_char(char hex_char)
 {
   switch (hex_char)
   {
@@ -114,7 +120,7 @@ char hex_to_binary_char(hex_char)
 */
 int min_int(int a, int b)
 {
-  a < b ? a : b
+  return a < b ? a : b;
 }
 
 static PT_THREAD(protothread_cmd(struct pt *pt))
@@ -142,7 +148,7 @@ static PT_THREAD(protothread_cmd(struct pt *pt))
     g = hex_to_binary_char(hex_value[2]) + hex_to_binary_char(hex_value[3]);
     b = hex_to_binary_char(hex_value[4]) + hex_to_binary_char(hex_value[5]);
 
-    if (r_scaled == 0 && g_scaled == 0 && b_scaled == 0)
+    if (r == 0 && g == 0 && b == 0)
     {
       k = 1;
       c = 0;
@@ -152,17 +158,18 @@ static PT_THREAD(protothread_cmd(struct pt *pt))
     else
     {
       //computed c, m, y
-      int tempc = 1 - ((int)strtol(r, NULL, 2)) >> 8;
-      int tempm = 1 - ((int)strtol(g, NULL, 2)) >> 8;
-      int tempy = 1 - ((int)strtol(b, NULL, 2)) >> 8;
+      // 1 - ([computed rgb value, in binary] / 255)
+      int tempc = 1 - ((atoi(r)) >> 8);
+      int tempm = 1 - ((atoi(g)) >> 8);
+      int tempy = 1 - ((atoi(b)) >> 8);
 
-      int minCMY = min(c, min(m, y));
+      int minCMY = min(tempc, min(tempm, tempy));
 
       // updated cmyk values
       c = (tempc - minCMY) / (1 - minCMY);
       m = (tempm - minCMY) / (1 - minCMY);
       y = (tempy - minCMY) / (1 - minCMY);
-      k = minCMY
+      k = minCMY;
     }
 
     // never exit while
