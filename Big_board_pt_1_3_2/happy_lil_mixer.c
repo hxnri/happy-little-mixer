@@ -70,49 +70,68 @@ static char temp_bin_char;
   [hex_to_binary_char hex_char] is the binary string representation of 
   [hex_char]
 */
-char hex_to_binary_char(char hex_char)
+char temp[4];
+
+char * hex_to_binary_char(char hex_char)
 {
   switch (hex_char)
   {
   case '0':
-    return "0000";
+    strncpy(temp, "0000", 4);
+    break;
   case '1':
-    return "0001";
+    strncpy(temp, "0001", 4);    
+    break;
   case '2':
-    return "0010";
+    strncpy(temp, "0010", 4);
+    break;
   case '3':
-    return "0011";
+    strncpy(temp, "0011", 4);
+    break;
   case '4':
-    return "0100";
+    strncpy(temp, "0100", 4);
+    break;
   case '5':
-    return "0101";
+    strncpy(temp, "0101", 4);
+    break;
   case '6':
-    return "0110";
+    strncpy(temp, "0110", 4);
+    break;
   case '7':
-    return "0111";
+    strncpy(temp, "0111", 4);
+    break;
   case '8':
-    return "1000";
+    strncpy(temp, "1000", 4);
+    break;
   case '9':
-    return "1001";
+    strncpy(temp, "1001", 4);
+    break;
   case 'A':
   case 'a':
-    return "1010";
+    strncpy(temp, "1010", 4);
+    break;
   case 'B':
   case 'b':
-    return "1011";
+    strncpy(temp, "1011", 4);
+    break;
   case 'C':
   case 'c':
-    return "1100";
+    strncpy(temp, "1100", 4);
+    break;
   case 'D':
   case 'd':
-    return "1101";
+    strncpy(temp, "1101", 4);
+    break;
   case 'E':
   case 'e':
-    return "1110";
+    strncpy(temp, "1110", 4);
+    break;
   case 'F':
   case 'f':
-    return "1111";
+    strncpy(temp, "1111", 4);
+    break;
   }
+  return temp;
 }
 
 /*
@@ -144,10 +163,33 @@ static PT_THREAD(protothread_cmd(struct pt *pt))
     sscanf(PT_term_buffer, "%s", &hex_value);
 
     //binary values for r, g, b
-    r = hex_to_binary_char(hex_value[0]) + hex_to_binary_char(hex_value[1]);
-    g = hex_to_binary_char(hex_value[2]) + hex_to_binary_char(hex_value[3]);
-    b = hex_to_binary_char(hex_value[4]) + hex_to_binary_char(hex_value[5]);
-
+    char * binr1 = hex_to_binary_char(hex_value[0]);
+    char * binr2 = hex_to_binary_char(hex_value[1]);
+    char * bing1 = hex_to_binary_char(hex_value[2]);
+    char * bing2 = hex_to_binary_char(hex_value[3]);
+    char * binb1 = hex_to_binary_char(hex_value[4]);
+    char * binb2 = hex_to_binary_char(hex_value[5]);
+    
+    //char fullr[2] = {hex_to_binary_char(hex_value[0]),hex_to_binary_char(hex_value[1])};
+    //char fullg[2] = {hex_to_binary_char(hex_value[2]), hex_to_binary_char(hex_value[3])};
+    //char fullb[2] = {hex_to_binary_char(hex_value[4]), hex_to_binary_char(hex_value[5])};
+    
+    
+    char fullr[2] = {hex_to_binary_char(hex_value[0]),hex_to_binary_char(hex_value[1])};
+    char fullg[2] = {hex_to_binary_char(hex_value[2]), hex_to_binary_char(hex_value[3])};
+    char fullb[2] = {hex_to_binary_char(hex_value[4]), hex_to_binary_char(hex_value[5])};
+    
+    r = atoi(fullr);
+    g = atoi(fullg);
+    b = atoi(fullb);
+    
+    sprintf(PT_send_buffer, "%s%d", "\nR: ", r);
+    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+    sprintf(PT_send_buffer, "%s%d","\nG: ", g);
+    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+    sprintf(PT_send_buffer, "%s%d","\nB: ", b);
+    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+    
     if (r == 0 && g == 0 && b == 0)
     {
       k = 1;
@@ -159,10 +201,14 @@ static PT_THREAD(protothread_cmd(struct pt *pt))
     {
       //computed c, m, y
       // 1 - ([computed rgb value, in binary] / 255)
-      int tempc = 1 - ((atoi(r)) >> 8);
-      int tempm = 1 - ((atoi(g)) >> 8);
-      int tempy = 1 - ((atoi(b)) >> 8);
+      int tempc = 1 - (r >> 8);
+      int tempm = 1 - (g >> 8);
+      int tempy = 1 - (b >> 8);
 
+      //int tempc = 1 - r/255;
+      //int tempm = 1 - g/255;
+      //int tempy = 1 - b/255;
+        
       int minCMY = min(tempc, min(tempm, tempy));
 
       // updated cmyk values
@@ -171,6 +217,15 @@ static PT_THREAD(protothread_cmd(struct pt *pt))
       y = (tempy - minCMY) / (1 - minCMY);
       k = minCMY;
     }
+    
+    sprintf(PT_send_buffer, "%d", c);
+    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+    sprintf(PT_send_buffer, "%d", m);
+    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+    sprintf(PT_send_buffer, "%d", y);
+    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+    sprintf(PT_send_buffer, "%d", k);
+    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
 
     // never exit while
   } // END WHILE(1)
