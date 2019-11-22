@@ -51,102 +51,99 @@ void __ISR(_TIMER_2_VECTOR, ipl2) Timer2Handler(void)
 
 // === Command Thread ======================================================
 // The serial interface
-static char hex_value[6];
-
-// rgb - from input hex
-static int r = 0;
-static int g = 0;
-static int b = 0;
+char hex_value[6] = {};
 
 // cmyk
-static int c = 0;
-static int m = 0;
-static int y = 0;
-static int k = 0;
+float final_c = 0;
+float final_m = 0;
+float final_y = 0;
+float final_k = 0;
 
-static char temp_bin_char;
 
 /* 
-  [hex_to_binary_char hex_char] is the binary string representation of 
-  [hex_char]
+  [hex_to_dec hex_char] is the decimal int representation of 
+  char [hex_char]
 */
-char temp[4];
-
-char * hex_to_binary_char(char hex_char)
+int hex_to_dec(char hex_char)
 {
   switch (hex_char)
   {
   case '0':
-    strncpy(temp, "0000", 4);
+    return 0;
     break;
   case '1':
-    strncpy(temp, "0001", 4);    
+    return 1;  
     break;
   case '2':
-    strncpy(temp, "0010", 4);
+    return 2;
     break;
   case '3':
-    strncpy(temp, "0011", 4);
+    return 3;
     break;
   case '4':
-    strncpy(temp, "0100", 4);
+    return 4;
     break;
   case '5':
-    strncpy(temp, "0101", 4);
-    break;
+    return 5;
+      break;
   case '6':
-    strncpy(temp, "0110", 4);
+    return 6;
     break;
   case '7':
-    strncpy(temp, "0111", 4);
+    return 7;
     break;
   case '8':
-    strncpy(temp, "1000", 4);
+    return 8;
     break;
   case '9':
-    strncpy(temp, "1001", 4);
+    return 9;
     break;
   case 'A':
+      return 10;
+      break;
   case 'a':
-    strncpy(temp, "1010", 4);
-    break;
+    return 10;
+      break;
   case 'B':
+      return 11;
+    break;
   case 'b':
-    strncpy(temp, "1011", 4);
+    return 11;
     break;
   case 'C':
+      return 12;
+    break;
   case 'c':
-    strncpy(temp, "1100", 4);
+    return 12;
     break;
   case 'D':
+      return 13;
+    break;
   case 'd':
-    strncpy(temp, "1101", 4);
+    return 13;
     break;
   case 'E':
+      return 14;
+    break;
   case 'e':
-    strncpy(temp, "1110", 4);
+    return 14;
     break;
   case 'F':
+      return 15;
+    break;
   case 'f':
-    strncpy(temp, "1111", 4);
+    return 15;
     break;
   }
-  return temp;
-}
-
-/*
-  [min_int a b] is the minimum of a and b, an integer
-*/
-int min_int(int a, int b)
-{
-  return a < b ? a : b;
 }
 
 static PT_THREAD(protothread_cmd(struct pt *pt))
 {
   PT_BEGIN(pt);
+
   while (1)
   {
+      float c, m, y, k;
     // send the prompt via DMA to serial
     sprintf(PT_send_buffer, "hex #");
     // by spawning a print thread
@@ -161,35 +158,11 @@ static PT_THREAD(protothread_cmd(struct pt *pt))
     // in this case, when <enter> is pushed
     // now parse the string
     sscanf(PT_term_buffer, "%s", &hex_value);
+    
+    int r = (hex_to_dec(hex_value[0]))*16 + hex_to_dec(hex_value[1]);
+    int g = (hex_to_dec(hex_value[2]))*16 + hex_to_dec(hex_value[3]);
+    int b = (hex_to_dec(hex_value[4]))*16 + hex_to_dec(hex_value[5]);
 
-    //binary values for r, g, b
-    char * binr1 = hex_to_binary_char(hex_value[0]);
-    char * binr2 = hex_to_binary_char(hex_value[1]);
-    char * bing1 = hex_to_binary_char(hex_value[2]);
-    char * bing2 = hex_to_binary_char(hex_value[3]);
-    char * binb1 = hex_to_binary_char(hex_value[4]);
-    char * binb2 = hex_to_binary_char(hex_value[5]);
-    
-    //char fullr[2] = {hex_to_binary_char(hex_value[0]),hex_to_binary_char(hex_value[1])};
-    //char fullg[2] = {hex_to_binary_char(hex_value[2]), hex_to_binary_char(hex_value[3])};
-    //char fullb[2] = {hex_to_binary_char(hex_value[4]), hex_to_binary_char(hex_value[5])};
-    
-    
-    char fullr[2] = {hex_to_binary_char(hex_value[0]),hex_to_binary_char(hex_value[1])};
-    char fullg[2] = {hex_to_binary_char(hex_value[2]), hex_to_binary_char(hex_value[3])};
-    char fullb[2] = {hex_to_binary_char(hex_value[4]), hex_to_binary_char(hex_value[5])};
-    
-    r = atoi(fullr);
-    g = atoi(fullg);
-    b = atoi(fullb);
-    
-    sprintf(PT_send_buffer, "%s%d", "\nR: ", r);
-    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-    sprintf(PT_send_buffer, "%s%d","\nG: ", g);
-    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-    sprintf(PT_send_buffer, "%s%d","\nB: ", b);
-    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-    
     if (r == 0 && g == 0 && b == 0)
     {
       k = 1;
@@ -199,34 +172,29 @@ static PT_THREAD(protothread_cmd(struct pt *pt))
     }
     else
     {
-      //computed c, m, y
-      // 1 - ([computed rgb value, in binary] / 255)
-      int tempc = 1 - (r >> 8);
-      int tempm = 1 - (g >> 8);
-      int tempy = 1 - (b >> 8);
-
-      //int tempc = 1 - r/255;
-      //int tempm = 1 - g/255;
-      //int tempy = 1 - b/255;
-        
-      int minCMY = min(tempc, min(tempm, tempy));
+      float tempc = 1 - ((float)r)/255.0;
+      float tempm = 1 - ((float)g)/255.0;
+      float tempy = 1 - ((float)b)/255.0;
+      
+      float minCMY = min(tempc, min(tempm, tempy));
 
       // updated cmyk values
       c = (tempc - minCMY) / (1 - minCMY);
       m = (tempm - minCMY) / (1 - minCMY);
       y = (tempy - minCMY) / (1 - minCMY);
       k = minCMY;
+    
+      final_c = c;
+      final_m = m;
+      final_y = y;
+      final_k = k;
+    
     }
     
-    sprintf(PT_send_buffer, "%d", c);
+    sprintf(PT_send_buffer, "%f,%f,%f,%f", final_c, final_m, final_y, final_k);
     PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-    sprintf(PT_send_buffer, "%d", m);
-    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-    sprintf(PT_send_buffer, "%d", y);
-    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-    sprintf(PT_send_buffer, "%d", k);
-    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-
+    
+    
     // never exit while
   } // END WHILE(1)
   PT_END(pt);
