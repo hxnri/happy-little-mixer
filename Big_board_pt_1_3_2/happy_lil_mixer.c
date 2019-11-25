@@ -33,8 +33,14 @@ static struct pt pt_servo, pt_cmd, pt_time, pt_input, pt_output, pt_DMA_output;
 int sys_time_seconds;
 
 //The actual period of the wave
-static int generate_period = (int)(((20.0 + 1.5) / 32.0) * 40000);
-static int pwm_on_time = (int)(1.5 / (20.0 + 1.5) * 40000);
+static int generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
+static int generate_period3 = (int)(((20.0 + 1.5) / 32.0) * 40000);
+static int generate_period4 = (int)(((20.0 + 1.5) / 32.0) * 40000);
+static int generate_period5 = (int)(((20.0 + 1.5) / 32.0) * 40000);
+static int pwm_on_time2 = (int)(1.5 / (20.0 + 1.5) * 40000);
+static int pwm_on_time3 = (int)(1.5 / (20.0 + 1.5) * 40000);
+static int pwm_on_time4 = (int)(1.5 / (20.0 + 1.5) * 40000);
+static int pwm_on_time5 = (int)(1.5 / (20.0 + 1.5) * 40000);
 //print state variable
 int printing = 0;
 
@@ -59,6 +65,7 @@ float final_m = 0;
 float final_y = 0;
 float final_k = 0;
 
+int count;
 
 /* 
   [hex_to_dec hex_char] is the decimal int representation of 
@@ -143,6 +150,7 @@ static PT_THREAD(protothread_cmd(struct pt *pt))
 
   while (1)
   {
+      if(printing == 0){
       float c, m, y, k;
     // send the prompt via DMA to serial
     sprintf(PT_send_buffer, "hex #");
@@ -193,8 +201,12 @@ static PT_THREAD(protothread_cmd(struct pt *pt))
     
     sprintf(PT_send_buffer, "%f,%f,%f,%f", final_c, final_m, final_y, final_k);
     PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-    
-    
+    final_c = (int)(10*final_c);
+    final_m = (int)(10*final_m);
+    final_y = (int)(10*final_y);
+    final_k = (int)(10*final_k);
+    printing = 1;
+      }
     // never exit while
   } // END WHILE(1)
   PT_END(pt);
@@ -210,43 +222,40 @@ static PT_THREAD(protothread_servo(struct pt *pt))
   PT_BEGIN(pt);
   while (1)
   {
-    PT_YIELD_TIME_msec(100);
-    if (sys_time_seconds == 0)
+    PT_YIELD_TIME_msec(50);
+    if (printing == 0)
     {
       // update the timer period
       // update the pulse start/stop
-      generate_period = (int)(((20.0 + 1.5) / 32.0) * 40000);
-      pwm_on_time = (int)(1.5 / (20.0 + 1.5) * 40000);
-      WritePeriod2(generate_period);
-      SetDCOC2PWM(pwm_on_time);
-      SetDCOC3PWM(pwm_on_time);
-      SetDCOC4PWM(pwm_on_time);
-      SetDCOC5PWM(pwm_on_time);
+      generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+      generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+      generate_period4 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+      generate_period5 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+      pwm_on_time2 = (int)(1.5 / (20.0 + 0.75) * 40000);
+      pwm_on_time3 = (int)(1.5 / (20.0 + 0.75) * 40000);
+      pwm_on_time4 = (int)(1.5 / (20.0 + 0.75) * 40000);
+      pwm_on_time5 = (int)(1.5 / (20.0 + 0.75) * 40000);
+      
+    } else {
+        if(printing == 1){
+            //implement servo arm action per drop
+            
+        }else if(printing == 2){
+            
+        }else if(printing == 3){
+            
+        }else{
+            
+        }
     }
-
-    if (sys_time_seconds == 1)
-    {
-      //generate_period = 1.5 * 40000;
-      generate_period = (int)(((20.0 + 1.25) / 32.0) * 40000);
-      pwm_on_time = (int)(1.25 / (20.0 + 1.25) * 40000);
-      WritePeriod2(generate_period);
-      SetDCOC2PWM(pwm_on_time);
-      SetDCOC3PWM(pwm_on_time);
-      SetDCOC4PWM(pwm_on_time);
-      SetDCOC5PWM(pwm_on_time);
-    } //
-
-    if (sys_time_seconds == 2)
-    {
-      //generate_period = 1.5 * 40000;
-      generate_period = (int)(((20.0 + 1.0) / 32.0) * 40000);
-      pwm_on_time = (int)(1.0 / (20.0 + 1.0) * 40000);
-      WritePeriod2(generate_period);
-      SetDCOC2PWM(pwm_on_time);
-      SetDCOC3PWM(pwm_on_time);
-      SetDCOC4PWM(pwm_on_time);
-      SetDCOC5PWM(pwm_on_time);
-    } //
+    WritePeriod2(generate_period2);
+    WritePeriod3(generate_period3);
+    WritePeriod4(generate_period4);
+    WritePeriod5(generate_period5);
+    SetDCOC2PWM(pwm_on_time2);
+    SetDCOC3PWM(pwm_on_time3);
+    SetDCOC4PWM(pwm_on_time4);
+    SetDCOC5PWM(pwm_on_time5);
       // never exit while
   }   // END WHILE(1)
   PT_END(pt);
@@ -262,7 +271,7 @@ static PT_THREAD(protothread_time(struct pt *pt))
   {
     // yield time 1 second
     PT_YIELD_TIME_msec(1000);
-    sys_time_seconds = (sys_time_seconds + 1) % 3;
+    sys_time_seconds = (sys_time_seconds + 1);
     // NEVER exit while
   } // END WHILE(1)
 
@@ -278,9 +287,21 @@ int main(void)
   OpenTimer2(T2_ON | T2_SOURCE_INT | T2_PS_1_32, generate_period);
   ConfigIntTimer2(T2_INT_ON | T2_INT_PRIOR_2);
   mT2ClearIntFlag(); // and clear the interrupt flag
+  
+  OpenTimer3(T3_ON | T3_SOURCE_INT | T3_PS_1_32, generate_period);
+  ConfigIntTimer3(T3_INT_ON | T3_INT_PRIOR_2);
+  mT3ClearIntFlag();
 
+  OpenTimer4(T4_ON | T4_SOURCE_INT | T4_PS_1_32, generate_period);
+  ConfigIntTimer4(T4_INT_ON | T4_INT_PRIOR_2);
+  mT4ClearIntFlag();
+  
+  OpenTimer5(T5_ON | T5_SOURCE_INT | T5_PS_1_32, generate_period);
+  ConfigIntTimer5(T5_INT_ON | T5_INT_PRIOR_2);
+  mT5ClearIntFlag();
+  
   // set up compare3 for PWM mode
-  OpenOC3(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time); //
+  OpenOC3(OC_ON | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time); //
   //OpenOC3(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_ENABLE , pwm_on_time, pwm_on_time); //
   // OC3 is PPS group 4, map to RPB9 (pin 18)
   PPSOutput(4, RPB9, OC3);
@@ -290,11 +311,11 @@ int main(void)
   // OC2 is PPS group 2, map to RPB5 (pin 14)
   PPSOutput(2, RPB5, OC2);
 
-  OpenOC4(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time);
+  OpenOC4(OC_ON | OC_TIMER4_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time);
   // OC2 is PPS group 2, map to RPB5 (pin 14)
   PPSOutput(3, RPB2, OC4);
 
-  OpenOC5(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time);
+  OpenOC5(OC_ON | OC_TIMER5_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time);
   // OC2 is PPS group 2, map to RPB5 (pin 14)
   PPSOutput(3, RPA2, OC5);
 
