@@ -1,3 +1,9 @@
+MODIFIED BY US:
+example originally named tcs34725 now named COLORSENSOR, and includes our modified code
+
+
+ORIGINAL:
+
 # Adafruit TCS34725 Color Sensor Driver [![Build Status](https://travis-ci.com/adafruit/Adafruit_TCS34725.svg?branch=master)](https://travis-ci.com/adafruit/Adafruit_TCS34725)
 
 <a href="https://www.adafruit.com/product/1334"><img src="assets/board.jpg?raw=true" width="500px"></a>
