@@ -284,41 +284,44 @@ int main(void)
 {
   // === Config timer and output compares to make pulses ========
   // set up timer2 to generate the wave period
-  OpenTimer2(T2_ON | T2_SOURCE_INT | T2_PS_1_32, generate_period);
+  OpenTimer2(T2_ON | T2_SOURCE_INT | T2_PS_1_32, generate_period2);
   ConfigIntTimer2(T2_INT_ON | T2_INT_PRIOR_2);
   mT2ClearIntFlag(); // and clear the interrupt flag
   
-  OpenTimer3(T3_ON | T3_SOURCE_INT | T3_PS_1_32, generate_period);
+  OpenTimer3(T3_ON | T3_SOURCE_INT | T3_PS_1_32, generate_period3);
   ConfigIntTimer3(T3_INT_ON | T3_INT_PRIOR_2);
   mT3ClearIntFlag();
 
-  OpenTimer4(T4_ON | T4_SOURCE_INT | T4_PS_1_32, generate_period);
+  /*OpenTimer4(T4_ON | T4_SOURCE_INT | T4_PS_1_32, generate_period4);
   ConfigIntTimer4(T4_INT_ON | T4_INT_PRIOR_2);
   mT4ClearIntFlag();
   
-  OpenTimer5(T5_ON | T5_SOURCE_INT | T5_PS_1_32, generate_period);
+  OpenTimer5(T5_ON | T5_SOURCE_INT | T5_PS_1_32, generate_period5);
   ConfigIntTimer5(T5_INT_ON | T5_INT_PRIOR_2);
   mT5ClearIntFlag();
+   */ 
   
   // set up compare3 for PWM mode
-  OpenOC3(OC_ON | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time); //
+  OpenOC3(OC_ON | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3); //
   //OpenOC3(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_ENABLE , pwm_on_time, pwm_on_time); //
   // OC3 is PPS group 4, map to RPB9 (pin 18)
   PPSOutput(4, RPB9, OC3);
 
   // set pulse to go high at 1/4 of the timer period and drop again at 1/2 the timer period
-  OpenOC2(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time);
+  OpenOC2(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
   // OC2 is PPS group 2, map to RPB5 (pin 14)
   PPSOutput(2, RPB5, OC2);
 
-  OpenOC4(OC_ON | OC_TIMER4_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time);
+  /*OpenOC4(OC_ON | OC_TIMER4_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time4, pwm_on_time4);
   // OC2 is PPS group 2, map to RPB5 (pin 14)
   PPSOutput(3, RPB2, OC4);
 
-  OpenOC5(OC_ON | OC_TIMER5_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time);
+  OpenOC5(OC_ON | OC_TIMER5_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time5, pwm_on_time5);
   // OC2 is PPS group 2, map to RPB5 (pin 14)
-  PPSOutput(3, RPA2, OC5);
+  PPSOutput(3, RPA2, OC5);*/
 
+  //PPSInput(2, U2RX, RPB11);
+  
   // === config the uart, DMA, vref, timer5 ISR ===========
   PT_setup();
 
