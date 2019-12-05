@@ -35,12 +35,8 @@ int sys_time_seconds;
 //The actual period of the wave
 static int generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
 static int generate_period3 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-static int generate_period4 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-static int generate_period5 = (int)(((20.0 + 1.5) / 32.0) * 40000);
 static int pwm_on_time2 = (int)(1.5 / (20.0 + 1.5) * 40000);
 static int pwm_on_time3 = (int)(1.5 / (20.0 + 1.5) * 40000);
-static int pwm_on_time4 = (int)(1.5 / (20.0 + 1.5) * 40000);
-static int pwm_on_time5 = (int)(1.5 / (20.0 + 1.5) * 40000);
 //print state variable
 int printing = 0;
 
@@ -229,58 +225,48 @@ static PT_THREAD(protothread_servo(struct pt *pt))
       // update the pulse start/stop
       generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
       generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
-      generate_period4 = (int)(((20.0 + 0.75) / 32.0) * 40000);
-      generate_period5 = (int)(((20.0 + 0.75) / 32.0) * 40000);
       pwm_on_time2 = (int)(0.75 / (20.0 + 0.75) * 40000);
       pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
-      pwm_on_time4 = (int)(0.75 / (20.0 + 0.75) * 40000);
-      pwm_on_time5 = (int)(0.75 / (20.0 + 0.75) * 40000);
       
     } else if((sys_time_seconds % 5) == 1){
-      generate_period2 = (int)(((20.0 + 1.125) / 32.0) * 40000);
-      generate_period3 = (int)(((20.0 + 1.125) / 32.0) * 40000);
-      generate_period4 = (int)(((20.0 + 1.125) / 32.0) * 40000);
-      generate_period5 = (int)(((20.0 + 1.125) / 32.0) * 40000);
-      pwm_on_time2 = (int)(1.125 / (20.0 + 1.125) * 40000);
-      pwm_on_time3 = (int)(1.125 / (20.0 + 1.125) * 40000);
-      pwm_on_time4 = (int)(1.125 / (20.0 + 1.125) * 40000);
-      pwm_on_time5 = (int)(1.125 / (20.0 + 1.125) * 40000);
+       generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+       generate_period3 = (int)(((20.0 + 1.125) / 32.0) * 40000);
+       pwm_on_time2 = (int)(0.75 / (20.0 + 0.75) * 40000);
+       pwm_on_time3 = (int)(1.125 / (20.0 + 1.125) * 40000); 
     }else if((sys_time_seconds % 5) == 2){
-      generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-      generate_period3 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-      generate_period4 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-      generate_period5 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-      pwm_on_time2 = (int)(1.5 / (20.0 + 1.5) * 40000);
-      pwm_on_time3 = (int)(1.5 / (20.0 + 1.5) * 40000);
-      pwm_on_time4 = (int)(1.5 / (20.0 + 1.5) * 40000);
-      pwm_on_time5 = (int)(1.5 / (20.0 + 1.5) * 40000);     
+       generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+       generate_period3 = (int)(((20.0 + 1.5) / 32.0) * 40000);
+       pwm_on_time2 = (int)(0.75 / (20.0 + 0.75) * 40000);
+       pwm_on_time3 = (int)(1.5 / (20.0 + 1.5) * 40000);
     }else if((sys_time_seconds % 5) == 3){
-      generate_period2 = (int)(((20.0 + 1.875) / 32.0) * 40000);
-      generate_period3 = (int)(((20.0 + 1.875) / 32.0) * 40000);
-      generate_period4 = (int)(((20.0 + 1.875) / 32.0) * 40000);
-      generate_period5 = (int)(((20.0 + 1.875) / 32.0) * 40000);
-      pwm_on_time2 = (int)(1.875 / (20.0 + 1.875) * 40000);
-      pwm_on_time3 = (int)(1.875 / (20.0 + 1.875) * 40000);
-      pwm_on_time4 = (int)(1.875 / (20.0 + 1.875) * 40000);
-      pwm_on_time5 = (int)(1.875 / (20.0 + 1.875) * 40000);
+       generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+       generate_period3 = (int)(((20.0 + 1.875) / 32.0) * 40000);
+       pwm_on_time2 = (int)(0.75 / (20.0 + 0.75) * 40000);
+       pwm_on_time3 = (int)(1.875 / (20.0 + 1.875) * 40000);
+    }else{        
+       generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+       generate_period3 = (int)(((20.0 + 2.25) / 32.0) * 40000);
+       pwm_on_time2 = (int)(0.75 / (20.0 + 0.75) * 40000);
+       pwm_on_time3 = (int)(2.25 / (20.0 + 2.25) * 40000);
+    }
+    
+    if(((sys_time_seconds / 5) % 4) == 0){
+        OpenOC5(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
+        OpenOC2(OC_ON | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3);
+    }else if(((sys_time_seconds / 5) % 4) == 1){
+        OpenOC2(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
+        OpenOC3(OC_ON | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3);
+    }else if(((sys_time_seconds / 5) % 4) == 2){
+        OpenOC3(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
+        OpenOC4(OC_ON | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3);
     }else{
-      generate_period2 = (int)(((20.0 + 2.25) / 32.0) * 40000);
-      generate_period3 = (int)(((20.0 + 2.25) / 32.0) * 40000);
-      generate_period4 = (int)(((20.0 + 2.25) / 32.0) * 40000);
-      generate_period5 = (int)(((20.0 + 2.25) / 32.0) * 40000);
-      pwm_on_time2 = (int)(2.25 / (20.0 + 2.25) * 40000);
-      pwm_on_time3 = (int)(2.25 / (20.0 + 2.25) * 40000);
-      pwm_on_time4 = (int)(2.25 / (20.0 + 2.25) * 40000);
-      pwm_on_time5 = (int)(2.25 / (20.0 + 2.25) * 40000);   
+        OpenOC4(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
+        OpenOC5(OC_ON | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3);
     }
     WritePeriod2(generate_period2);
     WritePeriod3(generate_period3);
-    WritePeriod4(generate_period4);
-    WritePeriod5(generate_period5);
     SetDCOC2PWM(pwm_on_time2);
     SetDCOC3PWM(pwm_on_time3);
-    SetDCOC4PWM(pwm_on_time4);
-    SetDCOC5PWM(pwm_on_time5);
       // never exit while
   }   // END WHILE(1)
   PT_END(pt);
@@ -309,41 +295,44 @@ int main(void)
 {
   // === Config timer and output compares to make pulses ========
   // set up timer2 to generate the wave period
-  OpenTimer2(T2_ON | T2_SOURCE_INT | T2_PS_1_32, generate_period);
+  OpenTimer2(T2_ON | T2_SOURCE_INT | T2_PS_1_32, generate_period2);
   ConfigIntTimer2(T2_INT_ON | T2_INT_PRIOR_2);
   mT2ClearIntFlag(); // and clear the interrupt flag
   
-  OpenTimer3(T3_ON | T3_SOURCE_INT | T3_PS_1_32, generate_period);
+  OpenTimer3(T3_ON | T3_SOURCE_INT | T3_PS_1_32, generate_period3);
   ConfigIntTimer3(T3_INT_ON | T3_INT_PRIOR_2);
   mT3ClearIntFlag();
 
-  OpenTimer4(T4_ON | T4_SOURCE_INT | T4_PS_1_32, generate_period);
+  /*OpenTimer4(T4_ON | T4_SOURCE_INT | T4_PS_1_32, generate_period4);
   ConfigIntTimer4(T4_INT_ON | T4_INT_PRIOR_2);
   mT4ClearIntFlag();
   
-  OpenTimer5(T5_ON | T5_SOURCE_INT | T5_PS_1_32, generate_period);
+  OpenTimer5(T5_ON | T5_SOURCE_INT | T5_PS_1_32, generate_period5);
   ConfigIntTimer5(T5_INT_ON | T5_INT_PRIOR_2);
   mT5ClearIntFlag();
+   */ 
   
   // set up compare3 for PWM mode
-  OpenOC3(OC_ON | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time); //
+  OpenOC3(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2); //
   //OpenOC3(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_ENABLE , pwm_on_time, pwm_on_time); //
   // OC3 is PPS group 4, map to RPB9 (pin 18)
   PPSOutput(4, RPB9, OC3);
 
   // set pulse to go high at 1/4 of the timer period and drop again at 1/2 the timer period
-  OpenOC2(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time);
+  OpenOC2(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
   // OC2 is PPS group 2, map to RPB5 (pin 14)
   PPSOutput(2, RPB5, OC2);
 
-  OpenOC4(OC_ON | OC_TIMER4_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time);
+  OpenOC4(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
   // OC2 is PPS group 2, map to RPB5 (pin 14)
   PPSOutput(3, RPB2, OC4);
 
-  OpenOC5(OC_ON | OC_TIMER5_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time, pwm_on_time);
+  OpenOC5(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
   // OC2 is PPS group 2, map to RPB5 (pin 14)
   PPSOutput(3, RPA2, OC5);
 
+  PPSInput(2, U2RX, RPB11);
+  
   // === config the uart, DMA, vref, timer5 ISR ===========
   PT_setup();
 
