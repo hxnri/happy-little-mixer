@@ -20,7 +20,7 @@ Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_700MS, TCS347
 uint16_t oldR, oldG, oldB;
 
 void setup(void) {
-  Serial.begin(9600);
+  Serial.begin(38400);
 
   if (tcs.begin()) {
     Serial.println("Found sensor");
@@ -39,10 +39,11 @@ void loop(void) {
   //r,g,b are the raw ADC values, range from 0-65535
   //max is used to scale those values if they are too big
   //R,G,B are the final values that will be sent back to the PIC32
-  uint16_t r, g, b, c, MAX, R, G, B;
+  uint16_t r, g, b, c, MAX, R, G, B, len_StringRGB;
   //raw values scaled from 0-2550
   float scaledR, scaledG, scaledB;
 
+  String StringR, StringG, StringB, StringRGB;
 
   tcs.getRawData(&r, &g, &b, &c);
 
@@ -72,15 +73,21 @@ void loop(void) {
 
   //compare to previously scanned value, to ensure an accurate value is sent to PIC32
   if (oldR == R && oldG == G && oldB == B) {
-    Serial.print("R: "); Serial.print(R, DEC); Serial.print(" ");
-    Serial.print("G: "); Serial.print(G, DEC); Serial.print(" ");
-    Serial.print("B: "); Serial.print(B, DEC); Serial.print(" ");
-    Serial.println(" ");
+    //Serial.print("R: "); Serial.print(R, DEC); Serial.print(" ");
+    //Serial.print("G: "); Serial.print(G, DEC); Serial.print(" ");
+    //Serial.print("B: "); Serial.print(B, DEC); Serial.print(" ");
+    //Serial.println(" ");
 
-    //send values to PIC32, connected to serial PIN 1
-    Serial.write(R);
-    Serial.write(G);
-    Serial.write(B);
+    StringR = String(R);
+    StringG = String(G);
+    StringB = String(B);
+    
+    StringRGB = StringR + "," + StringG + "," + StringB;
+    len_StringRGB = StringRGB.length();
+    
+    Serial.println(StringRGB);
+    
+        
     while (1);
   }
   else {
@@ -91,4 +98,5 @@ void loop(void) {
   oldB = B;
 
 }
+
 
