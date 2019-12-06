@@ -32,10 +32,10 @@ static struct pt pt_servo, pt_cmd, pt_time, pt_input, pt_output, pt_DMA_output;
 int sys_time_seconds;
 
 //The actual period of the wave
-int generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-int generate_period3 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-int pwm_on_time2 = (int)(1.5 / (20.0 + 1.5) * 40000);
-int pwm_on_time3 = (int)(1.5 / (20.0 + 1.5) * 40000);
+static int generate_period2 = (int)(((20.0 + 1.0) / 32.0) * 40000);
+//static int generate_period3 = (int)(((20.0 + 1.5) / 32.0) * 40000);
+static int pwm_on_time2 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
+//static int pwm_on_time3 = (int)(1.5 / (20.0 + 1.5) * 40000);
 //print state variable
 int printing = 0;
 
@@ -217,59 +217,69 @@ static PT_THREAD(protothread_servo(struct pt *pt))
   PT_BEGIN(pt);
   while (1)
   {
-    PT_YIELD_TIME_msec(50);
+    PT_YIELD_TIME_msec(100);
     if (sys_time_seconds == 0)
     {
       // update the timer period
       // update the pulse start/stop
-      generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+      //generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
       generate_period2 = (int)(((20.0 + 1.0) / 32.0) * 40000);
-      pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
-      pwm_on_time2 = (int)(1.0 / (20.0 + 1.0) * 40000);
+      //pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
+      pwm_on_time2 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
       WritePeriod2(generate_period2);
-      WritePeriod3(generate_period3);
+      //WritePeriod3(generate_period3);
       SetDCOC2PWM(pwm_on_time2);
-      SetDCOC3PWM(pwm_on_time3);
+      SetDCOC3PWM(0);
+      SetDCOC4PWM(0);
+      SetDCOC5PWM(0);
     } 
     if(sys_time_seconds == 1){
-       generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+       //generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
        generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-       pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
-       pwm_on_time2 = (int)(1.5 / (20.0 + 1.5) * 40000);
+       //pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
+       pwm_on_time2 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.5) / 32.0) *40000);
        WritePeriod2(generate_period2);
-       WritePeriod3(generate_period3);
+       //WritePeriod3(generate_period3);
        SetDCOC2PWM(pwm_on_time2);
-       SetDCOC3PWM(pwm_on_time3);
+       SetDCOC3PWM(0);
+       SetDCOC4PWM(0);
+       SetDCOC5PWM(0);
     }
     if(sys_time_seconds == 2){
-       generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+       //generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
        generate_period2 = (int)(((20.0 + 2.0) / 32.0) * 40000);
-       pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
-       pwm_on_time2 = (int)(2.0 / (20.0 + 2.0) * 40000);
+       //pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
+       pwm_on_time2 = (int)((2.0 / (20.0 + 2.0)) * ((20.0 + 2.0) / 32.0) *40000);
        WritePeriod2(generate_period2);
-       WritePeriod3(generate_period3);
-       SetDCOC2PWM(pwm_on_time2);
-       SetDCOC3PWM(pwm_on_time3);
+       //WritePeriod3(generate_period3);
+       SetDCOC2PWM(0);
+       SetDCOC3PWM(pwm_on_time2);
+       SetDCOC4PWM(0);
+       SetDCOC5PWM(0);
     }
     if(sys_time_seconds == 3){
-       generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+       //generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
        generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-       pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
-       pwm_on_time2 = (int)(1.5 / (20.0 + 1.5) * 40000);
+       //pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
+       pwm_on_time2 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.5) / 32.0) *40000);
        WritePeriod2(generate_period2);
-       WritePeriod3(generate_period3);
-       SetDCOC2PWM(pwm_on_time2);
-       SetDCOC3PWM(pwm_on_time3);
+       //WritePeriod3(generate_period3);
+       SetDCOC2PWM(0);
+       SetDCOC3PWM(pwm_on_time2);
+       SetDCOC4PWM(0);
+       SetDCOC5PWM(0);
     }
     if(sys_time_seconds == 4){        
-       generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+       //generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
        generate_period2 = (int)(((20.0 + 1.0) / 32.0) * 40000);
-       pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
-       pwm_on_time2 = (int)(1.0 / (20.0 + 1.0) * 40000);
+       //pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
+       pwm_on_time2 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
        WritePeriod2(generate_period2);
-       WritePeriod3(generate_period3);
+       //WritePeriod3(generate_period3);
        SetDCOC2PWM(pwm_on_time2);
-       SetDCOC3PWM(pwm_on_time3);
+       SetDCOC3PWM(0);
+       SetDCOC4PWM(0);
+       SetDCOC5PWM(0);
     }
     
     /*if(((sys_time_seconds / 5) % 4) == 0){
@@ -325,10 +335,10 @@ int main(void)
   ConfigIntTimer2(T2_INT_ON | T2_INT_PRIOR_2);
   mT2ClearIntFlag(); // and clear the interrupt flag
   
-  OpenTimer3(T3_ON | T3_SOURCE_INT | T3_PS_1_32, generate_period3);
+  /*OpenTimer3(T3_ON | T3_SOURCE_INT | T3_PS_1_32, generate_period3);
   ConfigIntTimer3(T3_INT_ON | T3_INT_PRIOR_2);
   mT3ClearIntFlag();
-
+*/
   /*OpenTimer4(T4_ON | T4_SOURCE_INT | T4_PS_1_32, generate_period4);
   ConfigIntTimer4(T4_INT_ON | T4_INT_PRIOR_2);
   mT4ClearIntFlag();
@@ -378,7 +388,7 @@ int main(void)
   // schedule the threads
   while (1)
   {
-    //PT_SCHEDULE(protothread_cmd(&pt_servo));
+    PT_SCHEDULE(protothread_servo(&pt_servo));
     //PT_SCHEDULE(protothread_cmd(&pt_cmd));
     PT_SCHEDULE(protothread_time(&pt_time));
   }
