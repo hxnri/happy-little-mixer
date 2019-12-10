@@ -16,7 +16,6 @@
 // threading library
 #include "pt_cornell_1_3_2.h"
 // port expander
-#include "port_expander_brl4.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,10 +32,10 @@ static struct pt pt_servo, pt_cmd, pt_time, pt_input, pt_output, pt_DMA_output;
 int sys_time_seconds;
 
 //The actual period of the wave
-static int generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-static int generate_period3 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-static int pwm_on_time2 = (int)(1.5 / (20.0 + 1.5) * 40000);
-static int pwm_on_time3 = (int)(1.5 / (20.0 + 1.5) * 40000);
+static int generate_period2 = (int)(((20.0 + 1.0) / 32.0) * 40000);
+//static int generate_period3 = (int)(((20.0 + 1.5) / 32.0) * 40000);
+static int pwm_on_time2 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
+//static int pwm_on_time3 = (int)(1.5 / (20.0 + 1.5) * 40000);
 //print state variable
 int printing = 0;
 
@@ -218,55 +217,92 @@ static PT_THREAD(protothread_servo(struct pt *pt))
   PT_BEGIN(pt);
   while (1)
   {
-    PT_YIELD_TIME_msec(50);
-    if ((sys_time_seconds % 5) == 0)
+    PT_YIELD_TIME_msec(100);
+    if (sys_time_seconds == 0)
     {
       // update the timer period
       // update the pulse start/stop
-      generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
-      generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
-      pwm_on_time2 = (int)(0.75 / (20.0 + 0.75) * 40000);
-      pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
-      
-    } else if((sys_time_seconds % 5) == 1){
-       generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
-       generate_period3 = (int)(((20.0 + 1.125) / 32.0) * 40000);
-       pwm_on_time2 = (int)(0.75 / (20.0 + 0.75) * 40000);
-       pwm_on_time3 = (int)(1.125 / (20.0 + 1.125) * 40000); 
-    }else if((sys_time_seconds % 5) == 2){
-       generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
-       generate_period3 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-       pwm_on_time2 = (int)(0.75 / (20.0 + 0.75) * 40000);
-       pwm_on_time3 = (int)(1.5 / (20.0 + 1.5) * 40000);
-    }else if((sys_time_seconds % 5) == 3){
-       generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
-       generate_period3 = (int)(((20.0 + 1.875) / 32.0) * 40000);
-       pwm_on_time2 = (int)(0.75 / (20.0 + 0.75) * 40000);
-       pwm_on_time3 = (int)(1.875 / (20.0 + 1.875) * 40000);
-    }else{        
-       generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
-       generate_period3 = (int)(((20.0 + 2.25) / 32.0) * 40000);
-       pwm_on_time2 = (int)(0.75 / (20.0 + 0.75) * 40000);
-       pwm_on_time3 = (int)(2.25 / (20.0 + 2.25) * 40000);
+      //generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+      generate_period2 = (int)(((20.0 + 1.0) / 32.0) * 40000);
+      //pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
+      pwm_on_time2 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
+      WritePeriod2(generate_period2);
+      //WritePeriod3(generate_period3);
+      SetDCOC2PWM(pwm_on_time2);
+      SetDCOC3PWM(0);
+      SetDCOC4PWM(0);
+      SetDCOC5PWM(0);
+    } 
+    if(sys_time_seconds == 1){
+       //generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+       generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
+       //pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
+       pwm_on_time2 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.5) / 32.0) *40000);
+       WritePeriod2(generate_period2);
+       //WritePeriod3(generate_period3);
+       SetDCOC2PWM(pwm_on_time2);
+       SetDCOC3PWM(0);
+       SetDCOC4PWM(0);
+       SetDCOC5PWM(0);
+    }
+    if(sys_time_seconds == 2){
+       //generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+       generate_period2 = (int)(((20.0 + 2.0) / 32.0) * 40000);
+       //pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
+       pwm_on_time2 = (int)((2.0 / (20.0 + 2.0)) * ((20.0 + 2.0) / 32.0) *40000);
+       WritePeriod2(generate_period2);
+       //WritePeriod3(generate_period3);
+       SetDCOC2PWM(0);
+       SetDCOC3PWM(pwm_on_time2);
+       SetDCOC4PWM(0);
+       SetDCOC5PWM(0);
+    }
+    if(sys_time_seconds == 3){
+       //generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+       generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
+       //pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
+       pwm_on_time2 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.5) / 32.0) *40000);
+       WritePeriod2(generate_period2);
+       //WritePeriod3(generate_period3);
+       SetDCOC2PWM(0);
+       SetDCOC3PWM(pwm_on_time2);
+       SetDCOC4PWM(0);
+       SetDCOC5PWM(0);
+    }
+    if(sys_time_seconds == 4){        
+       //generate_period3 = (int)(((20.0 + 0.75) / 32.0) * 40000);
+       generate_period2 = (int)(((20.0 + 1.0) / 32.0) * 40000);
+       //pwm_on_time3 = (int)(0.75 / (20.0 + 0.75) * 40000);
+       pwm_on_time2 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
+       WritePeriod2(generate_period2);
+       //WritePeriod3(generate_period3);
+       SetDCOC2PWM(pwm_on_time2);
+       SetDCOC3PWM(0);
+       SetDCOC4PWM(0);
+       SetDCOC5PWM(0);
     }
     
-    if(((sys_time_seconds / 5) % 4) == 0){
+    /*if(((sys_time_seconds / 5) % 4) == 0){
+        OpenOC5(OC_OFF | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
         OpenOC5(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
+        OpenOC2(OC_OFF | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3);
         OpenOC2(OC_ON | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3);
     }else if(((sys_time_seconds / 5) % 4) == 1){
+        OpenOC2(OC_OFF | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
         OpenOC2(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
+        OpenOC3(OC_OFF | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3);
         OpenOC3(OC_ON | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3);
     }else if(((sys_time_seconds / 5) % 4) == 2){
+        OpenOC3(OC_OFF | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
         OpenOC3(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
+        OpenOC4(OC_OFF | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3);
         OpenOC4(OC_ON | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3);
     }else{
+        OpenOC4(OC_OFF | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
         OpenOC4(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
+        OpenOC5(OC_OFF | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3);
         OpenOC5(OC_ON | OC_TIMER3_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3);
-    }
-    WritePeriod2(generate_period2);
-    WritePeriod3(generate_period3);
-    SetDCOC2PWM(pwm_on_time2);
-    SetDCOC3PWM(pwm_on_time3);
+    }*/
       // never exit while
   }   // END WHILE(1)
   PT_END(pt);
@@ -282,7 +318,7 @@ static PT_THREAD(protothread_time(struct pt *pt))
   {
     // yield time 1 second
     PT_YIELD_TIME_msec(1000);
-    sys_time_seconds = (sys_time_seconds + 1);
+    sys_time_seconds = (sys_time_seconds + 1) % 5;
     // NEVER exit while
   } // END WHILE(1)
 
@@ -299,10 +335,10 @@ int main(void)
   ConfigIntTimer2(T2_INT_ON | T2_INT_PRIOR_2);
   mT2ClearIntFlag(); // and clear the interrupt flag
   
-  OpenTimer3(T3_ON | T3_SOURCE_INT | T3_PS_1_32, generate_period3);
+  /*OpenTimer3(T3_ON | T3_SOURCE_INT | T3_PS_1_32, generate_period3);
   ConfigIntTimer3(T3_INT_ON | T3_INT_PRIOR_2);
   mT3ClearIntFlag();
-
+*/
   /*OpenTimer4(T4_ON | T4_SOURCE_INT | T4_PS_1_32, generate_period4);
   ConfigIntTimer4(T4_INT_ON | T4_INT_PRIOR_2);
   mT4ClearIntFlag();
@@ -352,7 +388,7 @@ int main(void)
   // schedule the threads
   while (1)
   {
-    PT_SCHEDULE(protothread_cmd(&pt_servo));
+    PT_SCHEDULE(protothread_servo(&pt_servo));
     //PT_SCHEDULE(protothread_cmd(&pt_cmd));
     PT_SCHEDULE(protothread_time(&pt_time));
   }
