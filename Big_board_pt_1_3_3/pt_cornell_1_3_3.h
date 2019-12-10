@@ -857,6 +857,61 @@ int PT_GetSerialBuffer(struct pt *pt)
     PT_END(pt);
 }
 
+char PT_term_buffer_aux[max_chars_aux];
+int PT_GetSerialBuffer_aux(struct pt *pt)
+{
+    static char character;
+    static int num_char;
+    // mark the beginnning of the input thread
+    PT_BEGIN(pt);
+
+    num_char = 0;
+    // clear buffer
+    memset(PT_term_buffer_aux, 0, max_chars_aux);
+
+    while(num_char < max_chars_aux)
+    {
+        // get the character
+        // yield until there is a valid character so that other
+        // threads can execute
+        PT_YIELD_UNTIL(pt, UARTReceivedDataIsAvailable(UART1));
+       // while(!UARTReceivedDataIsAvailable(UART2)){};
+        character = UARTGetDataByte(UART1);
+        PT_YIELD_UNTIL(pt, UARTTransmitterIsReady(UART1));
+        UARTSendDataByte(UART1, character);
+
+        // unomment to check backspace character!!!
+        //printf("--%x--",character );
+
+        // end line
+        if(character == '\r'){
+            PT_term_buffer[num_char] = 0; // zero terminate the string
+            //crlf; // send a new line
+            PT_YIELD_UNTIL(pt, UARTTransmitterIsReady(UART1));
+            UARTSendDataByte(UART1, '\n');
+            break;
+        }
+        // backspace
+        else if (character == backspace){
+            PT_YIELD_UNTIL(pt, UARTTransmitterIsReady(UART1));
+            UARTSendDataByte(UART1, ' ');
+            PT_YIELD_UNTIL(pt, UARTTransmitterIsReady(UART1));
+            UARTSendDataByte(UART1, backspace);
+            num_char--;
+            // check for buffer underflow
+            if (num_char<0) {num_char = 0 ;}
+        }
+        else  {PT_term_buffer_aux[num_char++] = character ;}
+         //if (character == backspace)
+
+    } //end while(num_char < max_size)
+    
+    // kill this input thread, to allow spawning thread to execute
+    PT_EXIT(pt);
+    // and indicate the end of the thread
+    PT_END(pt);
+}
+
 //====================================================================
 // build a string from the UART2 /////////////
 // assuming MACHINE input
