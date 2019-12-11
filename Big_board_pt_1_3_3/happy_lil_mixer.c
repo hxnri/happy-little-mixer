@@ -330,16 +330,23 @@ static PT_THREAD(protothread_serial_test(struct pt *pt))
     //sprintf(PT_send_buffer, "hi ");
     // by spawning a print thread
     //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-    
-    sprintf(PT_send_buffer_aux, "s");
+    sprintf(PT_send_buffer, "\nRunning\n");
+    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+      
+    //PIC32 Request
+    sprintf(PT_send_buffer_aux, "q");
     PT_SPAWN(pt, &pt_DMA_output_aux, PT_DMA_PutSerialBuffer_aux(&pt_DMA_output_aux));
     
+    //PIC32 Receive
+    sprintf(PT_send_buffer, "Receiving: ");
+    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
     PT_SPAWN(pt, &pt_input_aux, PT_GetSerialBuffer_aux(&pt_input_aux));
-
     sscanf(PT_term_buffer_aux, "%s", &hex_value);
     
+    //PIC32 Display Request
     sprintf(PT_send_buffer, hex_value);
     PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+    PT_YIELD_TIME_msec(500);
     // NEVER exit while
   } // END WHILE(1)
 
