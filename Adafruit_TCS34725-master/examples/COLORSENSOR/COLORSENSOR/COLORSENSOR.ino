@@ -33,16 +33,54 @@ void recvOneChar() {
   }
 }
 
+String conHex(int test){
+  String upper = String(test / 16);
+  String lower = String(test % 16);
+  int u = test / 16;
+  int l = test % 16;
+  if(u > 9){
+    if(u == 10){
+      upper = 'A';
+    }else if(u == 11){
+      upper = 'B';
+    }else if(u == 12){
+      upper = 'C';
+    }else if(u == 13){
+      upper = 'D';
+    }else if(u == 14){
+      upper = 'E';
+    }else{
+      upper = 'F';
+    }
+  }
+  if(l > 9){
+    if(l == 10){
+      lower = 'A';
+    }else if(l == 11){
+      lower = 'B';
+    }else if(l == 12){
+      lower = 'C';
+    }else if(l == 13){
+      lower = 'D';
+    }else if(l == 14){
+      lower = 'E';
+    }else{
+      lower = 'F';
+    }
+  }
+  return upper + lower;
+}
+
 
 void setup(void) {
   Serial.begin(9600);
 
   if (tcs.begin()) {
     Serial.println("Found sensor");
-  } else {
+  }else{
     Serial.println("No TCS34725 found ... check your connections");
-    while (1);
   }
+  
   //initialize globals
   oldR = 0;
   oldG = 0;
@@ -55,7 +93,7 @@ void loop(void) {
   while (is_ready == 0)
   {
     recvOneChar();
-    if (receivedChar == 's') {
+    if (receivedChar == 'q') {
       is_ready = 1;
     }
   }
@@ -68,6 +106,7 @@ void loop(void) {
     //raw values scaled from 0-2550
     float scaledR, scaledG, scaledB;
 
+    uint8_t binR, binG, binB;
     String StringR, StringG, StringB, StringRGB;
 
     tcs.getRawData(&r, &g, &b, &c);
@@ -98,18 +137,21 @@ void loop(void) {
 
     //compare to previously scanned value, to ensure an accurate value is sent to PIC32
     if (oldR == R && oldG == G && oldB == B) {
-      StringR = String(R);
-      StringG = String(G);
-      StringB = String(B);
 
-      StringRGB = StringR + "," + StringG + "," + StringB;
-      Serial.print(StringRGB);
-      Serial.println(" ");
-      while (1);
+      StringR = conHex(R);
+      StringG = conHex(G);
+      StringB = conHex(B);
+      
+      delay(50);
+      StringRGB = StringR + StringG + StringB;
+      Serial.println(StringRGB);
+      //Serial.print(StringRGB);
+      //Serial.println(" ");
+      is_ready = 0;
     }
-    else {
+    //else {
       //scanning
-    }
+    //}
     oldR = R;
     oldG = G;
     oldB = B;
