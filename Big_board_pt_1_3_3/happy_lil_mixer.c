@@ -229,10 +229,10 @@ static PT_THREAD(protothread_servo(struct pt *pt))
     //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
     if (printing != 1)
     {
-        pwm_on_time2 = (int)((0.75 / (20.0 + 0.75)) * ((20.0 + 0.75) / 32.0) *40000);
-        pwm_on_time3 = (int)((0.75 / (20.0 + 0.75)) * ((20.0 + 0.75) / 32.0) *40000);
-        pwm_on_time4 = (int)((0.75 / (20.0 + 0.75)) * ((20.0 + 0.75) / 32.0) *40000);
-        pwm_on_time5 = (int)((0.75 / (20.0 + 0.75)) * ((20.0 + 0.75) / 32.0) *40000);
+        pwm_on_time2 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.5) / 32.0) *40000);
+        pwm_on_time3 = (int)((1.25 / (20.0 + 1.25)) * ((20.0 + 1.25) / 32.0) *40000);
+        pwm_on_time4 = (int)((1.25 / (20.0 + 1.25)) * ((20.0 + 1.25) / 32.0) *40000);
+        pwm_on_time5 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
         SetDCOC2PWM(pwm_on_time2);
         SetDCOC3PWM(pwm_on_time3);
         SetDCOC4PWM(pwm_on_time4);
@@ -251,8 +251,8 @@ static PT_THREAD(protothread_servo(struct pt *pt))
             WritePeriod2(generate_period2);
             SetDCOC2PWM(pwm_on_time2);
             PT_YIELD_TIME_msec(100);
-            //sprintf(PT_send_buffer, "\n C: %d,%f", i,error_c);
-            //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+            sprintf(PT_send_buffer, "\n C: %d,%f", i,final_c);
+            PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
             i = i + 1;
         }
         i = 0;
@@ -267,8 +267,8 @@ static PT_THREAD(protothread_servo(struct pt *pt))
             WritePeriod2(generate_period2);
             SetDCOC3PWM(pwm_on_time3);
             PT_YIELD_TIME_msec(100);
-            //sprintf(PT_send_buffer, "\n M: %d,%f", i,final_m);
-            //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+            sprintf(PT_send_buffer, "\n M: %d,%f", i,final_m);
+            PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
             i = i + 1;
         }
         i = 0;
@@ -283,8 +283,8 @@ static PT_THREAD(protothread_servo(struct pt *pt))
             WritePeriod2(generate_period2);
             SetDCOC4PWM(pwm_on_time4);
             PT_YIELD_TIME_msec(100);
-            //sprintf(PT_send_buffer, "\n Y: %d,%f", i,final_y);
-            //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+            sprintf(PT_send_buffer, "\n Y: %d,%f", i,final_y);
+            PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
             i = i + 1;
         }
         i = i + 1;
@@ -299,8 +299,8 @@ static PT_THREAD(protothread_servo(struct pt *pt))
             WritePeriod2(generate_period2);
             SetDCOC5PWM(pwm_on_time5);
             PT_YIELD_TIME_msec(100);
-            //sprintf(PT_send_buffer, "\n K: %d,%f", i,final_k);
-            //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+            sprintf(PT_send_buffer, "\n K: %d,%f", i,final_k);
+            PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
             i = i + 1;
         }
         i = 0;
@@ -417,6 +417,10 @@ static PT_THREAD(protothread_serial_test(struct pt *pt))
                         error_m += final_m - m;
                     }
                 }
+                final_c += error_c;
+                final_m += error_m;
+                final_y += error_y;        
+                final_k += error_k;
                 printing = 1;
             }else{
                 printing = 0;
@@ -485,9 +489,9 @@ int main(void)
   // schedule the threads
   while (1)
   {
-    //PT_SCHEDULE(protothread_servo(&pt_servo));
-    //PT_SCHEDULE(protothread_cmd(&pt_cmd));
-    //PT_SCHEDULE(protothread_time(&pt_time));
-      PT_SCHEDULE(protothread_serial_test(&pt_serial_test));
+    PT_SCHEDULE(protothread_servo(&pt_servo));
+    PT_SCHEDULE(protothread_cmd(&pt_cmd));
+    PT_SCHEDULE(protothread_time(&pt_time));
+    PT_SCHEDULE(protothread_serial_test(&pt_serial_test));
   }
 } // main
