@@ -62,6 +62,10 @@ volatile float final_c = 0;
 volatile float final_m = 0;
 volatile float final_y = 0;
 volatile float final_k = 0;
+volatile float error_c = 0;
+volatile float error_m = 0;
+volatile float error_y = 0;
+volatile float error_k = 0;
 
 int count;
 
@@ -199,6 +203,10 @@ static PT_THREAD(protothread_cmd(struct pt *pt))
         final_m = (int)(100*final_m);
         final_y = (int)(100*final_y);
         final_k = (int)(100*final_k);
+        error_c = final_c;
+        error_m = final_m;
+        error_y = final_y;        
+        error_k = final_k;
         printing = 1;
     }
     PT_YIELD_TIME_msec(200);
@@ -232,7 +240,7 @@ static PT_THREAD(protothread_servo(struct pt *pt))
         
     } else {
         
-        while(i < final_c){
+        while(i < error_c){
             generate_period2 = (int)(((20.0 + 1.0) / 32.0) * 40000);
             pwm_on_time2 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
             WritePeriod2(generate_period2);
@@ -243,12 +251,12 @@ static PT_THREAD(protothread_servo(struct pt *pt))
             WritePeriod2(generate_period2);
             SetDCOC2PWM(pwm_on_time2);
             PT_YIELD_TIME_msec(100);
-            sprintf(PT_send_buffer, "\n C: %d,%f", i,final_c);
-            PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+            //sprintf(PT_send_buffer, "\n C: %d,%f", i,error_c);
+            //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
             i = i + 1;
         }
         i = 0;
-        while(i < final_m){
+        while(i < error_m){
             generate_period2 = (int)(((20.0 + 1.0) / 32.0) * 40000);
             pwm_on_time3 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
             WritePeriod2(generate_period2);
@@ -259,12 +267,12 @@ static PT_THREAD(protothread_servo(struct pt *pt))
             WritePeriod2(generate_period2);
             SetDCOC3PWM(pwm_on_time3);
             PT_YIELD_TIME_msec(100);
-            sprintf(PT_send_buffer, "\n M: %d,%f", i,final_m);
-            PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+            //sprintf(PT_send_buffer, "\n M: %d,%f", i,final_m);
+            //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
             i = i + 1;
         }
         i = 0;
-        while(i < final_y){
+        while(i < error_y){
             generate_period2 = (int)(((20.0 + 1.0) / 32.0) * 40000);
             pwm_on_time4 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
             WritePeriod2(generate_period2);
@@ -275,12 +283,12 @@ static PT_THREAD(protothread_servo(struct pt *pt))
             WritePeriod2(generate_period2);
             SetDCOC4PWM(pwm_on_time4);
             PT_YIELD_TIME_msec(100);
-            sprintf(PT_send_buffer, "\n Y: %d,%f", i,final_y);
-            PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+            //sprintf(PT_send_buffer, "\n Y: %d,%f", i,final_y);
+            //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
             i = i + 1;
         }
         i = i + 1;
-        while(i < final_k){
+        while(i < error_k){
             generate_period2 = (int)(((20.0 + 1.0) / 32.0) * 40000);
             pwm_on_time5 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
             WritePeriod2(generate_period2);
@@ -291,12 +299,12 @@ static PT_THREAD(protothread_servo(struct pt *pt))
             WritePeriod2(generate_period2);
             SetDCOC5PWM(pwm_on_time5);
             PT_YIELD_TIME_msec(100);
-            sprintf(PT_send_buffer, "\n K: %d,%f", i,final_k);
-            PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+            //sprintf(PT_send_buffer, "\n K: %d,%f", i,final_k);
+            //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
             i = i + 1;
         }
         i = 0;
-        printing = 0;
+        printing = 2;
     }
       // never exit while
   }   // END WHILE(1)
@@ -330,23 +338,95 @@ static PT_THREAD(protothread_serial_test(struct pt *pt))
     //sprintf(PT_send_buffer, "hi ");
     // by spawning a print thread
     //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-    sprintf(PT_send_buffer, "\nRunning\n");
-    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+    //sprintf(PT_send_buffer, "\nRunning\n");
+    //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+    if(printing == 2){
+        //PIC32 Request
+        sprintf(PT_send_buffer_aux, "q");
+        PT_SPAWN(pt, &pt_DMA_output_aux, PT_DMA_PutSerialBuffer_aux(&pt_DMA_output_aux));
+    
+        //PIC32 Receive
+        //sprintf(PT_send_buffer, "Receiving: ");
+        //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+        PT_SPAWN(pt, &pt_input_aux, PT_GetSerialBuffer_aux(&pt_input_aux));
+        sscanf(PT_term_buffer_aux, "%s", &hex_value);
+    
+    
+        float c, m, y, k;
+        int r = (hex_to_dec(hex_value[0]))*16 + hex_to_dec(hex_value[1]);
+        int g = (hex_to_dec(hex_value[2]))*16 + hex_to_dec(hex_value[3]);
+        int b = (hex_to_dec(hex_value[4]))*16 + hex_to_dec(hex_value[5]);
+
+        if (r == 0 && g == 0 && b == 0){
+            k = 1;
+            c = 0;
+            m = 0;
+            y = 0;
+        }else{
+            float tempc = 1 - ((float)r)/255.0;
+            float tempm = 1 - ((float)g)/255.0;
+            float tempy = 1 - ((float)b)/255.0;
       
-    //PIC32 Request
-    sprintf(PT_send_buffer_aux, "q");
-    PT_SPAWN(pt, &pt_DMA_output_aux, PT_DMA_PutSerialBuffer_aux(&pt_DMA_output_aux));
-    
-    //PIC32 Receive
-    sprintf(PT_send_buffer, "Receiving: ");
-    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-    PT_SPAWN(pt, &pt_input_aux, PT_GetSerialBuffer_aux(&pt_input_aux));
-    sscanf(PT_term_buffer_aux, "%s", &hex_value);
-    
+            float minCMY = min(tempc, min(tempm, tempy));
+
+            // updated cmyk values
+            c = (tempc - minCMY) / (1 - minCMY);
+            m = (tempm - minCMY) / (1 - minCMY);
+            y = (tempy - minCMY) / (1 - minCMY);
+            k = minCMY;
+            c = (int)(100*c);
+            m = (int)(100*m);
+            y = (int)(100*y);
+            k = (int)(100*k);
+            error_c = 0;
+            error_m = 0;
+            error_y = 0;
+            error_k = 0;
+            if(abs(final_c - c) + abs(final_m - m) + abs(final_y - y) >= 30){
+                if(final_c == 0){
+                    if(y > final_y){
+                        error_m += y - final_y;
+                    }else{
+                        error_y += final_y - y;
+                    }
+                    if(m > final_m){
+                        error_y += m - final_m;
+                    }else{
+                        error_m += final_m - m;
+                    }
+                }else if(final_m == 0){
+                    if(y > final_y){
+                        error_c += y - final_y;
+                    }else{
+                        error_y += final_y - y;
+                    }
+                    if(c > final_c){
+                        error_y += c - final_c;
+                    }else{
+                        error_c += final_c - c;
+                    }
+                }else{
+                    if(c > final_c){
+                        error_m += c - final_c;
+                    }else{
+                        error_c += final_c - c;
+                    }
+                    if(m > final_m){
+                        error_c += m - final_m;
+                    }else{
+                        error_m += final_m - m;
+                    }
+                }
+                printing = 1;
+            }else{
+                printing = 0;
+            }
+        }
+    }
     //PIC32 Display Request
-    sprintf(PT_send_buffer, hex_value);
-    PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-    PT_YIELD_TIME_msec(500);
+    //sprintf(PT_send_buffer, hex_value);
+    //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+    PT_YIELD_TIME_msec(200);
     // NEVER exit while
   } // END WHILE(1)
 
