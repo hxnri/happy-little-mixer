@@ -34,10 +34,10 @@ int sys_time_seconds;
 
 //The actual period of the wave
 volatile int generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
-volatile int pwm_on_time2 = (int)((0.75 / (20.0 + 0.75)) * ((20.0 + 0.75) / 32.0) *40000);
-volatile int pwm_on_time3 = (int)((0.75 / (20.0 + 0.75)) * ((20.0 + 0.75) / 32.0) *40000);
-volatile int pwm_on_time4 = (int)((0.75 / (20.0 + 0.75)) * ((20.0 + 0.75) / 32.0) *40000);
-volatile int pwm_on_time5 = (int)((0.75 / (20.0 + 0.75)) * ((20.0 + 0.75) / 32.0) *40000);
+volatile int pwm_on_time2 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.5) / 32.0) *40000);
+volatile int pwm_on_time3 = (int)((1.25 / (20.0 + 1.25)) * ((20.0 + 1.25) / 32.0) *40000);
+volatile int pwm_on_time4 = (int)((1.25 / (20.0 + 1.25)) * ((20.0 + 1.25) / 32.0) *40000);
+volatile int pwm_on_time5 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
 //print state variable
 volatile int printing = 0;
 volatile int i = 0;
@@ -229,89 +229,93 @@ static PT_THREAD(protothread_servo(struct pt *pt))
     //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
     if (printing != 1)
     {
-        //pwm_on_time2 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.5) / 32.0) *40000);
-        //pwm_on_time3 = (int)((1.25 / (20.0 + 1.25)) * ((20.0 + 1.25) / 32.0) *40000);
-        //pwm_on_time4 = (int)((1.25 / (20.0 + 1.25)) * ((20.0 + 1.25) / 32.0) *40000);
-        //pwm_on_time5 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
+        pwm_on_time2 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.5) / 32.0) *40000);
+        pwm_on_time3 = (int)((1.1 / (20.0 + 1.1)) * ((20.0 + 1.1) / 32.0) *40000);
+        pwm_on_time4 = (int)((1.15 / (20.0 + 1.15)) * ((20.0 + 1.15) / 32.0) *40000);
+        pwm_on_time5 = (int)((0.85 / (20.0 + 0.85)) * ((20.0 + 0.85) / 32.0) *40000);
+        SetDCOC2PWM(pwm_on_time2);
+        SetDCOC3PWM(pwm_on_time3);
+        SetDCOC4PWM(pwm_on_time4);
+        SetDCOC5PWM(pwm_on_time5);
+        
+    } else {
         SetDCOC2PWM(0);
         SetDCOC3PWM(0);
         SetDCOC4PWM(0);
         SetDCOC5PWM(0);
         
-    } else {
-        
-        while(i < error_c){
-            generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-            pwm_on_time2 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.25) / 32.0) *40000);
+        //while(i < error_c){
+            generate_period2 = (int)(((20.0 + 1.25) / 32.0) * 40000);
+            pwm_on_time2 = (int)((1.25 / (20.0 + 1.25)) * ((20.0 + 1.25) / 32.0) *40000);
             WritePeriod2(generate_period2);
             SetDCOC2PWM(pwm_on_time2);
-            PT_YIELD_TIME_msec(45);
-            generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-            pwm_on_time2 = 0;
+            PT_YIELD_TIME_msec(10*error_c);
+            generate_period2 = (int)(((20.0 + 1.6) / 32.0) * 40000);
+            pwm_on_time2 = (int)((1.6 / (20.0 + 1.6)) * ((20.0 + 1.6) / 32.0) *40000);
             WritePeriod2(generate_period2);
             SetDCOC2PWM(pwm_on_time2);
-            PT_YIELD_TIME_msec(45);
+            PT_YIELD_TIME_msec(100);
             sprintf(PT_send_buffer, "\n C: %d,%f", i,final_c);
             PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-            i = i + 1;
-        }
+            //i = i + 1;
+        //}
         pwm_on_time2 = 0;
         SetDCOC2PWM(pwm_on_time2);
-        i = 0;
-        while(i < error_m){
-            generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-            pwm_on_time3 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.5) / 32.0) *40000);
+        //i = 0;
+        //while(i < error_m){
+            generate_period2 = (int)(((20.0 + 0.85) / 32.0) * 40000);
+            pwm_on_time3 = (int)((0.85 / (20.0 + 0.85)) * ((20.0 + 0.85) / 32.0) *40000);
             WritePeriod2(generate_period2);
             SetDCOC3PWM(pwm_on_time3);
-            PT_YIELD_TIME_msec(45);
-            generate_period2 = (int)(((20.0 + 1.25) / 32.0) * 40000);
-            pwm_on_time3 = 0;
+            PT_YIELD_TIME_msec(10*error_m);
+            generate_period2 = (int)(((20.0 + 1.20) / 32.0) * 40000);
+            pwm_on_time3 = (int)((1.20 / (20.0 + 1.20)) * ((20.0 + 1.20) / 32.0) *40000);
             WritePeriod2(generate_period2);
             SetDCOC3PWM(pwm_on_time3);
-            PT_YIELD_TIME_msec(45);
+            PT_YIELD_TIME_msec(100);
             sprintf(PT_send_buffer, "\n M: %d,%f", i,final_m);
             PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-            i = i + 1;
-        }
+            //i = i + 1;
+        //}
         pwm_on_time3 = 0;
         SetDCOC3PWM(pwm_on_time3);
-        i = 0;
-        while(i < error_y){
-            generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-            pwm_on_time4 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.5) / 32.0) *40000);
+        //i = 0;
+        //while(i < error_y){
+            generate_period2 = (int)(((20.0 + 1.4) / 32.0) * 40000);
+            pwm_on_time4 = (int)((1.4 / (20.0 + 1.4)) * ((20.0 + 1.4) / 32.0) *40000);
             WritePeriod2(generate_period2);
             SetDCOC4PWM(pwm_on_time4);
-            PT_YIELD_TIME_msec(45);
-            generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-            pwm_on_time4 = 0;
+            PT_YIELD_TIME_msec(10*error_y);
+            generate_period2 = (int)(((20.0 + 1.15) / 32.0) * 40000);
+            pwm_on_time4 = (int)((1.15 / (20.0 + 1.15)) * ((20.0 + 1.15) / 32.0) *40000);
             WritePeriod2(generate_period2);
             SetDCOC4PWM(pwm_on_time4);
-            PT_YIELD_TIME_msec(45);
+            PT_YIELD_TIME_msec(100);
             sprintf(PT_send_buffer, "\n Y: %d,%f", i,final_y);
             PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-            i = i + 1;
-        }
+            //i = i + 1;
+        //}
         pwm_on_time4 = 0;
         SetDCOC4PWM(pwm_on_time4);
-        i = i + 1;
-        while(i < error_k){
-            generate_period2 = (int)(((20.0 + 1.5) / 32.0) * 40000);
-            pwm_on_time5 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.5) / 32.0) *40000);
+        //i = i + 1;
+        //while(i < error_k){
+            generate_period2 = (int)(((20.0 + 0.65) / 32.0) * 40000);
+            pwm_on_time5 = (int)((0.65 / (20.0 + 0.65)) * ((20.0 + 0.65) / 32.0) *40000);
             WritePeriod2(generate_period2);
             SetDCOC5PWM(pwm_on_time5);
-            PT_YIELD_TIME_msec(45);
+            PT_YIELD_TIME_msec(10*error_k);
             generate_period2 = (int)(((20.0 + 1.0) / 32.0) * 40000);
-            pwm_on_time5 = 0;
+            pwm_on_time5 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
             WritePeriod2(generate_period2);
             SetDCOC5PWM(pwm_on_time5);
-            PT_YIELD_TIME_msec(45);
+            PT_YIELD_TIME_msec(100);
             sprintf(PT_send_buffer, "\n K: %d,%f", i,final_k);
             PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-            i = i + 1;
-        }
+            //i = i + 1;
+        //}
         pwm_on_time5 = 0;
         SetDCOC5PWM(pwm_on_time5);
-        i = 0;
+        //i = 0;
         printing = 0;
     }
       // never exit while
