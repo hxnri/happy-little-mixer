@@ -104,6 +104,10 @@
         <div class="col-lg-8 mx-auto">
 
           <p class="lead">
+            <center>
+              <h1>Happy Little Mixer</h1>
+            </center>
+
             <h2>Introduction</h2>
             The Happy Little Mixer is an automatic ink mixer which accepts
             either a hex user input and creates that color by measuring out
@@ -581,6 +585,206 @@
 
             <br><br>
             <h4>Accuracy</h4>
+
+
+            <table style="border:1px solid black; width:100%">
+              <tr>
+                <th><b>Scan: #1C4B5E</b></th>
+                <th><b>C</b></th>
+                <th><b>M</b></th>
+                <th><b>Y</b></th>
+                <th><b>K</b></th>
+              </tr>
+              <tr>
+                <td>First Scan</td>
+                <td>70</td>
+                <td>20</td>
+                <td>0</td>
+                <td>63</td>
+              </tr>
+              <tr>
+                <td>Feedback 1 Scan</td>
+                <td>0</td>
+                <td>11</td>
+                <td>24</td>
+                <td>82</td>
+              </tr>
+              <tr>
+                <td>Feedback 1 Correction</td>
+                <td>70</td>
+                <td>9</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Feedback 2 Scan</td>
+                <td>12</td>
+                <td>0</td>
+                <td>14</td>
+                <td>78</td>
+              </tr>
+              <tr>
+                <td>Feedback 2 Correction</td>
+                <td>58</td>
+                <td>20</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+            </table>
+            For color #1C4B5E, which looks like a dark blue to the human eye, we can clearly see feedback demonstrated.
+            In the color sensors’ first go, it created a color that was much too dark. In the first feedback scan, it
+            noticed that there was much extra black. During the corrections, we can see that the color sensor does not
+            add any more black, as there is already too much, and instead adds more cyan and magenta in order to correct
+            the color.
+            <br><br>
+            <table style="border:1px solid black; width:100%">
+              <tr>
+                <th><b>Scan: <div id="FFAB00"></div></b></th>
+                <th><b>C</b></th>
+                <th><b>M</b></th>
+                <th><b>Y</b></th>
+                <th><b>K</b></th>
+              </tr>
+              <tr>
+                <td>First Scan</td>
+                <td>0</td>
+                <td>32</td>
+                <td>100</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Feedback 1 Scan</td>
+                <td>0</td>
+                <td>1</td>
+                <td>30</td>
+                <td>43</td>
+              </tr>
+              <tr>
+                <td>Feedback 1 Correction</td>
+                <td>0</td>
+                <td>31</td>
+                <td>70</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Feedback 2 Scan</td>
+                <td>0</td>
+                <td>8</td>
+                <td>34</td>
+                <td>57</td>
+              </tr>
+              <tr>
+                <td>Feedback 2 Correction</td>
+                <td>0</td>
+                <td>24</td>
+                <td>66</td>
+                <td>0</td>
+              </tr>
+            </table>
+            In the color sensors first go, the color it made was slightly too yellow, so in the first feedback it added
+            more magenta to compensate and make the color more orange. It also added more yellow to make it more
+            pigmented. In the second time around, while there was more yellow and magenta, there still wasn’t as much
+            pigment as the original color, so the color sensor added more.
+            <br><br>
+            <table style="border:1px solid black; width:100%">
+              <tr>
+                <th><b>Scan: #BE19F0</b></th>
+                <th><b>C</b></th>
+                <th><b>M</b></th>
+                <th><b>Y</b></th>
+                <th><b>K</b></th>
+              </tr>
+              <tr>
+                <td>First Scan</td>
+                <td>20</td>
+                <td>89</td>
+                <td>0</td>
+                <td>5</td>
+              </tr>
+              <tr>
+                <td>Feedback 1 Scan</td>
+                <td>0</td>
+                <td>12</td>
+                <td>13</td>
+                <td>64</td>
+              </tr>
+              <tr>
+                <td>Feedback 1 Correction</td>
+                <td>20</td>
+                <td>77</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Feedback 2 Scan</td>
+                <td>0</td>
+                <td>26</td>
+                <td>39</td>
+                <td>90</td>
+              </tr>
+              <tr>
+                <td>Feedback 2 Correction</td>
+                <td>20</td>
+                <td>63</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+            </table>
+
+            To the naked eye, the three color swatches for this color look the same. This shows that the ratio of colors
+            stayed consistent through the feedback runs. Looking at the PuTTY output, we can see that the color sensor
+            was attempting to make each of the colors more saturated.
+            <br><br>
+            <table style="border:1px solid black; width:100%">
+              <tr>
+                <th><b>Scan: #19FA82</b></th>
+                <th><b>C</b></th>
+                <th><b>M</b></th>
+                <th><b>Y</b></th>
+                <th><b>K</b></th>
+              </tr>
+              <tr>
+                <td>First Scan</td>
+                <td>90</td>
+                <td>0</td>
+                <td>47</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>Feedback 1 Scan</td>
+                <td>43</td>
+                <td>0</td>
+                <td>20</td>
+                <td>60</td>
+              </tr>
+              <tr>
+                <td>Feedback 1 Correction</td>
+                <td>47</td>
+                <td>0</td>
+                <td>27</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Feedback 2 Scan</td>
+                <td>26</td>
+                <td>0</td>
+                <td>21</td>
+                <td>43</td>
+              </tr>
+              <tr>
+                <td>Feedback 2 Correction</td>
+                <td>64</td>
+                <td>0</td>
+                <td>26</td>
+                <td>0</td>
+              </tr>
+            </table>
+
+            This is another case where the color sensor was trying to amp up the pigment during each feedback run. It is
+            interesting to note in this case that it the color sensor seemed to see “less” cyan during the feedback 2
+            scan than the feedback 1 scan. This may be due to the fact that the color was still slightly wet on the
+            paper when we scanned it, and we may have scanned a less dense part of the color.
+
             <br><br>
             <h4>Safety</h4>
             Our project was safe on its own -- but a project involving lots of
