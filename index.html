@@ -110,10 +110,15 @@
 
             <h2>Introduction</h2>
             The Happy Little Mixer is an automatic ink mixer which accepts
-            either a hex user input and creates that color by measuring out
+            a hex user input and creates that color by measuring out
             cyan, magenta, yellow, and black (CMYK) ink. It includes open-loop
             feedback using a color sensor to correct the generated color, making
             it as accurate as possible.
+
+            <center>
+              <img src="images/fullsystem.jpg" alt="full system" style="width:600px;">
+              <br>
+              The final product!</center>
 
           </p>
         </div>
@@ -148,11 +153,15 @@
             demo. The system will initially waits for a serial hex input from
             the user and then convert it to CMYK values. With these values, we
             determine how long each servo should dispense its corresponding
-            color. The system then waits for the user to indicate over serial
+            color.
+            <br><br>
+            The system then waits for the user to indicate over serial
             whether to make a color adjustment or return to the beginning. If
             the user wants to make an adjustment, we prompt the to hold a
             sample up to the color sensor for a more accurate reading and then
-            wait for the user to indicate they are ready. Once ready, the
+            wait for the user to indicate they are ready.
+            <br><br>
+            Once ready, the
             system requests color data from an arduino attached to the color
             sensor. The system then performs a similar conversion with the
             color sensor data and compares the observed CMYK values with the
@@ -456,7 +465,7 @@
             cycle to zero worked. We were then able to target each servo individually, modifying the period and
             corresponding duty cycle. We created the timings by having the servo thread yield for the specified time as
             shown below.
-            <br>
+            <br><br>
 
             <pre>
               generate_period2 = (int)(((20.0 + 0.85) / 32.0) * 40000);
@@ -468,7 +477,7 @@
 
             Additionally, to have the timer count for larger intervals, we
             increased the prescaler in the timer declaration.
-
+            <br><br>
             <pre>
               OpenTimer2(T2_ON | T2_SOURCE_INT | T2_PS_1_32, generate_period2);
             </pre>
@@ -501,10 +510,10 @@
             based off of how <code></code>PT_term_buffer</code> was written.
 
             Our PuTTY output looked like this:
+            <br><br>
             <center>
               <img src="images/1c4b5e.png" alt="Casing" style="width:600px;">
               <br>
-              PuTTY output while creating color 1C4B5E
             </center>
 
             <br><br>
@@ -604,7 +613,8 @@
             aberrations due to the cheap ink, which don’t correctly align with pure CMYK values, and misreadings with
             feedback. Misreads in feedback likely are a result of reading the color while the ink is still wet.
             <br><br>
-            Here are a few tests of various colors:
+            This is easier to see with some example tests. The leftmost image contains the initial color and two trials
+            of feedback, and the rightmost image is the actual HEX color.
             <br><br>
             <center>
               <img src="images/1C4B5E.jpg" alt="Casing" style="width:600px;">
@@ -841,6 +851,11 @@
             the cups resulted in getting ink on one’s hands. To improve this in
             future iterations, we would put more thought into the mechanical
             design to be open and secure.
+
+            <br><br>
+            <h4>Intellectual Property</h4>
+            The Protothreads and Arduino libraries are not ours. Our header files for the PIC32 code were taken from
+            Bruce Land's samples on the ECE 4760 course website, with some minor edits as necessary.
 
           </p>
         </div>
