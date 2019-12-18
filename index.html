@@ -75,7 +75,7 @@
         <div class="carousel-item" style="background-image: url(images/hands.png)">
         </div>
         <!-- Slide Three -->
-        <div class="carousel-item" style="background-image: url(images/coopybckg.png)"></div>
+        <div class="carousel-item" style="background-image: url(images/swatches.jpg)"></div>
       </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -227,28 +227,43 @@
             we created a 3D model of our proposed casing, which included levels
             to hold the ink and servos, holes to route the tubing, and slits for
             wires. In order to print the casing in a reasonable amount of time,
-            we split the design into three sections. This proved very useful, as
-            we were able to modify our original design by rearranging the 3 pieces
-            to be better suited to hold the servos and tubing. We also added wooden
-            spacers, which gave us more vertical space so the tubing could fully
-            extend. Also, instead of using the premade holes in the casing only
-            for tubing, we used them to hold the servos, and later drilled extra
-            holes for the tubing.
+            we split the design into three sections.
             <center>
               <img src="images/casing.png" alt="Casing" style="width:600px;">
               <br>
               Screenshot of casing, designed with Fusion.</center>
 
             <br><br>
+            This proved very useful, as
+            we were able to modify our original design by rearranging the 3 pieces
+            to be better suited to hold the servos and tubing. We also added wooden
+            spacers, which gave us more vertical space so the tubing could fully
+            extend. Also, instead of using the premade holes in the casing only
+            for tubing, we used them to hold the servos, and later drilled extra
+            holes for the tubing.
+            <br><br>
+
             We cut our [length] of tubing into four pieces. First, we tested to
             ensure that the servos were capable of pinching the tubing shut.
             After we determined the correct calibration, we drilled holes into
             the 3D print to make space for the tubing and added the servos.
             <br><br>
+            <center>
+              <img src="images/newservotop.jpg" alt="Top" style="width:400px;">
+              <br>
+              <img src="images/newservobottom.jpg" alt="bottom" style="width:400px;">
+              <br>
+              Servos and tubing newly added, top and bottom.</center>
+            <br><br>
             We added wooden spacers to allow the servos to move without hitting
             the wall of the structure, then hot glued the next layer on. We
             threaded the tubing through the top holes and used hot glue to secure
             them in place and create a waterproof layer.
+            <br><br>
+            <center>
+              <img src="images/spacers.jpg" alt="Spacers" style="width:600px;">
+              <br>
+              Spacers added to elevate top level away from servos.</center>
             <br><br>
             Next, we drilled holes into the bottom of the plastic bottles to be
             slightly wider than the tubing. We then placed hot glue around the
@@ -256,11 +271,23 @@
             glue to create a water seal. We tested this with water to ensure that
             there was no leakage, and that the servos were still capable of
             clamping the tubing properly.
+
+            <br><br>
+            <center>
+              <img src="images/bottles.jpg" alt="Bottles" style="width:400px;">
+              <br>
+              Reservoirs of ink sealed off using hot glue.</center>
+
             <br><br>
             The servos were too low for a cup to fit under, so we sawed some
             stilts from a scrap block of wood and glued them in for the
             appropriate height. We also trimmed the tubing to ensure that they
             wouldn’t get contaminated in the already mixed dye.
+            <br><br>
+            <center>
+              <img src="images/stilts.jpg" alt="stilts" style="width:400px;">
+              <br>
+              Stilts added to elevate everything from bottom level. Support in the back not shown.</center>
             <br><br>
             In retrospect, we could have done it more elegantly, but we did not
             lay out our mechanical rigorously enough at the beginning and were
@@ -293,13 +320,19 @@
             the PIC32. Our motivation for using this was primarily budget
             constraints while maintaining the familiarity of a breakout board
             similar to the one we had used for the previous labs in this class.
-
+            <br><br>
             <center>
               <img src="images/smallboard.png" alt="Casing" style="width:600px;">
               <br>
               Sean Carroll's small board.</center>
 
             <br><br>
+
+            More on the small board can be found on the <a
+              href="https://people.ece.cornell.edu/land/courses/ece4760/PIC32/target_board.html">class webpage.</a>
+
+            <br><br>
+
             <h4>Parallax Standard Servos</h4>
             Our initial plans for this project were to either use motor
             controlled syringes or peristaltic pumps to dispense paint.
@@ -314,14 +347,14 @@
             <center>
               <img src="images/servo_wiring.png" alt="Casing" style="width:600px;">
               <br>
-              Servo wiring, from <a href
-                url="https://www.parallax.com/sites/default/files/downloads/900-00005-Standard-Servo-Product-Documentation-v2.2.pdf">datasheet</a>.
+              Servo wiring, from <a
+                href="https://www.parallax.com/sites/default/files/downloads/900-00005-Standard-Servo-Product-Documentation-v2.2.pdf">datasheet.</a>
             </center>
             <center>
               <img src="images/servo_timing.png" alt="Casing" style="width:600px;">
               <br>
-              Servo timing, from <a href
-                url="https://www.parallax.com/sites/default/files/downloads/900-00005-Standard-Servo-Product-Documentation-v2.2.pdf">datasheet</a>.
+              Servo timing, from <a
+                href="https://www.parallax.com/sites/default/files/downloads/900-00005-Standard-Servo-Product-Documentation-v2.2.pdf">datasheet</a>.
             </center>
 
 
@@ -335,7 +368,7 @@
             <br><br>
             <h4>Color Sensor + Arduino</h4>
 
-            We used the color sensor <a href url="https://www.adafruit.com/product/1334">TCS34725.</a>
+            We used the color sensor <a href="https://www.adafruit.com/product/1334">TCS34725.</a>
             <br><br>
             Other than the normal wiring of the Color Sensor (which is in the
             circuit diagram for the project), we also needed to add additional
@@ -366,9 +399,16 @@
             strung together in hexadecimal to make a 6-digit string -- because
             it would be an easier format for a user to enter. Thus, we needed to
             convert from HEX to CMYK.
+            <br><br>
 
-            Very coincidentally, someone had already written a <a href
-              url="http://www.javascripter.net/faq/hex2cmyk.htm">HEX to CMYK
+            <center>
+              <img src="images/cmyk.png" alt="Casing" style="width:300px;">
+              <br>
+              <a href="https://99designs.com/blog/tips/correct-file-formats-rgb-and-cmyk/">Source</a></center>
+
+            <br><br>
+            Very coincidentally, someone had already written a <a
+              href="http://www.javascripter.net/faq/hex2cmyk.htm">HEX to CMYK
               conversion in JavaScript. </a>We used its logic to write our own HEX
             to CMYK conversion in C. Our conversion took a HEX code as character
             array of length 6, pulled the RGB values from it, then converted
@@ -378,7 +418,7 @@
             <br><br>
             <h4>Color Sensing</h4>
             The TCS34725 came with its own arduino source code and library.
-            Here is a link to the <a href url="https://github.com/adafruit/Adafruit_TCS34725"> original github repo.</a>
+            Here is a link to the <a href="https://github.com/adafruit/Adafruit_TCS34725"> original github repo.</a>
             In this code, we took the example tcs34725.ino, renamed it COLORSENSOR.ino, and modified it to fit our
             needs. <br><br>
             The original code got the raw RGB values and also some extra
@@ -411,6 +451,7 @@
             cycle to zero worked. We were then able to target each servo individually, modifying the period and
             corresponding duty cycle. We created the timings by having the servo thread yield for the specified time as
             shown below.
+            <br>
 
             <pre>
               generate_period2 = (int)(((20.0 + 0.85) / 32.0) * 40000);
@@ -504,8 +545,13 @@
             <h4>Speed</h4>
             The servos’ response to the user’s hex input is very fast, which you
             can see here (since it was too fast to be caught in the demo):
-
             <br><br>
+            <center>
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/07r_sOD8Pi0" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </center>
+            <br>
             The scanning, on the other hand, takes a variable amount of time.
             In order to maintain accuracy, the arduino will only send color data
             if the color sensor detects the same RGB values twice in a row. While
