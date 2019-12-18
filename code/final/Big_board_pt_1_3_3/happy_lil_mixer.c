@@ -32,13 +32,15 @@ static struct pt pt_prompt, pt_servo, pt_cmd, pt_time, pt_input, pt_output, pt_D
 // system 1 second interval tick
 int sys_time_seconds;
 
-//The actual period of the wave
+//Starting values for PWM period and duty cycle, tuned to each servo
+//Please note values are adjusted to account for 1to32 prescaler
 volatile int generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
 volatile int pwm_on_time2 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.5) / 32.0) *40000);
 volatile int pwm_on_time3 = (int)((1.25 / (20.0 + 1.25)) * ((20.0 + 1.25) / 32.0) *40000);
 volatile int pwm_on_time4 = (int)((1.25 / (20.0 + 1.25)) * ((20.0 + 1.25) / 32.0) *40000);
 volatile int pwm_on_time5 = (int)((1.0 / (20.0 + 1.0)) * ((20.0 + 1.0) / 32.0) *40000);
-//print state variable
+
+//system state
 volatile int printing = 0;
 volatile int i = 0;
 
@@ -146,10 +148,12 @@ int hex_to_dec(char hex_char)
   }
 }
 
+// ===Command thread===================================================
+//The command thread reads in a base hex value from terminal and converts it to CMYK
+
 static PT_THREAD(protothread_cmd(struct pt *pt))
 {
   PT_BEGIN(pt);
-
   while (1)
   {
     if(printing == 0){
@@ -168,7 +172,8 @@ static PT_THREAD(protothread_cmd(struct pt *pt))
         // in this case, when <enter> is pushed
         // now parse the string
         sscanf(PT_term_buffer, "%s", &hex_value);
-    
+        
+        //obtain rgb values from hex
         int r = (hex_to_dec(hex_value[0]))*16 + hex_to_dec(hex_value[1]);
         int g = (hex_to_dec(hex_value[2]))*16 + hex_to_dec(hex_value[3]);
         int b = (hex_to_dec(hex_value[4]))*16 + hex_to_dec(hex_value[5]);
@@ -196,9 +201,11 @@ static PT_THREAD(protothread_cmd(struct pt *pt))
             final_y = y;
             final_k = k;
         }
-    
+        
         sprintf(PT_send_buffer, "%f,%f,%f,%f", final_c, final_m, final_y, final_k);
         PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
+        
+        //set expected values
         final_c = (int)(100*final_c);
         final_m = (int)(100*final_m);
         final_y = (int)(100*final_y);
@@ -210,13 +217,13 @@ static PT_THREAD(protothread_cmd(struct pt *pt))
         printing = 1;
     }
     PT_YIELD_TIME_msec(200);
-    // never exit while
-  } // END WHILE(1)
+  }
   PT_END(pt);
 }
 
 // === Servo Thread ======================================================
-// The serial interface
+// The Servo thread controls the positions of all servos and is how we dispense dye
+
 static char cmd[16];
 static int value;
 static PT_THREAD(protothread_servo(struct pt *pt))
@@ -225,10 +232,9 @@ static PT_THREAD(protothread_servo(struct pt *pt))
   while (1)
   {
     PT_YIELD_TIME_msec(200);
-    //sprintf(PT_send_buffer, "%f,%f,%f,%f,%d", final_c, final_m, final_y, final_k,printing);
-    //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
     if (printing != 1)
     {
+        //if the system is not printing, have all tubing shut
         pwm_on_time2 = (int)((1.5 / (20.0 + 1.5)) * ((20.0 + 1.5) / 32.0) *40000);
         pwm_on_time3 = (int)((1.15 / (20.0 + 1.15)) * ((20.0 + 1.15) / 32.0) *40000);
         pwm_on_time4 = (int)((1.15 / (20.0 + 1.15)) * ((20.0 + 1.15) / 32.0) *40000);
@@ -239,17 +245,20 @@ static PT_THREAD(protothread_servo(struct pt *pt))
         SetDCOC5PWM(pwm_on_time5);
         
     } else {
+        //initialize each servo to hold its closed position
         SetDCOC2PWM(0);
         SetDCOC3PWM(0);
         SetDCOC4PWM(0);
         SetDCOC5PWM(0);
         
-        //while(i < error_c){
+            //open cyan servo
             generate_period2 = (int)(((20.0 + 1.25) / 32.0) * 40000);
             pwm_on_time2 = (int)((1.25 / (20.0 + 1.25)) * ((20.0 + 1.25) / 32.0) *40000);
             WritePeriod2(generate_period2);
             SetDCOC2PWM(pwm_on_time2);
             PT_YIELD_TIME_msec(10*error_c);
+      
+            //close cyan
             generate_period2 = (int)(((20.0 + 1.6) / 32.0) * 40000);
             pwm_on_time2 = (int)((1.6 / (20.0 + 1.6)) * ((20.0 + 1.6) / 32.0) *40000);
             WritePeriod2(generate_period2);
@@ -257,17 +266,19 @@ static PT_THREAD(protothread_servo(struct pt *pt))
             PT_YIELD_TIME_msec(100);
             sprintf(PT_send_buffer, "C: %d,%f", i,error_c);
             PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-            //i = i + 1;
-        //}
+        
+        //have cyan hold closed
         pwm_on_time2 = 0;
         SetDCOC2PWM(pwm_on_time2);
-        //i = 0;
-        //while(i < error_m){
+
+        //open magenta
             generate_period2 = (int)(((20.0 + 0.85) / 32.0) * 40000);
             pwm_on_time3 = (int)((0.85 / (20.0 + 0.85)) * ((20.0 + 0.85) / 32.0) *40000);
             WritePeriod2(generate_period2);
             SetDCOC3PWM(pwm_on_time3);
             PT_YIELD_TIME_msec(10*error_m);
+      
+        //close magenta
             generate_period2 = (int)(((20.0 + 1.20) / 32.0) * 40000);
             pwm_on_time3 = (int)((1.20 / (20.0 + 1.20)) * ((20.0 + 1.20) / 32.0) *40000);
             WritePeriod2(generate_period2);
@@ -275,17 +286,19 @@ static PT_THREAD(protothread_servo(struct pt *pt))
             PT_YIELD_TIME_msec(100);
             sprintf(PT_send_buffer, "M: %d,%f", i,error_m);
             PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-            //i = i + 1;
-        //}
+
+        //have magenta hold closed
         pwm_on_time3 = 0;
         SetDCOC3PWM(pwm_on_time3);
-        //i = 0;
-        //while(i < error_y){
+
+        //open yellow
             generate_period2 = (int)(((20.0 + 1.4) / 32.0) * 40000);
             pwm_on_time4 = (int)((1.4 / (20.0 + 1.4)) * ((20.0 + 1.4) / 32.0) *40000);
             WritePeriod2(generate_period2);
             SetDCOC4PWM(pwm_on_time4);
             PT_YIELD_TIME_msec(10*error_y);
+      
+        //close yellow
             generate_period2 = (int)(((20.0 + 1.15) / 32.0) * 40000);
             pwm_on_time4 = (int)((1.15 / (20.0 + 1.15)) * ((20.0 + 1.15) / 32.0) *40000);
             WritePeriod2(generate_period2);
@@ -293,17 +306,18 @@ static PT_THREAD(protothread_servo(struct pt *pt))
             PT_YIELD_TIME_msec(100);
             sprintf(PT_send_buffer, "Y: %d,%f", i,error_y);
             PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-            //i = i + 1;
-        //}
+        
+        //have yellow hold closed
         pwm_on_time4 = 0;
         SetDCOC4PWM(pwm_on_time4);
-        //i = i + 1;
-        //while(i < error_k){
+
+        //open black
             generate_period2 = (int)(((20.0 + 0.55) / 32.0) * 40000);
             pwm_on_time5 = (int)((0.55 / (20.0 + 0.55)) * ((20.0 + 0.55) / 32.0) *40000);
             WritePeriod2(generate_period2);
             SetDCOC5PWM(pwm_on_time5);
             PT_YIELD_TIME_msec(10*error_k);
+        //close black
             generate_period2 = (int)(((20.0 + 1.05) / 32.0) * 40000);
             pwm_on_time5 = (int)((1.05 / (20.0 + 1.05)) * ((20.0 + 1.05) / 32.0) *40000);
             WritePeriod2(generate_period2);
@@ -311,19 +325,19 @@ static PT_THREAD(protothread_servo(struct pt *pt))
             PT_YIELD_TIME_msec(100);
             sprintf(PT_send_buffer, "K: %d,%f", i,error_k);
             PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-            //i = i + 1;
-        //}
+
+        //have black hold closed
         pwm_on_time5 = 0;
         SetDCOC5PWM(pwm_on_time5);
+        //reset period
         generate_period2 = (int)(((20.0 + 0.75) / 32.0) * 40000);
         WritePeriod2(generate_period2);
         //i = 0;
         printing = 3;
     }
-      // never exit while
   }   // END WHILE(1)
   PT_END(pt);
-} // thread 3
+}
 
 // === One second Thread ======================================================
 // update a 1 second tick counter
@@ -342,18 +356,14 @@ static PT_THREAD(protothread_time(struct pt *pt))
   PT_END(pt);
 } // thread 4
 
+// ===Serial_test===============================================================
+// Performs communication with the arduino and performs color correction
+
 static PT_THREAD(protothread_serial_test(struct pt *pt))
 {
   PT_BEGIN(pt);
-
   while (1)
   {
-    // yield time 1 second
-    //sprintf(PT_send_buffer, "hi ");
-    // by spawning a print thread
-    //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-    //sprintf(PT_send_buffer, "\nRunning\n");
-    //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
     if(printing == 2){
         //PIC32 Request
         sprintf(PT_send_buffer, "Scanning");
@@ -363,8 +373,6 @@ static PT_THREAD(protothread_serial_test(struct pt *pt))
         PT_SPAWN(pt, &pt_DMA_output_aux, PT_DMA_PutSerialBuffer_aux(&pt_DMA_output_aux));
     
         //PIC32 Receive
-        //sprintf(PT_send_buffer, "Receiving: ");
-        //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
         PT_SPAWN(pt, &pt_input_aux, PT_GetSerialBuffer_aux(&pt_input_aux));
         sscanf(PT_term_buffer_aux, "%s", &hex_value);
     
@@ -401,6 +409,8 @@ static PT_THREAD(protothread_serial_test(struct pt *pt))
         error_m = 0;
         error_y = 0;
         error_k = 0;
+      
+        //Calculate potential color correction based on observed values
         if(final_c < 5){
             if(y2 < final_y){
                 error_y = final_y - y2;
@@ -426,52 +436,44 @@ static PT_THREAD(protothread_serial_test(struct pt *pt))
         if(k2 < final_k){
             error_k = final_k - k2;
         }
+      
+        //prompt user for color correction
         sprintf(PT_send_buffer, "\nScan: C:%.2f, M:%.2f, Y:%.2f, K:%.2f", c2, m2, y2, k2);
         PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
         sprintf(PT_send_buffer, "\nExpected: C:%.2f, M:%.2f, Y:%.2f, K:%.2f", final_c, final_m, final_y, final_k);
         PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
         sprintf(PT_send_buffer, "\nApply correction? (y/n)");
         PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
-        //PIC32 Receive
-        //sprintf(PT_send_buffer, "Receiving: ");
-        //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
         PT_SPAWN(pt, &pt_input, PT_GetSerialBuffer(&pt_input));
         sscanf(PT_term_buffer, "%s", &hex_value);
         
-        
         if(hex_value[0] == 'y'){
-            
             printing = 1;
         }
         if(hex_value[0] == 'n'){
             printing = 0;
         }
     }
-    //PIC32 Display Request
-    //sprintf(PT_send_buffer, hex_value);
-    //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
     PT_YIELD_TIME_msec(200);
-    // NEVER exit while
   } // END WHILE(1)
-
   PT_END(pt);
 }
+
+// ===Prompt thread===========================================================
+// An intermediary stage which prompts the user whether or not they want to perform a color correction
 
 static PT_THREAD(protothread_prompt(struct pt *pt))
 {
   PT_BEGIN(pt);
-
   while (1)
   {
     if(printing == 3){
-        //PIC32 Request
-
+      
+        //PIC32 Prompt
         sprintf(PT_send_buffer, "Please hold color up to sensor to adjust color (y/n)");
         PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
     
         //PIC32 Receive
-        //sprintf(PT_send_buffer, "Receiving: ");
-        //PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));
         PT_SPAWN(pt, &pt_input, PT_GetSerialBuffer(&pt_input));
         sscanf(PT_term_buffer, "%s", &hex_value);
         if(hex_value[0] == 'y'){
@@ -493,31 +495,28 @@ static PT_THREAD(protothread_prompt(struct pt *pt))
 int main(void)
 {
   // === Config timer and output compares to make pulses ========
-  // set up timer2 to generate the wave period
+  // set up timer2 to generate the wave period using the appropriate prescaler
   OpenTimer2(T2_ON | T2_SOURCE_INT | T2_PS_1_32, generate_period2);
   ConfigIntTimer2(T2_INT_ON | T2_INT_PRIOR_2);
-  mT2ClearIntFlag(); // and clear the interrupt flag
+  mT2ClearIntFlag(); 
   
   // set up compare3 for PWM mode
   OpenOC3(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time3, pwm_on_time3); //
-  //OpenOC3(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_ENABLE , pwm_on_time, pwm_on_time); //
   // OC3 is PPS group 4, map to RPB9 (pin 18)
   PPSOutput(4, RPB9, OC3);
 
-  // set pulse to go high at 1/4 of the timer period and drop again at 1/2 the timer period
+  // set up compare2 for PWM mode
   OpenOC2(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time2, pwm_on_time2);
   // OC2 is PPS group 2, map to RPB5 (pin 14)
   PPSOutput(2, RPB5, OC2);
 
   OpenOC4(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time4, pwm_on_time4);
-  // OC2 is PPS group 2, map to RPB5 (pin 14)
+  // OC4 is PPS group 3, map to RPB2
   PPSOutput(3, RPB2, OC4);
 
   OpenOC5(OC_ON | OC_TIMER2_SRC | OC_PWM_FAULT_PIN_DISABLE, pwm_on_time5, pwm_on_time5);
-  // OC2 is PPS group 2, map to RPB5 (pin 14)
+  // OC5 is PPS group 3, map to RPA2
   PPSOutput(3, RPA2, OC5);
-
-  //PPSInput(2, U2RX, RPB11);
   
   // === config the uart, DMA, vref, timer5 ISR ===========
   PT_setup();
@@ -535,7 +534,7 @@ int main(void)
   PT_INIT(&pt_cmd);
   PT_INIT(&pt_time);
   PT_INIT(&pt_serial_test);
-  //PT_INIT(&pt_prompt);
+  PT_INIT(&pt_prompt);
   
   // schedule the threads
   while (1)
