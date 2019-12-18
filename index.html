@@ -469,6 +469,33 @@
             </pre>
 
             <h4>Serial Communication</h4>
+
+            In order to implement two lines of serial communication on the PIC --
+            one to the computer for user input, and one to the Arduino to read the
+            color sensor values -- we referenced the instructions on <a
+              href="http://people.ece.cornell.edu/land/courses/ece4760/PIC32/index_UART.html">the class webpage.</a>
+
+            Using Protothreads 1.3.3, we used the main serial channel to communicate with the PC and the auxiliary
+            serial channel to communicate with the Arduino. For the serial PC communication, we used a UART to USB
+            serial cable, connecting RA1 to RX, RB10 to TX, and grounding both. Similarly, for the arduino, we connected
+            RB13 to the arduino RX and RB7 to the arduino TX.
+
+            To transmit and receive from the PIC32, we used the serial buffers for the main and auxiliary channels. To
+            write, using the main as an example:
+            <br><br>
+            <code>sprintf(PT_send_buffer, “hex #”);
+            PT_SPAWN(pt, &pt_DMA_output, PT_DMA_PutSerialBuffer(&pt_DMA_output));</code>
+            <br><br>
+            To read, using auxiliary as an example:
+            <br><br>
+            <code>PT_SPAWN(pt, &pt_input_aux, PT_GetSerialBuffer_aux(&pt_input_aux));
+            sscanf(PT_term_buffer_aux, “%s”, &hex_value);</code>
+            <br><br>
+            Please note that <code>PT_term_buffer_aux</code> is not originally defined in <code>pt_1_3_3.h.</code> This
+            is something we defined
+            based off of how <code></code>PT_term_buffer</code> was written.
+
+            <br><br>
             <h4>Feedback Control</h4>
             We opted to do user prompted feedback control due to the inconsistency
             of the color sensor. By prompting users if (1) they wanted to adjust t
