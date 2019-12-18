@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>ECE 5725: COOPY</title>
+  <title>ECE 4760: Happy Little Mixer</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -21,7 +21,7 @@
 
 <body id="page-top">
 
-<!-- Navigation 
+  <!-- Navigation 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="#">ECE 5725: COOPY</a>
@@ -54,7 +54,7 @@
       </div>
     </div>
   </nav>-->
-  
+
   <!-- Carousel Header -->
   <header>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -65,68 +65,51 @@
       </ol>
       <div class="carousel-inner" role="listbox">
         <!-- Slide One -->
-        <div class="carousel-item active" style="background-image: url(images/coopybigname.png)">
+        <div class="carousel-item active" style="background-image: url(images/fullsystem.jpg)">
           <div class="carousel-caption d-none d-md-block">
             <!--<h3 class="display-4">First Slide</h3>
             <p class="lead">This is a description for the first slide.</p>-->
           </div>
         </div>
         <!-- Slide Two -->
-        <div class="carousel-item" style="background-image: url(images/teembckg.png)">
+        <div class="carousel-item" style="background-image: url(images/hands.png)">
         </div>
         <!-- Slide Three -->
         <div class="carousel-item" style="background-image: url(images/coopybckg.png)"></div>
-        </div>
       </div>
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
     </div>
   </header>
 
   <header class="bg-light">
     <div class="container text-center">
-      <h7>Henri Clarke (hxc2), Michael Rivera (mr858)<br>
-        ECE 5725 Final Project<br>
-        Spring 2019 (5/16/19)</h7>
+      <h7>Henri Clarke (hxc2), Michael Rivera (mr858), Priya Kattappurath (psk92)<br>
+        ECE 4760 Final Project<br>
+        Fall 2019 (12/13/19)</h7>
       <p class="lead"></p>
     </div>
   </header>
 
-  <section id="blurb">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <p class="lead">
-              Enjoy reading about the process by which Coopy came to existence and now flourishes!
-              <br><br>
-              Our final demo video:
-              <br>
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/eLfm1pP-2vs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-              <br>
-              Read more about Coopy below! 
-              Our objective slowly changed over the course over the course of a few weeks, so the final product is a bit different than our initial anticipation.
-              <br><br>
-            </p>
-          </div>
-        </div>
-      </div>
-  </section>
-
-  <section id="objective" class="bg-light">
+  <section id="introduction">
     <div class="container">
       <div class="row">
         <div class="col-lg-8 mx-auto">
-          <h2>Objective</h2>
+
           <p class="lead">
-            To create a friendly autonomous system based off of the Lab 3 robot.
-            We envision that our system will be able to play the game “red light / green light” with a person using visual and audio cues, as well as a remote control.
-            The system will run off of a RPi Zero W, which will communicate, via bluetooth, with the “remote control” RPi 3.
+            <h2>Introduction</h2>
+            The Happy Little Mixer is an automatic ink mixer which accepts
+            either a hex user input and creates that color by measuring out
+            cyan, magenta, yellow, and black (CMYK) ink. It includes open-loop
+            feedback using a color sensor to correct the generated color, making
+            it as accurate as possible.
 
           </p>
         </div>
@@ -134,316 +117,490 @@
     </div>
   </section>
 
-  <section id="introduction">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <h2>Introduction</h2>
-            <p class="lead">
-              Coopy is a bluetooth based system which links a robot to a remote control base station.
-              The robot implements facial detection in order to properly orient itself with people.
-              The images captured by the robot are then wireless streamed to the base station for viewing.
-              The base station has a touchscreen and can be used to interact with the robot camera feed and driving system.
-              From the base station, Coopy’s new friend has the option to view the video stream, initiate the friendship wobble, or steer Coopy around with a remote control.
-  
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  <section id="design" class="bg-light">
+  <section id="design">
     <div class="container">
       <div class="row">
         <div class="col-lg-8 mx-auto">
-          <h2>Design & Testing</h2>
+          <p class="lead">
+            <h2>High Level Design</h2>
+
+            We wanted to create something that would spark joy in a user and
+            could be fun and interactive. Ideally, an ink mixer could be used
+            to help teach young artists how to mix colors, as well as the
+            principles of hue and saturation. It could also make the process of
+            creating specific colors easier, particularly for colorblind
+            artists. We called it a “happy little mixer” because we were
+            inspired by the well known phrase, “happy little trees,” used by
+            Bob Ross on his show “Joy of Painting.”
+
+            <br><br>
+
+            <h4>Logical Structure</h4>
+
+            <img src="images/logicalstructure.png" alt="System diagram" style="width:600px;">
+
+            <br>
+            Above is a general flow diagram of the system we provided for our
+            demo. The system will initially waits for a serial hex input from
+            the user and then convert it to CMYK values. With these values, we
+            determine how long each servo should dispense its corresponding
+            color. The system then waits for the user to indicate over serial
+            whether to make a color adjustment or return to the beginning. If
+            the user wants to make an adjustment, we prompt the to hold a
+            sample up to the color sensor for a more accurate reading and then
+            wait for the user to indicate they are ready. Once ready, the
+            system requests color data from an arduino attached to the color
+            sensor. The system then performs a similar conversion with the
+            color sensor data and compares the observed CMYK values with the
+            expected values. The user is prompted again if they would like to
+            make a color correction. If yes, then the system will attempt to
+            modify the saturation of the appropriate channels.
+
+            <br><br>
+
+            <h4>Hardware and Software Tradeoffs</h4>
+
+            Initially, our plan was to create a paint mixer, but the viscosity
+            of the paint introduced mechanical issues that we couldn’t figure
+            out in the given time, with the given budget. Consequently, we
+            opted to use printer ink mixed with water to create dyes.
+            Although this solved our initial budget issues, we encountered
+            issues with secure closing mechanisms and leaks. We were also
+            unable to implement closed loop feedback, because the color of dye
+            in liquid form greatly differs to its color on paper.
+
+            <br><br>
+
+            On the software end, to reduce the complexity of our code, we
+            decided to run our servos off a singular timer with four different
+            output compare units using it as a source. This required that the
+            corresponding duty cycle for each servo be calibrated not only for
+            that specific servo, but also relative to the other servos due to
+            their unique 20ms hold-off requirement.
+
+            <br><br>
+
+            <h4>Background Information</h4>
+            We used some basic arithmetic in the use for color conversion --
+            from hex, to RGB, to CMYK -- and scaling those results for output.
+            We also used basic arithmetic for error calculations for the
+            feedback system.
+            <br><br>
+            It should be noted that for CMYK colors, only two of the CMY
+            values are ever nonzero at any time unless you are working with a
+            grayscale value. Additionally, we had to modify the provided
+            protothreads header file, pt_1_3_3.h, as it had not defined the
+            auxiliary term buffer, which we needed to receive values from the
+            Arduino.
+            <br><br>
+            To our knowledge, there are no patents for a similar product,
+            although there are programs that do
+            <a href="https://trycolors.com/">virtual color mixing</a>.
+            We did not reference these in our development process.
+            <br><br>
+            This project complies with industry standards.
+
+          </p>
         </div>
       </div>
     </div>
   </section>
-  <section id="initialdesign">
+
+  <section id="mechanical">
     <div class="container">
       <div class="row">
         <div class="col-lg-8 mx-auto">
-          <h3>Initial Design</h3>
           <p class="lead">
-            Our initial designs were primarily focused on the behavioral and human interaction aspects of our robot.
-            Looking back at some projects from previous years, we found a number of them which had human interaction applications had somewhat impersonal designs.
-            We wanted a robot that could not only display certain behaviors, but also communicate those states in a way which is easily understandable -- and personable! -- to any user.
-            Initially, we took a lot of inspiration from Mira [2], a robot designed by Alonso Martinez to play peek-a-boo, and wanted to design something similarly simplistic and emotive, with many nuanced movements lending it personality.
-            We also referenced the movements of <a href = "https://www.youtube.com/channel/UCxseO_JzIiiJENauW2RmcJQ">Barnaby Dixon’s</a> puppets and the <a href = "http://guyhoffman.com/blossom-handcrafted-soft-social-robot/">Blossom robot</a> in trying to draw inspiration for natural movement from a robot.
-            
+            <h2>Mechanical Design</h2>
+
+            Our initial mechanical design differed from our final design.
+            This was because we changed our mind in deciding to use servos to
+            clamp the surgical tubing after we were in the process of printing
+            the already designed structure, and we decided to prioritize the
+            technical aspects of our project rather than spending time redoing
+            the external structure. We worked modularly and only assembled the
+            entire project in the final week.
             <br><br>
+            When we began to design the outer casing for our color mixer,
+            we knew we needed a place for the CMYK inks, servos, and places to
+            route the servo wires and the tubing. Keeping these ideas in mind,
+            we created a 3D model of our proposed casing, which included levels
+            to hold the ink and servos, holes to route the tubing, and slits for
+            wires. In order to print the casing in a reasonable amount of time,
+            we split the design into three sections. This proved very useful, as
+            we were able to modify our original design by rearranging the 3 pieces
+            to be better suited to hold the servos and tubing. We also added wooden
+            spacers, which gave us more vertical space so the tubing could fully
+            extend. Also, instead of using the premade holes in the casing only
+            for tubing, we used them to hold the servos, and later drilled extra
+            holes for the tubing.
             <center>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/A7iAMELA_TY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <br><small>Mira, designed by Alonso Martinez. We liked her simple but cute design and lifelike movements.<br>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/sUUtK9FFIt4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <br>Barnaby Dixon's bug puppet. We paid attention to the way the antennae add a life of their own without having to be manually moved, as well as the elasticity in the feet that make the feet have natural stepping movements.
-            We didn't end up adding anything external on because our design changed, but we were considering adding antennae to our own robot!<br>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/okFoKJK_N3w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <br>Blossom Robot by the Cornell's Human-Robot Collaboration and Companionship Lab.
-            We were intrigued by the soft exterior and considered using one for our robot.</small> <br>
+              <img src="images/casing.png" alt="Casing" style="width:600px;">
+              <br>
+              Screenshot of casing, designed with Fusion.</center>
+
+            <br><br>
+            We cut our [length] of tubing into four pieces. First, we tested to
+            ensure that the servos were capable of pinching the tubing shut.
+            After we determined the correct calibration, we drilled holes into
+            the 3D print to make space for the tubing and added the servos.
+            <br><br>
+            We added wooden spacers to allow the servos to move without hitting
+            the wall of the structure, then hot glued the next layer on. We
+            threaded the tubing through the top holes and used hot glue to secure
+            them in place and create a waterproof layer.
+            <br><br>
+            Next, we drilled holes into the bottom of the plastic bottles to be
+            slightly wider than the tubing. We then placed hot glue around the
+            tubing and slipping the plastic bottle on, then added additional hot
+            glue to create a water seal. We tested this with water to ensure that
+            there was no leakage, and that the servos were still capable of
+            clamping the tubing properly.
+            <br><br>
+            The servos were too low for a cup to fit under, so we sawed some
+            stilts from a scrap block of wood and glued them in for the
+            appropriate height. We also trimmed the tubing to ensure that they
+            wouldn’t get contaminated in the already mixed dye.
+            <br><br>
+            In retrospect, we could have done it more elegantly, but we did not
+            lay out our mechanical rigorously enough at the beginning and were
+            too pressed for time to redo it. In addition, the size of our 3D
+            printed pieces were limited by the upper limits of the 3D printer.
+            Despite these challenges, our final product was functional.
+
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="hardware">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <p class="lead">
+            <h2>Hardware Design</h2>
+            Our overall circuit design is as follows:
+            <center>
+              <img src="images/circuitdiagram.png" alt="Casing" style="width:600px;">
+              <br>
+              Overall circuit diagram.</center>
+
+            <h4>Small Board</h4>
+            To mount the PIC32 for this project, we utilized a Small Board
+            designed by Sean Carroll. The Small Board is a breakout carrier for
+            the PIC32. Our motivation for using this was primarily budget
+            constraints while maintaining the familiarity of a breakout board
+            similar to the one we had used for the previous labs in this class.
+
+            <center>
+              <img src="images/smallboard.png" alt="Casing" style="width:600px;">
+              <br>
+              Sean Carroll's small board.</center>
+
+            <br><br>
+            <h4>Parallax Standard Servos</h4>
+            Our initial plans for this project were to either use motor
+            controlled syringes or peristaltic pumps to dispense paint.
+            However, due to mechanical complexity and budget constraints
+            respectively, we settle on a gravity based system with surgical
+            tubing and servos to clamp them shut. We used standard servos
+            ecause they were readily available at the time courtesy of Joe
+            Skovira.
+            <br>
+            <br>
+
+            <center>
+              <img src="images/servo_wiring.png" alt="Casing" style="width:600px;">
+              <br>
+              Servo wiring, from <a href
+                url="https://www.parallax.com/sites/default/files/downloads/900-00005-Standard-Servo-Product-Documentation-v2.2.pdf">datasheet</a>.
+            </center>
+            <center>
+              <img src="images/servo_timing.png" alt="Casing" style="width:600px;">
+              <br>
+              Servo timing, from <a href
+                url="https://www.parallax.com/sites/default/files/downloads/900-00005-Standard-Servo-Product-Documentation-v2.2.pdf">datasheet</a>.
             </center>
 
-            <br><br>
-            At this point in the development cycle, our idea was for our robot, named Gloopy, to 1)  have natural movements and light-up cheek reactions, designed by us, in order to seem more alive and personable, and 2) to play Red Light, Green Light with a human.
 
             <br><br>
-            <center><img src = "images/proposalbase.JPG"></img><img src = "images/proposalshell.JPG"></img></center>
-            <br>
-            After organizing our plan and all the parts we (thought we) needed to build Coopy, we realized that we were close to being over budget and that designing and building all of the skeleton and shell would be expensive -- both in terms of time and money.
-            We headed downtown in search of a cheaper alternative for the robot’s dome-shaped head instead of trying to 3D-print it.
-            After a lot of searching, we found an Easter egg-carrying basket shaped like a chicken at Walmart (since we were searching shortly before Easter).
-            It was roughly the size we wanted and was a relatively light plastic -- and it had already been a long day.
-            While the shell wasn’t in accordance with our initial vision and would sacrifice the design component surrounding how the robot himself looked, it was still cute and was the best option for a shell that we could find.
-            <br><br>
-            <center><img src = "images/shell1.png"></img><img src = "images/shell2.png"></img></center>
-            <br>
+            Above are the wiring and timing schemes for the servos from their
+            datasheet. The servos have a power requirement of 4 to 6V and an
+            I/O input range of 3.3 to 5V. The required PWM timing is that pulse
+            widths should be between 0.75ms and 2.25ms, and pulses should be
+            separated by 20ms.
 
-            We then elected to use the top half of Coopy, as it fit comfortably over the Lab 3 robot’s base, and clipped all unnecessary plastic.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section id="initialdesign">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <h3>Final Design</h3>
-            <p class="lead">
-              Our final design of the Coopy system included:
-              <ul>
-                <li>A ground station, which has a Raspberry Pi 3 controlling a piTFT. Powered by a battery pack to enhance mobility! 
-                  The piTFT is displaying a GUI and serving as the server for the bluetooth communication.</li>
-                <li>A Coopy, which included
-                  <ul>
-                    <li>A chicken-shaped shell</li> 
-                    <li>A Raspberry Pi 3, serving as the client for facial recognition and bluetooth communication.</li>
-                    <li>A camera</li>
-                    <li>The lab 3 base</li>
-                    <li>A battery to power the Raspberry Pi 3</li>
-                  </ul>
-                </li>
+            <br><br>
+            <h4>Color Sensor + Arduino</h4>
 
-              </ul>
-              <center><img src = "images/coopyfinal.jpeg"></img></center>
-              Here is a state diagram detailing Coopy's logic in and between the remote control robot.
-              <br>
-              <center><img src = "images/states.jpg"></img></center>
-            </p>
-          </div>
-        </div>
-      </div>
-  </section>
-  <section id="design" class="bg-light">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 mx-auto">
-          <h3>Facial Detection (Camera + OpenCV)</h3>
-          <p class="lead">
-              We first checked to ensure that the camera was functional. 
-              We did this with the python Picamera library [4], using the provided file recipes to display the images on a monitor. Initially, we set this up with the Raspberry Pi 0W, which we wanted to keep inside of the robot in order to have a smaller design.
-              <br><br><center>
-              <img src = "images/campic1.jpeg"></img>
-              <img src = "images/campic2.jpeg"></img>
-              <br><br></center>
-              However, we discovered that the Raspberry Pi Zero W did not have the processing power to control the wheel servos, run a camera, and perform facial recognition all at the same time without sacrificing product usability! Instead, we chose to replace the Pi Zero with an additional Raspberry Pi 3 in order to perform what we needed.
-              <br><br>
-              From there, we installed OpenCV, following the steps from the Fall 2015 ECE 5725 project website, Face Recognition System, done by Jingyao Ren and Andre Heil [8].
-              We attempted the installations referenced in the OpenCV installation folder found on Blackboard, but did not find much success with them.
-              To test that the installation was successful, we used their 1_single_core.
-            py.
-              The file takes advantage of the built-in Local Binary Patterns algorithm and corresponding training files from OpenCV.
-            
-              <br><br>
-              We found that the above algorithm tended to struggle with maintaining consistent recognition of people if their faces were turned or angled. This was not ideal for our initial vision of Coopy being able to learn to recognize people, as intermittent identification could be interpreted as the detection of 2 different people.
-              <br><br>
-              As acknowledged and explored in the 2015, the previously mentioned file, 1_signel_core.
-              py, only utilizes a single processor, and could be improved by implementing multiprocessing.
-              We elected not to incorporate multiprocessing because it would make our synchronization scheme exponentially more difficult.
-              The presentation of images in the 2015 project is done on a locally connected device, where as our images are transmitted to a remote base station and must appear in order.
-              We encountered a number of communication timing issues with the development of our system, so the added complexity of synchronization with multiprocessing was not ideal.
-            
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section id="neopixels">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <h3>Neopixels</h3>
-            <p class="lead">
-                This part did not make it onto our final project due to software requirement issues: the library necessary to run NeoPixels off of a Raspberry Pi necessitates Python 3, whereas the version of OpenCV we installed was for Python 2.
-                Facial detection was more important, so we opted not to use NeoPixels.
-               <br><br>
-               However, we were able to make cool things happen with them after following the <a href = "https://learn.adafruit.com/neopixels-on-raspberry-pi/overview">tutorials online</a> [9].
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+            We used the color sensor <a href url="https://www.adafruit.com/product/1334">TCS34725.</a>
+            <br><br>
+            Other than the normal wiring of the Color Sensor (which is in the
+            circuit diagram for the project), we also needed to add additional
+            circuitry between the Arduino transmit pin (pin 1) and the receive
+            pin on the PIC32 (PIN RB13). This is because the Arduino runs on 5V
+            power, and the PIC32 runs on 3.3V. Therefore, we needed to add a low
+            pass filter between these two pins, in order to make sure the PIC32
+            wasn’t overloaded.
 
-  <section id="gui" class="bg-light">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 mx-auto">
-          <h3>Base Station GUI</h3>
-          <p class="lead">
-              Because the GUI on the base station is the primary way the user interacts with Coopy, we wanted the GUI to be a reflection of Coopy’s personality. We wanted Coopy to be a warm and inviting robot friend, so we chose a simple but bright color scheme and design. The screens on the GUI menu were as follows:
-            <br><br>
-            Start screen: press start in order to navigate to the home screen.
-            <center><img src = "images/start.png"></img></center>
-            <br>
-            Home screen: has varying options of ways to interact with Coopy. Initially, we had many plans of how to interact. One idea, for example, was to have the user play a game on the piTFT, and as they lost or won Coopy would emote accordingly using their nuanced movements. 
-            <br><br>
-            <center><img src = "images/home.png"></img></center>
-            <br>
-            Friend: Coopy shakes back and forth in excitement about friendship!
-            <br><br>
-            Camera: A live video feed displays on screen; as Coopy identifies faces, he labels them as “friends” and tries to follow them with his face.
-            <br><br>
-            <center><img src = "images/facescreenshot.png"></img></center>
-            <br>
-            Drive: Coopy enters remote control mode. The user can drive Coopy around by pressing on the screen in the direction (relative to the center) that they want Coopy to drive in.
-            <br><br>
-            <center><img src = "images/drive.png"></img></center>
-            <br>
-            As a whole, we were running the GUI on the computer, so we were caught off guard when we began to run it on the piTFT and the screen was not responding to our touches.
-            In order to check that it wasn’t just the GUI code that was failing, we checked the screen_coordinates.
-           py file from Lab 2, which displays the coordinates of the touch location -- the touches were jumping around strangely where we had not touched them.
-            We realized that the reason this was happening was because we had uninstalled a specific downgrade (which we had installed in Lab 2) that fixed some weird piTFT touch screen bugs caused by the upgrade from Wheezy to Jessie and Stretch.
-            This happened at some point when we were installing new libraries or packages and rewrote that specific downgrade by mass updating our system.
-            
-           <br><br>
-           In order to fix those weird touchscreen bugs, we went through the process outlined in the Lab 2, Week 2 handout under “piTFT touch control.
-           ” [7]
-           
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="bluetooth">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <h3>Bluetooth</h3>
-            <p class="lead">
-                Bluetooth was used as the primary means of communication between the different devices of our system.
-                We utilized the Bluedot Comm API [6] to streamline communication.
-                The API allows for character strings to be transmitted between a paired server and client.
-                In our initial design of the communication protocol, we attempted to transmit images over the bluetooth connection.
-                Unfortunately, Bluedot does not send entire strings, but rather terminal representations of those strings.
-                When sending entire images, the pixel arrays generated by OpenCV were reduced to a few entries concatenated by ellipses, resulting in over 90% of the information being lost in transmission.
-                We attempted to remedy this by decreasing the packet sizes and increasing the transmission rate.
-                This, however, resulted in an unforeseen consequence of randomly introducing erroneous characters into our transmissions.
-                We attempted to parse these characters out, but we found that these error characters would occasionally replace characters.
-                Having to perform error checking and failsafe measures to recover data slowed down our system to an almost inoperable rate.
-                <br><br>
-               We no longer use bluetooth to handle file transfers, instead opting for sockets.
-                We primarily use bluetooth now for simple single character strings which are sent between the server and the client.
-                Using the Bluedot callback functions, we are able to change the state of each device upon receiving a new character.
-                <br><br>
-               To properly run the Bluedot API, one must first pair the devices.
-                Bluedot provides a guide on pairing Raspberry Pi’s from the command line in its documentation.
-               
-               
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-   <section id="sockets" class="bg-light">
+  <section id="software">
     <div class="container">
       <div class="row">
         <div class="col-lg-8 mx-auto">
-          <h3>Sockets</h3>
           <p class="lead">
-              We resorted to using sockets for file transfers after realizing it was impractical to do everything over bluetooth.
-              Upon a bluetooth connection between our devices, the server sends its wlan0 address to the client.
-              This address is then used for all future socket connections.
-              Every time we need to transmit a new image, the client sends a message to the server indicating it has a new image via bluetooth.
-              The client then opens a new socket and writes to the socket until it reaches the end of the file.
-              Once it has completed, it then switches to a waiting mode and closes the socket.
-              The server will then write the image locally and transmit via bluetooth to the client that it has finished writing.
-              The client then reverts back to a writing mode.
-             <br><br>
-             We initially attempted this by having separate processes write and display the images.
-              This occasionally caused timing issues when one process was not finished writing and the other attempted to read.
-              To resolve this, the writing and display of images were added to the data_received callback function in the server code.
+            <h2>Software Design</h2>
+            <h4>CMYK Conversion</h4>
+            RGB values are colors defined by the amounts of red, green, and blue
+            light they contain. CMYK values are colors defined by the amounts of
+            cyan, magenta, yellow, and black pigment they contain. We used the
+            CMY primary colors because we were mixing pigment, and we decided to
+            allow the user to pick a HEX value -- which are simply RGB values
+            strung together in hexadecimal to make a 6-digit string -- because
+            it would be an easier format for a user to enter. Thus, we needed to
+            convert from HEX to CMYK.
+
+            Very coincidentally, someone had already written a <a href
+              url="http://www.javascripter.net/faq/hex2cmyk.htm">HEX to CMYK
+              conversion in JavaScript. </a>We used its logic to write our own HEX
+            to CMYK conversion in C. Our conversion took a HEX code as character
+            array of length 6, pulled the RGB values from it, then converted
+            those according to the referenced code.
+
+
+            <br><br>
+            <h4>Color Sensing</h4>
+            The TCS34725 came with its own arduino source code and library.
+            Here is a link to the <a href url="https://github.com/adafruit/Adafruit_TCS34725"> original github repo.</a>
+            In this code, we took the example tcs34725.ino, renamed it COLORSENSOR.ino, and modified it to fit our
+            needs. <br><br>
+            The original code got the raw RGB values and also some extra
+            calculations such as color temperature, which we removed.
+            The color sensor raw outputs range from 0-65535. In order to make
+            them usable RGB values, we divided the raw value by 256 to scale it
+            to 0-255. However, this number usually ended up fairly small within
+            the 0-255 range (generally under 30), so multiplied it by 10.
+            Sometimes the “multiply by 10” put the value above 255.
+            In this case, we did a second scale to the RGB values so the
+            highest one is 255 and the rest are scaled down accordingly.
+            <br><br>
+            Once we had usable RGB values between 0-255, we converted the values
+            float to integer. This integer was compared to the previous RGB
+            values, which were saved in global variables. If the value is the
+            same as the previous value, it will then convert those integer RGB
+            values to hex and then put them into strings, which are concatenated
+            and then sent serially to the PIC. If the values do not match the
+            global variables, we set the current values to the global variables
+            and begin the scan again. The requirement for the values to be
+            matched allows for greater accuracy in which color is output.
+            <br><br>
+            <h4>PWM and Servo Control</h4>
+            For this project, we utilized a singular timer with four different output compare units using it as a
+            source. The four output compare units were wired to RB9, RB5, RB2, and RA2, each generating a PWM signal for
+            a different servo. Servos were initialized to a closed state based on how they had been mounted. Once ready
+            to dispense the dye, we used the values from the CMYK conversion as timing for how long each servo should be
+            open. We scaled the values, so the maximum time a servo could be open was one second and the minimum was ten
+            milliseconds. To have each servo remain in a given position, we found that setting the corresponding duty
+            cycle to zero worked. We were then able to target each servo individually, modifying the period and
+            corresponding duty cycle. We created the timings by having the servo thread yield for the specified time as
+            shown below.
+
+            <pre>
+              generate_period2 = (int)(((20.0 + 0.85) / 32.0) * 40000);
+              pwm_on_time3 = (int)((0.85 / 32.0) * 40000);
+              WritePeriod2(generate_period2);
+              SetDCOC3PWM(pwm_on_time3);
+              PT_YIELD_TIME_msec(10*error_m);
+            </pre>
+
+            Additionally, to have the timer count for larger intervals, we
+            increased the prescaler in the timer declaration.
+
+            <pre>
+              OpenTimer2(T2_ON | T2_SOURCE_INT | T2_PS_1_32, generate_period2);
+            </pre>
+
+            <h4>Serial Communication</h4>
+            <h4>Feedback Control</h4>
+            We opted to do user prompted feedback control due to the inconsistency
+            of the color sensor. By prompting users if (1) they wanted to adjust t
+            he color and (2) to hold a sample up to the color sensor, we could
+            obtain a more accurate reading without having to handle the color
+            sensor being splashed (if we had placed the sensor close to the
+            mixture) and reflectance of the color sensor’s LED (if we had used
+            a clear container for the mixture).
+
+            <br><br>
+            To perform feedback, we wrote a simple ready/request protocol, where
+            the Arduino would initialize and waiting for a request from the
+            PIC32. When a user requested a color adjustment, we would then write
+            a request to the auxiliary serial buffer and then wait for Arduino.
+            The Arduino would then read to color sensor, convert the value to hex,
+            and write that to the serial buffer before going back to its ready state.
+            The PIC32 would then use HEX to CMYK conversion and compare the sensor
+            values with the expected color values.
+
+            <br><br>
+            We again prompted the user, displaying both the observed and expected
+            values, asking the user if they wanted to proceed with an adjustment.
+            If yes, then we observed which of the expected color channels (CMY)
+            were zero, because at most two are nonzero at any one time, and
+            calculated additive adjustments for the nonzero channels as shown below.
+            For the black channel, we only checked if the observed color was too
+            bright, and then added more pigment if so. We then used the adjustment
+            values to control the servo timings to dispense the appropriate amount
+            of pigment for the adjustment.
+            <br><br>
+            <pre>
+              if(final_c &lt; 5){ 
+                if(y2 &lt; final_y){
+                  error_y = final_y - y2;
+                  }
+                if(m2 &lt; final_m){
+                  error_m=final_m - m2;
+                }
+              }
+            </pre>
+
+            <br><br>
+
+            <h4>Aside: Color Sensor as Input</h4>
+            Although this did not make our final demo code due to time
+            constraints, we did write code to use the color sensor as an input
+            option in addition to the terminal hex value. The idea behind this
+            was to be able to replicate the colors of specific objects. The code
+            functioned similarly to the user prompted feedback control in that
+            the system would ask the user whether they would want to input a hex
+            code or scan an object. This version was not included in our demo
+            due to inaccuracy of the color sensor on objects with reflective
+            surfaces and variable ambient lighting conditions.
+
           </p>
         </div>
       </div>
     </div>
-  </section> 
-
-
-  <section id="result">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <h3>Result</h3>
-            <p class="lead">
-                Over the past few weeks, the vision of our project transitioned away from a facial detection and behavioral analysis project to more of a communication and synchronization project.
-                Our initial idea was to create a robot which could detect and remember new people.
-                The robot would then react differently to known users (as opposed to random passersby) through robot movement and neopixel LED arrays.
-                However, as we worked with facial detection, we realized that training our robot to detect individuals in such a limited time with a robot would be extremely difficult (if not impossible), especially as our camera feed became very slow.
-                In addition, we had envisioned spending more effort on the reactions and making them more realistic and personal; however, that changed as we ran out of time and realized that we needed to focus more on the communication aspects of the project.
-                It is very difficult to design a visually friendly robot on top of the technical challenges we took on, so one of them definitely had to be cut down.
-               <br><br>
-               However, during week 3 we changed our vision for the demo to be a robot who would recognize a face and have his cheeks change color because he’s happy to make a friend.
-                This was because we realized that functional camera and facial recognition was more important than Bluetooth and could still be a reasonable product.
-                While we didn’t make Coopy’s cheeks change colors due to different technical issues, we did have a reaction as a result to facial detection (ie.
-                trying to follow the face).
-                In this sense, we did successfully achieve our outlined results.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  <section id="conclusion" class="bg-light">
+  </section>
+  <section id="results" class="bg-light">
     <div class="container">
       <div class="row">
         <div class="col-lg-8 mx-auto">
-          <h3>Conclusion</h3>
           <p class="lead">
-              We were able to develop a two-way communication system which actively present facial detection information in real time.
-              While this was a technical feat, we also developed a robot that won over the hearts of many of our peers -- thus succeeding in our quest of making a friendly and personable design.             
+            <h2>Results of Design</h2>
+            The final results of the project may be seen in our demo video:
+            <br>
+            <center>
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/Y1xkPBjU8A4" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </center>
+            <br><br>
+            <h4>Speed</h4>
+            The servos’ response to the user’s hex input is very fast, which you
+            can see here (since it was too fast to be caught in the demo):
+
+            <br><br>
+            The scanning, on the other hand, takes a variable amount of time.
+            In order to maintain accuracy, the arduino will only send color data
+            if the color sensor detects the same RGB values twice in a row. While
+            this generally means that the scan will be accurate, it also means
+            that slight physical movements of the color sensor or surrounding
+            light will cause the scanning to take a longer amount of time.
+
+            <br><br>
+            <h4>Accuracy</h4>
+            <br><br>
+            <h4>Safety</h4>
+            Our project was safe on its own -- but a project involving lots of
+            liquid in an electronics lab has the capability for mild disaster.
+            In order to ensure that the liquid stayed away from electricity, we
+            were careful about where we placed liquid. We always kept our project
+            and any liquid in a Rubbermaid container so that any spills would be
+            contained.
+            <br><br>
+            <h4>Usability</h4>
+            Our project by nature is accessible to people with colorblindness,
+            because it is not necessary to distinguish colors visually in order
+            to create a certain color.
+            <br><br>
+            The physical design of our project is somewhat inaccessible.
+            Loading and removing the cup to catch ink, filling the containers,
+            and ensuring the tubes don’t splatter everywhere requires dexterity
+            that some people may not have. Even with small hands, interchanging
+            the cups resulted in getting ink on one’s hands. To improve this in
+            future iterations, we would put more thought into the mechanical
+            design to be open and secure.
+
           </p>
         </div>
       </div>
     </div>
-  </section> 
+  </section>
 
-  <section id="future">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <h3>Future Work</h3>
-            <p class="lead">
-                If we had more time, we would have explored multiprocessing with facial detection and the video stream.
-                Although this would add synchronization challenges to our project, the benefits of increased efficiency and processor utilization could outweigh the costs of implementing multiprocessing.
-              <br><br>
-               Another area we were considering exploring were voice commands and user interactive games such as Red Light, Green Light.
-                Voice commands would require the implementation of speech recognition.
-                Red Light, Green Light would require that the robot be able to identify which person in its view is directing the game.
-              <br><br>               
-               We also wanted to make Coopy much more personable.
-                Initially, we’d wanted to add NeoPixels to his cheeks, which would glow different colors and patterns to indicate an emotional response.
-                However, we weren’t able to do that with the software and time restrictions that we had.
-                Exploring the NeoPixels and additional mechanical movement would be a fun and interesting direction.
-              <br><br>
-                   
-            </p>
-          </div>
+
+  <section id="conclusions">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+
+          <p class="lead">
+            <h2>Conclusions</h2>
+            We were unsure that our project would actually function, as our
+            initial plans changed and we ended up having to improvise a lot of
+            aspects of the project. However, we were able to create an ink mixer
+            that could successfully mix colors based on a hex input and respond
+            successfully to open-loop feedback -- in that sense, our project met
+            expectations.
+            <br><br>
+            We were forced to be adaptive with our design, since we initially
+            proposed creating a paint mixer. However, we realized that the
+            viscosity of paint presented many more mechanical challenges in
+            dispensing and mixing the paint -- which were not our technical
+            focus (as we were more interested in the color feedback), had a
+            larger propensity for failure (due to a lot of moving parts), and
+            were pushing the budget limit -- so we switched to working with inks.
+            In the future, with more time to figure out a mechanical system, it
+            would be fun to create a paint mixer -- but for the time given, it
+            was more practical to create an ink mixer.
+            <br><br>
+            One issue we ran into was a lack of “true” primary colors. The inks
+            we used were cheap printer inks, and their corresponding cyan, magenta,
+            and yellow were not true to the actual cyan, magenta, and yellow colors.
+            <br><br>
+
+            <br><br>
+            In the future, we’d like to either 1) purchase better inks or 2) somehow
+            compensate for the error in our color conversion. We considered trying
+            to figure out how to convert from RGB to the slightly inaccurate CMYK,
+            but did not do so due to time constraints -- and our results were
+            approximately correct, anyway. We’d also like to do more tests with
+            more highly concentrated colors, since we watered down our inks, and
+            with more absorbent paper (like watercolor paper).
+            <br><br>
+            We were proactive in creating a mechanical design early, with the
+            hopes of filling it nicely and having a polished product. After we
+            changed designs, however, we had to improvise a lot and had a somewhat
+            disheveled-looking end result. If we were to do it over again, we would
+            ideally have knowledge of our full design before creating the model,
+            so that we could make one that actually fit our mechanical design and
+            was easily usable by the user.
+            <br><br>
+            In a similar aesthetic vein, we would also clean up the PuTTY output
+            to be more visually appealing, or perhaps create a GUI that would
+            allow the user to pick their color on a visual color picker rather
+            than just entering the hex code.
+
+          </p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
   <section id="references" class="bg-light">
     <div class="container">
@@ -452,17 +609,23 @@
           <h3>References</h3>
           <p class="lead">
             <ol>
-              <li> <a href = "https://youtu.be/eLfm1pP-2vs">Our Youtube video</a></li>
-              <li> <a href = "https://www.youtube.com/watch?v=0vfuOW1tsX0"> Alonso Martinez’ Hand-Crafted Robots </a></li>
-              <li> <a href = "https://www.youtube.com/watch?v=okFoKJK_N3w"> Blossom Robot</a> </li>
-              <li> <a href = "https://picamera.readthedocs.io/en/release-1.13/recipes1.html">Picamera Library Docs</a> </li>
-              <li> <a href = "https://www.pyimagesearch.com/2015/07/27/installing-opencv-3-0-for-both-python-2-7-and-python-3-on-your-raspberry-pi-2/"> Full installation guide for opencv </a></li>
-              <li> <a href = "https://bluedot.readthedocs.io/en/latest/btcommapi.html">Bluedot Comm API</a></li>
+              <li> <a href="https://youtu.be/eLfm1pP-2vs">Our Youtube video</a></li>
+              <li> <a href="https://www.youtube.com/watch?v=0vfuOW1tsX0"> Alonso Martinez’ Hand-Crafted Robots </a></li>
+              <li> <a href="https://www.youtube.com/watch?v=okFoKJK_N3w"> Blossom Robot</a> </li>
+              <li> <a href="https://picamera.readthedocs.io/en/release-1.13/recipes1.html">Picamera Library Docs</a>
+              </li>
+              <li> <a
+                  href="https://www.pyimagesearch.com/2015/07/27/installing-opencv-3-0-for-both-python-2-7-and-python-3-on-your-raspberry-pi-2/">
+                  Full installation guide for opencv </a></li>
+              <li> <a href="https://bluedot.readthedocs.io/en/latest/btcommapi.html">Bluedot Comm API</a></li>
               <li> ECE 5725, Spring 2019, Lab 2 Week 2 Handout: Lab2_Spring2019_v3, pg. 11-14</li>
-              <li> <a href = "https://courses.ece.cornell.edu/ece5990/ECE5990_Fall15_FinalProjects/Andre_Heil/ece5990_final_report/avh34_jr986.html">Face Recognition System</a></li>      
-              <li> <a href = "https://learn.adafruit.com/neopixels-on-raspberry-pi/overview">Neopixel Raspberry Pi Tutorial</a></li>  
+              <li> <a
+                  href="https://courses.ece.cornell.edu/ece5990/ECE5990_Fall15_FinalProjects/Andre_Heil/ece5990_final_report/avh34_jr986.html">Face
+                  Recognition System</a></li>
+              <li> <a href="https://learn.adafruit.com/neopixels-on-raspberry-pi/overview">Neopixel Raspberry Pi
+                  Tutorial</a></li>
             </ol>
-            </p>
+          </p>
         </div>
       </div>
     </div>
@@ -476,12 +639,16 @@
         <div class="col-lg-8 mx-auto">
           <h3>Work Distribution</h3>
           <p class="lead">
-              During the beginning of the lab, both Henri and Michael worked on the project’s synthesis and problem-solving together, often pair-programming.
-              As time constraints wore on the ability for both members of the team to come in at the same time (and necessitated rushing to finish), responsibilities were split based on who could come in more.
-              Henri focused more on the GUI and NeoPixels and worked some on the facial recognition, while Michael focused more on facial recognition and making the communication protocol between Pis work.
-             <br><br>
-             On the lab report, Henri and Michael wrote about the parts they worked the most on while collaborating on the general project-related sections and editing each other’s work.
-              Henri organized the information on the web page.
+            During the beginning of the lab, both Henri and Michael worked on the project’s synthesis and
+            problem-solving together, often pair-programming.
+            As time constraints wore on the ability for both members of the team to come in at the same time (and
+            necessitated rushing to finish), responsibilities were split based on who could come in more.
+            Henri focused more on the GUI and NeoPixels and worked some on the facial recognition, while Michael focused
+            more on facial recognition and making the communication protocol between Pis work.
+            <br><br>
+            On the lab report, Henri and Michael wrote about the parts they worked the most on while collaborating on
+            the general project-related sections and editing each other’s work.
+            Henri organized the information on the web page.
           </p>
         </div>
       </div>
@@ -489,113 +656,115 @@
   </section>
 
   <section id="parts" class="bg-light">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <h3>Parts List</h3>
-            <p class="lead">
-                We used some components from lab that were exempt from our budget:
-                <br><br>
-                <table style="border:1px solid black; width:100%">
-                    <tr>
-                      <th><b>Lab Components Used</b></th>
-                      <th><b>Price</b></th> 
-                    </tr>
-                    <tr>
-                      <td>Raspberry Pi 3</td>
-                      <td>$25</td> 
-                    </tr>
-                    <tr>
-                      <td>piTFT screen</td>
-                      <td>$25</td> 
-                    </tr>
-                    <tr>
-                        <td>Expansion cable</td>
-                        <td>$4</td> 
-                    </tr>
-                    <tr>
-                        <td>Case</td>
-                        <td>$4</td> 
-                    </tr>
-                    <tr>
-                        <td>Assembled Lab 3 Robot
-                          <ul>
-                            <li>2 continuous rotation servos</li>
-                            <li>2 wheels</li>
-                            <li>2 motor brackets</li>
-                            <li>Lower deck</li>
-                            <li>Upper deck</li>
-                            <li>Small proto-board</li>
-                            <li>Caster assembly</li>
-                            <li>Assorted fasteners</li>
-                          </ul>
-                        </td>
-                        <td>$4</td> 
-                    </tr>
-                    <tr>
-                        <td><b>Total</b></td>
-                        <td><b>$58ish</b></td> 
-                    </tr>
-                  </table>
-                  <br><br>
-                  In addition to the components utilized from lab, we purchased or borrowed components that factored into our budget allocated ($100)
-                  <br><br>
-                  <table style="border:1px solid black; width:100%">
-                  <tr>
-                    <th><b>Component Purchased</b></th>
-                    <th><b>Quantity</b></th>
-                    <th><b>Vendor</b></th>
-                    <th><b>Price</b></th>
-                  </tr>
-                  <tr>
-                      <td>Raspberry Pi Camera Board v2 - 8 Megapixels</td>
-                      <td>1</td>
-                      <td>Adafruit</td>
-                      <td>$35</td>
-                  </tr>
-                  <tr>
-                      <td>Raspberry Pi 3</td>
-                      <td>1</td>
-                      <td>Professor Skovira</td>
-                      <td>$25</td>
-                  </tr>
-                  <tr>
-                      <td>Chicken shell</td>
-                      <td>1</td>
-                      <td>Walmart</td>
-                      <td>$5</td>
-                  </tr>
-                  <tr>
-                      <td><b>Total</b></td>
-                      <td></td>
-                      <td></td>
-                      <td><b>$65</b></td>
-                  </tr>
-                  </table>
-                  <br><br>
-                  We were well within our budget, although we did buy some parts (like the NeoPixels) which we did not use on our final robot.
-            </p>
-          </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h3>Parts List</h3>
+          <p class="lead">
+            We used some components from lab that were exempt from our budget:
+            <br><br>
+            <table style="border:1px solid black; width:100%">
+              <tr>
+                <th><b>Lab Components Used</b></th>
+                <th><b>Price</b></th>
+              </tr>
+              <tr>
+                <td>Raspberry Pi 3</td>
+                <td>$25</td>
+              </tr>
+              <tr>
+                <td>piTFT screen</td>
+                <td>$25</td>
+              </tr>
+              <tr>
+                <td>Expansion cable</td>
+                <td>$4</td>
+              </tr>
+              <tr>
+                <td>Case</td>
+                <td>$4</td>
+              </tr>
+              <tr>
+                <td>Assembled Lab 3 Robot
+                  <ul>
+                    <li>2 continuous rotation servos</li>
+                    <li>2 wheels</li>
+                    <li>2 motor brackets</li>
+                    <li>Lower deck</li>
+                    <li>Upper deck</li>
+                    <li>Small proto-board</li>
+                    <li>Caster assembly</li>
+                    <li>Assorted fasteners</li>
+                  </ul>
+                </td>
+                <td>$4</td>
+              </tr>
+              <tr>
+                <td><b>Total</b></td>
+                <td><b>$58ish</b></td>
+              </tr>
+            </table>
+            <br><br>
+            In addition to the components utilized from lab, we purchased or borrowed components that factored into our
+            budget allocated ($100)
+            <br><br>
+            <table style="border:1px solid black; width:100%">
+              <tr>
+                <th><b>Component Purchased</b></th>
+                <th><b>Quantity</b></th>
+                <th><b>Vendor</b></th>
+                <th><b>Price</b></th>
+              </tr>
+              <tr>
+                <td>Raspberry Pi Camera Board v2 - 8 Megapixels</td>
+                <td>1</td>
+                <td>Adafruit</td>
+                <td>$35</td>
+              </tr>
+              <tr>
+                <td>Raspberry Pi 3</td>
+                <td>1</td>
+                <td>Professor Skovira</td>
+                <td>$25</td>
+              </tr>
+              <tr>
+                <td>Chicken shell</td>
+                <td>1</td>
+                <td>Walmart</td>
+                <td>$5</td>
+              </tr>
+              <tr>
+                <td><b>Total</b></td>
+                <td></td>
+                <td></td>
+                <td><b>$65</b></td>
+              </tr>
+            </table>
+            <br><br>
+            We were well within our budget, although we did buy some parts (like the NeoPixels) which we did not use on
+            our final robot.
+          </p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="future">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-8 mx-auto">
-              <h3>Code Appendix</h3>
-              <p class="lead">
-                  The only files necessary to run the project are:
-                  <br>
-                  <b>coopyServer.py</b>, the server/base station code, and <br>
-  
-                  <b>coopyBot.py</b>, the robot/image processing code
-                  <br><br>
-                  Please note, the devices must still be manually paired for bluetooth.
-                <br>
-                <h4 id=coopyBot> coopyBot.py </h4>
-                <pre><code>
+  <section id="future">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h3>Code Appendix</h3>
+          <p class="lead">
+            The only files necessary to run the project are:
+            <br>
+            <b>coopyServer.py</b>, the server/base station code, and <br>
+
+            <b>coopyBot.py</b>, the robot/image processing code
+            <br><br>
+            Please note, the devices must still be manually paired for bluetooth.
+            <br>
+            <h4 id=coopyBot> coopyBot.py </h4>
+            <pre><code>
                 ###############################################################################
                 #                                                                             #
                 # original file:    4_multi_core.py                                           #
@@ -830,8 +999,8 @@
 
 
 
-                <h4 id=coopyServer> coopyServer.py </h4>
-                <pre><code>
+            <h4 id=coopyServer> coopyServer.py </h4>
+            <pre><code>
                 # Henri Clarke (hxc2), Michael Rivera (mr858)
                 # Wednesday lab
                 # Final Project
@@ -1077,19 +1246,19 @@
 
                 s.close()
                 </code></pre>
-              </p>
-            </div>
-          </div>
+          </p>
         </div>
-      </section>
+      </div>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; 2019</p>
-      </div>
-      <!-- /.container -->
-    </footer>
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; 2019</p>
+    </div>
+    <!-- /.container -->
+  </footer>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
