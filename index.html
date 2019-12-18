@@ -365,7 +365,15 @@
             <br><br>
             <h4>Color Sensor + Arduino</h4>
 
-            We used the color sensor <a href="https://www.adafruit.com/product/1334">TCS34725.</a>
+            We used the color sensor <a href="https://www.adafruit.com/product/1334">TCS34725</a>, which we connected
+            according to the datasheet:
+            <br><br>
+            <center>
+              <img src="images/colorsensortoarduinowiring.png" alt="Casing" style="width:600px;">
+              <br>
+              Color sensor to Arduino wiring.
+            </center>
+
             <br><br>
             Other than the normal wiring of the Color Sensor (which is in the
             circuit diagram for the project), we also needed to add additional
@@ -492,6 +500,13 @@
             is something we defined
             based off of how <code></code>PT_term_buffer</code> was written.
 
+            Our PuTTY output looked like this:
+            <center>
+              <img src="images/1c4b5e.png" alt="Casing" style="width:600px;">
+              <br>
+              PuTTY output while creating color 1C4B5E
+            </center>
+
             <br><br>
             <h4>Feedback Control</h4>
             We opted to do user prompted feedback control due to the inconsistency
@@ -586,7 +601,10 @@
             <br><br>
             <h4>Accuracy</h4>
 
-
+            <center>
+              <img src="images/1C4B5E.jpg" alt="Casing" style="width:600px;">
+              <br>
+            </center>
             <table style="border:1px solid black; width:100%">
               <tr>
                 <th><b>Scan: #1C4B5E</b></th>
@@ -637,6 +655,10 @@
             add any more black, as there is already too much, and instead adds more cyan and magenta in order to correct
             the color.
             <br><br>
+            <center>
+              <img src="images/FFAB00.jpg" alt="Casing" style="width:600px;">
+              <br>
+            </center>
             <table style="border:1px solid black; width:100%">
               <tr>
                 <th><b>Scan: <div id="FFAB00"></div></b></th>
@@ -686,6 +708,10 @@
             pigmented. In the second time around, while there was more yellow and magenta, there still wasn’t as much
             pigment as the original color, so the color sensor added more.
             <br><br>
+            <center>
+              <img src="images/BE19F0.jpg" alt="Casing" style="width:600px;">
+              <br>
+            </center>
             <table style="border:1px solid black; width:100%">
               <tr>
                 <th><b>Scan: #BE19F0</b></th>
@@ -735,6 +761,10 @@
             stayed consistent through the feedback runs. Looking at the PuTTY output, we can see that the color sensor
             was attempting to make each of the colors more saturated.
             <br><br>
+            <center>
+              <img src="images/19FA82.jpg" alt="Casing" style="width:600px;">
+              <br>
+            </center>
             <table style="border:1px solid black; width:100%">
               <tr>
                 <th><b>Scan: #19FA82</b></th>
