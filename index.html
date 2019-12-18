@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>ECE 5725: COOPY</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/header-features.css" rel="stylesheet">
+
+
+</head>
+
+<body id="page-top">
+
+<!-- Navigation 
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">ECE 5725: COOPY</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#intro">Introduction</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#design">Design/Testing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#results">Results</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#future">Future Work</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#references">References</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>-->
+  
+  <!-- Carousel Header -->
+  <header>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+        <!-- Slide One -->
+        <div class="carousel-item active" style="background-image: url(images/coopybigname.png)">
+          <div class="carousel-caption d-none d-md-block">
+            <!--<h3 class="display-4">First Slide</h3>
+            <p class="lead">This is a description for the first slide.</p>-->
+          </div>
+        </div>
+        <!-- Slide Two -->
+        <div class="carousel-item" style="background-image: url(images/teembckg.png)">
+        </div>
+        <!-- Slide Three -->
+        <div class="carousel-item" style="background-image: url(images/coopybckg.png)"></div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+    </div>
+  </header>
+
+  <header class="bg-light">
+    <div class="container text-center">
+      <h7>Henri Clarke (hxc2), Michael Rivera (mr858)<br>
+        ECE 5725 Final Project<br>
+        Spring 2019 (5/16/19)</h7>
+      <p class="lead"></p>
+    </div>
+  </header>
+
+  <section id="blurb">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <p class="lead">
+              Enjoy reading about the process by which Coopy came to existence and now flourishes!
+              <br><br>
+              Our final demo video:
+              <br>
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/eLfm1pP-2vs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <br>
+              Read more about Coopy below! 
+              Our objective slowly changed over the course over the course of a few weeks, so the final product is a bit different than our initial anticipation.
+              <br><br>
+            </p>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section id="objective" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h2>Objective</h2>
+          <p class="lead">
+            To create a friendly autonomous system based off of the Lab 3 robot.
+            We envision that our system will be able to play the game “red light / green light” with a person using visual and audio cues, as well as a remote control.
+            The system will run off of a RPi Zero W, which will communicate, via bluetooth, with the “remote control” RPi 3.
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="introduction">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h2>Introduction</h2>
+            <p class="lead">
+              Coopy is a bluetooth based system which links a robot to a remote control base station.
+              The robot implements facial detection in order to properly orient itself with people.
+              The images captured by the robot are then wireless streamed to the base station for viewing.
+              The base station has a touchscreen and can be used to interact with the robot camera feed and driving system.
+              From the base station, Coopy’s new friend has the option to view the video stream, initiate the friendship wobble, or steer Coopy around with a remote control.
+  
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  <section id="design" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h2>Design & Testing</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="initialdesign">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h3>Initial Design</h3>
+          <p class="lead">
+            Our initial designs were primarily focused on the behavioral and human interaction aspects of our robot.
+            Looking back at some projects from previous years, we found a number of them which had human interaction applications had somewhat impersonal designs.
+            We wanted a robot that could not only display certain behaviors, but also communicate those states in a way which is easily understandable -- and personable! -- to any user.
+            Initially, we took a lot of inspiration from Mira [2], a robot designed by Alonso Martinez to play peek-a-boo, and wanted to design something similarly simplistic and emotive, with many nuanced movements lending it personality.
+            We also referenced the movements of <a href = "https://www.youtube.com/channel/UCxseO_JzIiiJENauW2RmcJQ">Barnaby Dixon’s</a> puppets and the <a href = "http://guyhoffman.com/blossom-handcrafted-soft-social-robot/">Blossom robot</a> in trying to draw inspiration for natural movement from a robot.
+            
+            <br><br>
+            <center>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/A7iAMELA_TY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <br><small>Mira, designed by Alonso Martinez. We liked her simple but cute design and lifelike movements.<br>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/sUUtK9FFIt4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <br>Barnaby Dixon's bug puppet. We paid attention to the way the antennae add a life of their own without having to be manually moved, as well as the elasticity in the feet that make the feet have natural stepping movements.
+            We didn't end up adding anything external on because our design changed, but we were considering adding antennae to our own robot!<br>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/okFoKJK_N3w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <br>Blossom Robot by the Cornell's Human-Robot Collaboration and Companionship Lab.
+            We were intrigued by the soft exterior and considered using one for our robot.</small> <br>
+            </center>
+
+            <br><br>
+            At this point in the development cycle, our idea was for our robot, named Gloopy, to 1)  have natural movements and light-up cheek reactions, designed by us, in order to seem more alive and personable, and 2) to play Red Light, Green Light with a human.
+
+            <br><br>
+            <center><img src = "images/proposalbase.JPG"></img><img src = "images/proposalshell.JPG"></img></center>
+            <br>
+            After organizing our plan and all the parts we (thought we) needed to build Coopy, we realized that we were close to being over budget and that designing and building all of the skeleton and shell would be expensive -- both in terms of time and money.
+            We headed downtown in search of a cheaper alternative for the robot’s dome-shaped head instead of trying to 3D-print it.
+            After a lot of searching, we found an Easter egg-carrying basket shaped like a chicken at Walmart (since we were searching shortly before Easter).
+            It was roughly the size we wanted and was a relatively light plastic -- and it had already been a long day.
+            While the shell wasn’t in accordance with our initial vision and would sacrifice the design component surrounding how the robot himself looked, it was still cute and was the best option for a shell that we could find.
+            <br><br>
+            <center><img src = "images/shell1.png"></img><img src = "images/shell2.png"></img></center>
+            <br>
+
+            We then elected to use the top half of Coopy, as it fit comfortably over the Lab 3 robot’s base, and clipped all unnecessary plastic.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="initialdesign">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h3>Final Design</h3>
+            <p class="lead">
+              Our final design of the Coopy system included:
+              <ul>
+                <li>A ground station, which has a Raspberry Pi 3 controlling a piTFT. Powered by a battery pack to enhance mobility! 
+                  The piTFT is displaying a GUI and serving as the server for the bluetooth communication.</li>
+                <li>A Coopy, which included
+                  <ul>
+                    <li>A chicken-shaped shell</li> 
+                    <li>A Raspberry Pi 3, serving as the client for facial recognition and bluetooth communication.</li>
+                    <li>A camera</li>
+                    <li>The lab 3 base</li>
+                    <li>A battery to power the Raspberry Pi 3</li>
+                  </ul>
+                </li>
+
+              </ul>
+              <center><img src = "images/coopyfinal.jpeg"></img></center>
+              Here is a state diagram detailing Coopy's logic in and between the remote control robot.
+              <br>
+              <center><img src = "images/states.jpg"></img></center>
+            </p>
+          </div>
+        </div>
+      </div>
+  </section>
+  <section id="design" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h3>Facial Detection (Camera + OpenCV)</h3>
+          <p class="lead">
+              We first checked to ensure that the camera was functional. 
+              We did this with the python Picamera library [4], using the provided file recipes to display the images on a monitor. Initially, we set this up with the Raspberry Pi 0W, which we wanted to keep inside of the robot in order to have a smaller design.
+              <br><br><center>
+              <img src = "images/campic1.jpeg"></img>
+              <img src = "images/campic2.jpeg"></img>
+              <br><br></center>
+              However, we discovered that the Raspberry Pi Zero W did not have the processing power to control the wheel servos, run a camera, and perform facial recognition all at the same time without sacrificing product usability! Instead, we chose to replace the Pi Zero with an additional Raspberry Pi 3 in order to perform what we needed.
+              <br><br>
+              From there, we installed OpenCV, following the steps from the Fall 2015 ECE 5725 project website, Face Recognition System, done by Jingyao Ren and Andre Heil [8].
+              We attempted the installations referenced in the OpenCV installation folder found on Blackboard, but did not find much success with them.
+              To test that the installation was successful, we used their 1_single_core.
+            py.
+              The file takes advantage of the built-in Local Binary Patterns algorithm and corresponding training files from OpenCV.
+            
+              <br><br>
+              We found that the above algorithm tended to struggle with maintaining consistent recognition of people if their faces were turned or angled. This was not ideal for our initial vision of Coopy being able to learn to recognize people, as intermittent identification could be interpreted as the detection of 2 different people.
+              <br><br>
+              As acknowledged and explored in the 2015, the previously mentioned file, 1_signel_core.
+              py, only utilizes a single processor, and could be improved by implementing multiprocessing.
+              We elected not to incorporate multiprocessing because it would make our synchronization scheme exponentially more difficult.
+              The presentation of images in the 2015 project is done on a locally connected device, where as our images are transmitted to a remote base station and must appear in order.
+              We encountered a number of communication timing issues with the development of our system, so the added complexity of synchronization with multiprocessing was not ideal.
+            
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="neopixels">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h3>Neopixels</h3>
+            <p class="lead">
+                This part did not make it onto our final project due to software requirement issues: the library necessary to run NeoPixels off of a Raspberry Pi necessitates Python 3, whereas the version of OpenCV we installed was for Python 2.
+                Facial detection was more important, so we opted not to use NeoPixels.
+               <br><br>
+               However, we were able to make cool things happen with them after following the <a href = "https://learn.adafruit.com/neopixels-on-raspberry-pi/overview">tutorials online</a> [9].
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <section id="gui" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h3>Base Station GUI</h3>
+          <p class="lead">
+              Because the GUI on the base station is the primary way the user interacts with Coopy, we wanted the GUI to be a reflection of Coopy’s personality. We wanted Coopy to be a warm and inviting robot friend, so we chose a simple but bright color scheme and design. The screens on the GUI menu were as follows:
+            <br><br>
+            Start screen: press start in order to navigate to the home screen.
+            <center><img src = "images/start.png"></img></center>
+            <br>
+            Home screen: has varying options of ways to interact with Coopy. Initially, we had many plans of how to interact. One idea, for example, was to have the user play a game on the piTFT, and as they lost or won Coopy would emote accordingly using their nuanced movements. 
+            <br><br>
+            <center><img src = "images/home.png"></img></center>
+            <br>
+            Friend: Coopy shakes back and forth in excitement about friendship!
+            <br><br>
+            Camera: A live video feed displays on screen; as Coopy identifies faces, he labels them as “friends” and tries to follow them with his face.
+            <br><br>
+            <center><img src = "images/facescreenshot.png"></img></center>
+            <br>
+            Drive: Coopy enters remote control mode. The user can drive Coopy around by pressing on the screen in the direction (relative to the center) that they want Coopy to drive in.
+            <br><br>
+            <center><img src = "images/drive.png"></img></center>
+            <br>
+            As a whole, we were running the GUI on the computer, so we were caught off guard when we began to run it on the piTFT and the screen was not responding to our touches.
+            In order to check that it wasn’t just the GUI code that was failing, we checked the screen_coordinates.
+           py file from Lab 2, which displays the coordinates of the touch location -- the touches were jumping around strangely where we had not touched them.
+            We realized that the reason this was happening was because we had uninstalled a specific downgrade (which we had installed in Lab 2) that fixed some weird piTFT touch screen bugs caused by the upgrade from Wheezy to Jessie and Stretch.
+            This happened at some point when we were installing new libraries or packages and rewrote that specific downgrade by mass updating our system.
+            
+           <br><br>
+           In order to fix those weird touchscreen bugs, we went through the process outlined in the Lab 2, Week 2 handout under “piTFT touch control.
+           ” [7]
+           
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="bluetooth">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h3>Bluetooth</h3>
+            <p class="lead">
+                Bluetooth was used as the primary means of communication between the different devices of our system.
+                We utilized the Bluedot Comm API [6] to streamline communication.
+                The API allows for character strings to be transmitted between a paired server and client.
+                In our initial design of the communication protocol, we attempted to transmit images over the bluetooth connection.
+                Unfortunately, Bluedot does not send entire strings, but rather terminal representations of those strings.
+                When sending entire images, the pixel arrays generated by OpenCV were reduced to a few entries concatenated by ellipses, resulting in over 90% of the information being lost in transmission.
+                We attempted to remedy this by decreasing the packet sizes and increasing the transmission rate.
+                This, however, resulted in an unforeseen consequence of randomly introducing erroneous characters into our transmissions.
+                We attempted to parse these characters out, but we found that these error characters would occasionally replace characters.
+                Having to perform error checking and failsafe measures to recover data slowed down our system to an almost inoperable rate.
+                <br><br>
+               We no longer use bluetooth to handle file transfers, instead opting for sockets.
+                We primarily use bluetooth now for simple single character strings which are sent between the server and the client.
+                Using the Bluedot callback functions, we are able to change the state of each device upon receiving a new character.
+                <br><br>
+               To properly run the Bluedot API, one must first pair the devices.
+                Bluedot provides a guide on pairing Raspberry Pi’s from the command line in its documentation.
+               
+               
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+   <section id="sockets" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h3>Sockets</h3>
+          <p class="lead">
+              We resorted to using sockets for file transfers after realizing it was impractical to do everything over bluetooth.
+              Upon a bluetooth connection between our devices, the server sends its wlan0 address to the client.
+              This address is then used for all future socket connections.
+              Every time we need to transmit a new image, the client sends a message to the server indicating it has a new image via bluetooth.
+              The client then opens a new socket and writes to the socket until it reaches the end of the file.
+              Once it has completed, it then switches to a waiting mode and closes the socket.
+              The server will then write the image locally and transmit via bluetooth to the client that it has finished writing.
+              The client then reverts back to a writing mode.
+             <br><br>
+             We initially attempted this by having separate processes write and display the images.
+              This occasionally caused timing issues when one process was not finished writing and the other attempted to read.
+              To resolve this, the writing and display of images were added to the data_received callback function in the server code.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section> 
+
+
+  <section id="result">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h3>Result</h3>
+            <p class="lead">
+                Over the past few weeks, the vision of our project transitioned away from a facial detection and behavioral analysis project to more of a communication and synchronization project.
+                Our initial idea was to create a robot which could detect and remember new people.
+                The robot would then react differently to known users (as opposed to random passersby) through robot movement and neopixel LED arrays.
+                However, as we worked with facial detection, we realized that training our robot to detect individuals in such a limited time with a robot would be extremely difficult (if not impossible), especially as our camera feed became very slow.
+                In addition, we had envisioned spending more effort on the reactions and making them more realistic and personal; however, that changed as we ran out of time and realized that we needed to focus more on the communication aspects of the project.
+                It is very difficult to design a visually friendly robot on top of the technical challenges we took on, so one of them definitely had to be cut down.
+               <br><br>
+               However, during week 3 we changed our vision for the demo to be a robot who would recognize a face and have his cheeks change color because he’s happy to make a friend.
+                This was because we realized that functional camera and facial recognition was more important than Bluetooth and could still be a reasonable product.
+                While we didn’t make Coopy’s cheeks change colors due to different technical issues, we did have a reaction as a result to facial detection (ie.
+                trying to follow the face).
+                In this sense, we did successfully achieve our outlined results.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <section id="conclusion" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h3>Conclusion</h3>
+          <p class="lead">
+              We were able to develop a two-way communication system which actively present facial detection information in real time.
+              While this was a technical feat, we also developed a robot that won over the hearts of many of our peers -- thus succeeding in our quest of making a friendly and personable design.             
+          </p>
+        </div>
+      </div>
+    </div>
+  </section> 
+
+  <section id="future">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h3>Future Work</h3>
+            <p class="lead">
+                If we had more time, we would have explored multiprocessing with facial detection and the video stream.
+                Although this would add synchronization challenges to our project, the benefits of increased efficiency and processor utilization could outweigh the costs of implementing multiprocessing.
+              <br><br>
+               Another area we were considering exploring were voice commands and user interactive games such as Red Light, Green Light.
+                Voice commands would require the implementation of speech recognition.
+                Red Light, Green Light would require that the robot be able to identify which person in its view is directing the game.
+              <br><br>               
+               We also wanted to make Coopy much more personable.
+                Initially, we’d wanted to add NeoPixels to his cheeks, which would glow different colors and patterns to indicate an emotional response.
+                However, we weren’t able to do that with the software and time restrictions that we had.
+                Exploring the NeoPixels and additional mechanical movement would be a fun and interesting direction.
+              <br><br>
+                   
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <section id="references" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h3>References</h3>
+          <p class="lead">
+            <ol>
+              <li> <a href = "https://youtu.be/eLfm1pP-2vs">Our Youtube video</a></li>
+              <li> <a href = "https://www.youtube.com/watch?v=0vfuOW1tsX0"> Alonso Martinez’ Hand-Crafted Robots </a></li>
+              <li> <a href = "https://www.youtube.com/watch?v=okFoKJK_N3w"> Blossom Robot</a> </li>
+              <li> <a href = "https://picamera.readthedocs.io/en/release-1.13/recipes1.html">Picamera Library Docs</a> </li>
+              <li> <a href = "https://www.pyimagesearch.com/2015/07/27/installing-opencv-3-0-for-both-python-2-7-and-python-3-on-your-raspberry-pi-2/"> Full installation guide for opencv </a></li>
+              <li> <a href = "https://bluedot.readthedocs.io/en/latest/btcommapi.html">Bluedot Comm API</a></li>
+              <li> ECE 5725, Spring 2019, Lab 2 Week 2 Handout: Lab2_Spring2019_v3, pg. 11-14</li>
+              <li> <a href = "https://courses.ece.cornell.edu/ece5990/ECE5990_Fall15_FinalProjects/Andre_Heil/ece5990_final_report/avh34_jr986.html">Face Recognition System</a></li>      
+              <li> <a href = "https://learn.adafruit.com/neopixels-on-raspberry-pi/overview">Neopixel Raspberry Pi Tutorial</a></li>  
+            </ol>
+            </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section id="work">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h3>Work Distribution</h3>
+          <p class="lead">
+              During the beginning of the lab, both Henri and Michael worked on the project’s synthesis and problem-solving together, often pair-programming.
+              As time constraints wore on the ability for both members of the team to come in at the same time (and necessitated rushing to finish), responsibilities were split based on who could come in more.
+              Henri focused more on the GUI and NeoPixels and worked some on the facial recognition, while Michael focused more on facial recognition and making the communication protocol between Pis work.
+             <br><br>
+             On the lab report, Henri and Michael wrote about the parts they worked the most on while collaborating on the general project-related sections and editing each other’s work.
+              Henri organized the information on the web page.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="parts" class="bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h3>Parts List</h3>
+            <p class="lead">
+                We used some components from lab that were exempt from our budget:
+                <br><br>
+                <table style="border:1px solid black; width:100%">
+                    <tr>
+                      <th><b>Lab Components Used</b></th>
+                      <th><b>Price</b></th> 
+                    </tr>
+                    <tr>
+                      <td>Raspberry Pi 3</td>
+                      <td>$25</td> 
+                    </tr>
+                    <tr>
+                      <td>piTFT screen</td>
+                      <td>$25</td> 
+                    </tr>
+                    <tr>
+                        <td>Expansion cable</td>
+                        <td>$4</td> 
+                    </tr>
+                    <tr>
+                        <td>Case</td>
+                        <td>$4</td> 
+                    </tr>
+                    <tr>
+                        <td>Assembled Lab 3 Robot
+                          <ul>
+                            <li>2 continuous rotation servos</li>
+                            <li>2 wheels</li>
+                            <li>2 motor brackets</li>
+                            <li>Lower deck</li>
+                            <li>Upper deck</li>
+                            <li>Small proto-board</li>
+                            <li>Caster assembly</li>
+                            <li>Assorted fasteners</li>
+                          </ul>
+                        </td>
+                        <td>$4</td> 
+                    </tr>
+                    <tr>
+                        <td><b>Total</b></td>
+                        <td><b>$58ish</b></td> 
+                    </tr>
+                  </table>
+                  <br><br>
+                  In addition to the components utilized from lab, we purchased or borrowed components that factored into our budget allocated ($100)
+                  <br><br>
+                  <table style="border:1px solid black; width:100%">
+                  <tr>
+                    <th><b>Component Purchased</b></th>
+                    <th><b>Quantity</b></th>
+                    <th><b>Vendor</b></th>
+                    <th><b>Price</b></th>
+                  </tr>
+                  <tr>
+                      <td>Raspberry Pi Camera Board v2 - 8 Megapixels</td>
+                      <td>1</td>
+                      <td>Adafruit</td>
+                      <td>$35</td>
+                  </tr>
+                  <tr>
+                      <td>Raspberry Pi 3</td>
+                      <td>1</td>
+                      <td>Professor Skovira</td>
+                      <td>$25</td>
+                  </tr>
+                  <tr>
+                      <td>Chicken shell</td>
+                      <td>1</td>
+                      <td>Walmart</td>
+                      <td>$5</td>
+                  </tr>
+                  <tr>
+                      <td><b>Total</b></td>
+                      <td></td>
+                      <td></td>
+                      <td><b>$65</b></td>
+                  </tr>
+                  </table>
+                  <br><br>
+                  We were well within our budget, although we did buy some parts (like the NeoPixels) which we did not use on our final robot.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="future">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <h3>Code Appendix</h3>
+              <p class="lead">
+                  The only files necessary to run the project are:
+                  <br>
+                  <b>coopyServer.py</b>, the server/base station code, and <br>
+  
+                  <b>coopyBot.py</b>, the robot/image processing code
+                  <br><br>
+                  Please note, the devices must still be manually paired for bluetooth.
+                <br>
+                <h4 id=coopyBot> coopyBot.py </h4>
+                <pre><code>
+                ###############################################################################
+                #                                                                             #
+                # original file:    4_multi_core.py                                           #
+                #                                                                             #
+                # authors: Andre Heil  - avh34                                                #
+                #          Jingyao Ren - jr386                                                #
+                #                                                                             #
+                # date:    December 1st 2015                                                  #
+                #                                                                             #
+                # edited by: Michael Rivera  - mr858										  #
+                #            Henri Clarke - hxc2											  #
+                #                                                                             #
+                # edit date: May 9th 2019                                                     #
+                #                                                                             #
+                # original brief:   This file uses multicore processing to track your face.   #
+                #                   This is similar to 1_single_core.py except now we utilize #
+                #                   all four cores to create a more fluid video.              #
+                #                                                                             #
+                ###############################################################################
+                
+                
+                ### Imports ###################################################################
+                
+                from picamera.array import PiRGBArray
+                from picamera import PiCamera
+                from functools import partial
+                
+                import socket
+                import sys
+                
+                import cv2
+                import os
+                import time
+                import numpy as np
+                
+                from bluedot.btcomm import BluetoothClient
+                from signal import pause
+                
+                import RPi.GPIO as GPIO
+                
+                ### Setup #####################################################################
+                
+                resX = 320
+                resY = 240
+                
+                cx = resX / 2
+                cy = resY / 2
+                
+                # Setup the camera
+                camera = PiCamera()
+                camera.resolution = ( resX, resY )
+                camera.framerate = 60
+                
+                # Use this as our output
+                rawCapture = PiRGBArray( camera, size=( resX, resY ) )
+                
+                # The face cascade file to be used
+                face_cascade = cv2.CascadeClassifier('/home/pi/opencv-2.4.9/data/lbpcascades/lbpcascade_frontalface.xml')
+                
+                t_start = time.time()
+                fps = 0
+                
+                mode = -1
+                ipServer = None
+                
+                # Bluetooth
+                def data_received(data):
+                    global mode
+                    global ipServer
+                    global pl
+                    global pr
+                    if data == "d" and mode == 5: # Transition from wait state to writing
+                        mode = 1
+                    elif data == 'h': # Wiggle
+                        mode = 2
+                    elif data == 'r': # Drive state
+                        mode = 3
+                    elif data == 'c': # Write state
+                        mode = 1
+                    elif data == 'b': # Home state
+                        mode = 0
+                        pl.ChangeDutyCycle(0)
+                        pr.ChangeDutyCycle(0)
+                    elif data == 'stop': # Stop driving
+                        pl.ChangeDutyCycle(0)
+                        pr.ChangeDutyCycle(0)
+                    elif mode == 3: # Compute direction of driving
+                        deg = float(data)
+                        uptimer = 0.0
+                        uptimel = 0.0
+                        if deg > 90:
+                            uptimer = 1.3
+                            uptimel = 1.7 - .4 * ((float(deg) - 90) / 90)
+                            print('q2: ' + str(uptimel) +', ' + str(uptimer))
+                        elif deg > 0:
+                            uptimel = 1.7
+                            uptimer = 1.7 - .4 * ((float(deg) ) / 90)
+                            print('q1: ' + str(uptimel) +', ' + str(uptimer))
+                        elif deg > - 90:
+                            uptimer = 1.7
+                            uptimel = 1.3 + .4 * ((float(deg) + 90) / 90)
+                            print('q4: ' + str(uptimel) +', ' + str(uptimer))
+                        else:
+                            uptimel = 1.3
+                            uptimer = 1.3 + .4 * ((float(deg) + 180) / 90)
+                            print('q3: ' + str(uptimel) +', ' + str(uptimer))
+                        pl.ChangeDutyCycle(dcOf(uptimel))
+                        pl.ChangeFrequency(freqOf(uptimel))
+                        pr.ChangeDutyCycle(dcOf(uptimer))
+                        pr.ChangeFrequency(freqOf(uptimer))
+                    elif mode == -1: # Obtain ip for socket
+                        ipServer = data
+                        mode = 0
+                    print(data)
+                
+                # Polling Bluetooth connection
+                conn = True
+                client = None
+                while(conn):
+                    conn = False
+                    try:
+                        client = BluetoothClient("B8:27:EB:9A:90:25",data_received)
+                    except:
+                        conn = True
+                
+                
+                ### Helper Functions ##########################################################
+                
+                YOLK = 250, 165, 0
+                LIGHTBLUE = 160, 200, 255
+                
+                # Obtain faces information from classifier
+                def get_faces(img):
+                    gray = cv2.cvtColor( img, cv2.COLOR_BGR2GRAY )
+                    faces = face_cascade.detectMultiScale( gray )
+                
+                    return faces
+                
+                # Draw face information onto image and rotate servos
+                def draw_frame(img, faces):
+                    global fps
+                    global time_t
+                    global pr
+                    global pl
+                    global mode
+                    wx = 0
+                    wc = 0
+                    # Draw a rectangle around every face
+                    for ( x, y, w, h ) in faces:
+                        cv2.rectangle( img, ( x, y ),( x + w, y + h ), YOLK, 2 )
+                        cv2.putText(img, "frend no." + str( len( faces ) ), ( x, y ), cv2.FONT_HERSHEY_SIMPLEX, 0.5, LIGHTBLUE, 2 )
+                        wx += x + x + w
+                        wc += 2
+                    if mode == 0 or mode == 1 or mode == 5:
+                        if wc == 0:
+                            pl.ChangeDutyCycle(0)
+                            pr.ChangeDutyCycle(0)
+                        else:
+                            upT = 1.5 + .04 * ((float(wx/wc) - 160)/(160))
+                            updateServos(upT)
+                
+                    # Calculate and show the FPS
+                    fps = fps + 1
+                    sfps = fps / (time.time() - t_start)
+                    cv2.putText(img, "FPS : " + str( int( sfps ) ), ( 10, 10 ), cv2.FONT_HERSHEY_SIMPLEX, 0.5, ( 0, 0, 255 ), 2 )
+                
+                    return img
+                
+                ### Servo Setup ##########################################################
+                
+                GPIO.setmode(GPIO.BCM)
+                GPIO.setup(12,GPIO.OUT)
+                GPIO.setup(26,GPIO.OUT)
+                GPIO.setup(5,GPIO.IN,pull_up_down=GPIO.PUD_UP)
+                
+                isRunning = True
+                
+                def myButton(channel):
+                    global isRunning
+                    isRunning = False
+                
+                GPIO.add_event_detect(5,GPIO.FALLING,callback=myButton,bouncetime=300)
+                
+                pl = GPIO.PWM(12,46.5)
+                pr = GPIO.PWM(26,46.5)
+                pr.start(0)
+                pl.start(0)
+                
+                def freqOf(uptime):
+                    return (1.0 / ((20+uptime) * .001))
+                def dcOf(uptime):
+                    return (100 * uptime / (20 + uptime))
+                def updateServos(uptime):
+                    pl.ChangeDutyCycle(dcOf(uptime))
+                    pl.ChangeFrequency(freqOf(uptime))
+                    pr.ChangeDutyCycle(dcOf(uptime))
+                    pr.ChangeFrequency(freqOf(uptime))
+                
+                
+                
+                ### Main ######################################################################
+                
+                shift = -1
+                
+                for frame in camera.capture_continuous( rawCapture, format="bgr", use_video_port=True ):
+                    image = frame.array
+                    faces = get_faces(image)
+                    dframe = draw_frame(image, faces)
+                    rawCapture.truncate( 0 )
+                    if not isRunning:
+                        break
+                    if mode == 1: # Write state
+                        client.send("w")
+                        s = socket.socket()
+                        cv2.imwrite("test.png",dframe) # Save image locally
+                        s.connect((ipServer,9999))
+                        f = open('test.png','rb') # Read local image to socket
+                        l = f.read(1024)
+                        while(l):
+                            s.send(l)
+                            l = f.read(1024)
+                        f.close()
+                        s.close()
+                        mode = 5 # Switch to wait state
+                        print(dframe[0][0])
+                    if mode == 2: # Wiggle
+                        updateServos(1.5 + shift * .2)
+                        shift = shift * -1
+                
+                GPIO.cleanup()
+                </code></pre>
+
+
+
+                <h4 id=coopyServer> coopyServer.py </h4>
+                <pre><code>
+                # Henri Clarke (hxc2), Michael Rivera (mr858)
+                # Wednesday lab
+                # Final Project
+
+                import pygame
+                from pygame.locals import * #for event MOUSE variables
+                import os
+                import RPi.GPIO as GPIO
+                import time
+                import random
+
+                import socket
+                import sys
+                import re
+                from subprocess import check_output
+
+                import math
+
+                import cv2
+
+                from bluedot.btcomm import BluetoothServer
+                from signal import pause
+
+                # ENVIRONMENT VARIABLES: uncomment for piTFT
+                #os.putenv('SDL_VIDEODRIVER', 'fbcon')
+                #os.putenv('SDL_FBDEV', '/dev/fb1')
+                #os.putenv('SDL_MOUSEDRV', 'TSLIB')
+                #os.putenv('SDL_MOUSEDEV', '/dev/input/touchscreen')
+
+
+                # GPIO SETUP
+                GPIO.setmode(GPIO.BCM)
+                GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+                isRunning = True
+
+
+                # GPIO / BUTTONS
+                def myButton(channel):
+                    global isRunning
+                    isRunning = False
+
+                GPIO.add_event_detect(17, GPIO.FALLING, callback=myButton, bouncetime = 300)
+
+
+                # PYGAME SETUP
+                pygame.init()
+                pygame.mouse.set_visible(True) # set false when on piTFT
+                WHITE = 255, 255, 255
+                BLACK = 0, 0, 0
+
+                RED = 255, 0, 0
+                YOLK = 250, 165, 0
+
+                GREEN = 0, 255, 0
+
+                BLUE = 0, 0, 255
+                LIGHTBLUE = 160, 200, 255
+
+                rgb = [RED, GREEN, BLUE]
+                screen = pygame.display.set_mode((320, 240))
+                center_button_loc = (160,60)
+                screen_center = 160, 120
+
+                my_font = pygame.font.Font(None, 20)
+                home_buttons = {'Friend':(80, 60), 'Camera':(160,60), 'Drive':(240,60)}
+
+
+                start = time.time()
+
+                i = 0
+                j = 0
+                state = 0
+
+
+                # CLOCK SETUP
+                clockvar = pygame.time.Clock() #initialization of clock
+                global framerate
+                framerate = 60
+
+
+                size = width, height = 320, 240
+
+                # IMAGE SETUP
+                chikin = pygame.image.load("../thechikin.png")
+                chikinrect = chikin.get_rect()
+                chikinrect = chikinrect.move([120,130])
+
+                surf = None
+                buff = None
+
+                # Bluetooth and sockets
+                s = socket.socket()
+                s.bind(('0.0.0.0',9999))
+                s.listen(1)
+
+                def data_received(data):
+                    global s
+                    global surf
+                    global buff
+                    global state
+                    if data == "w": # Upon receiving a new image
+                        print(data)
+                        sc, address = s.accept() # Open socket
+                        print(address)
+                        f=open('test.png','wb') # Write file locally
+                        l=sc.recv(1024)
+                        while(l):
+                            f.write(l)
+                            l = sc.recv(1024)
+                        f.close()
+                        sc.close()
+                        surf = pygame.image.load("test.png") # Load local image for piTFT
+                        buff = surf.get_rect()
+                        buff.left = 0
+                        buff.top = 0
+                        if state == 2: # If in camera display mode
+                            server.send('d')
+
+                # When client connects, send ip
+                def when_client_connects():
+                    temp = check_output(['hostname','-I'])
+                    server.send(re.sub('\n','',temp))
+
+                server = BluetoothServer(data_received_callback=data_received,when_client_connects=when_client_connects)
+
+
+                #WHILE PROGRAM IS RUNNING
+                while isRunning:
+                    clockvar.tick(framerate) #manual framerate control so we can edit it
+                    screen.fill(LIGHTBLUE) #erase the work space
+                    if state == 0 or state == 1:
+
+                        screen.blit(chikin, chikinrect)
+
+                        if state == 0: #start screen
+                            # render start button
+                            text_surface = my_font.render("Start", True, WHITE)
+                            rect = text_surface.get_rect(center=center_button_loc)
+                            bkgd_rect = pygame.draw.rect(screen, YOLK, (rect.left-15, rect.top-15, rect.width+30, rect.height+30))
+
+                            screen.blit(text_surface,rect)
+                            for event in pygame.event.get(): # event handling
+                                if((event.type is MOUSEBUTTONDOWN)):
+                                    pos = pygame.mouse.get_pos()
+                                    i,j = pos
+                                    print ("touch at "+ str((i,j)))
+                                elif(event.type is MOUSEBUTTONUP):
+                                    pos = pygame.mouse.get_pos()
+                                    x,y = pos
+                                    if y > 35 and y < 75:
+                                        if x > 130 and x < 190:
+                                            print "start"
+                                            state = 1
+
+                        if state == 1: # coopy is ON
+                            for my_text, text_pos in home_buttons.items(): # home button rendering
+
+                                text_surface = my_font.render(my_text, True, WHITE)
+
+                                rect = text_surface.get_rect(center=text_pos)
+                                bkgd_rect = pygame.draw.rect(screen, YOLK, (rect.left-15, rect.top-15, rect.width+30, rect.height+30))
+                                screen.blit(text_surface,rect)
+                            for event in pygame.event.get(): # event handling
+                                if((event.type is MOUSEBUTTONDOWN)):
+                                    pos = pygame.mouse.get_pos()
+                                    i,j = pos
+                                    state = 1
+                                    print ("touch at "+ str((i,j)))
+                                elif(event.type is MOUSEBUTTONUP):
+                                    pos = pygame.mouse.get_pos()
+                                    x,y = pos
+                                    if y > 35 and y < 75: #{'Friend':(80, 60), 'Camera':(160,60), 'Drive':(240,60)}
+                                        if x > 50 and x < 110: # friend
+                                            print "heart"
+                                            server.send('h')
+                                        elif x > 130 and x < 190: # camera
+                                            print "camera"
+                                            server.send('c')
+                                            state = 2
+                                        elif x > 210 and x < 270: # drive
+                                            print "drive"
+                                            server.send('r')
+                                            state = 3
+                    if state == 2: # Camera display mode
+                        if surf != None:
+                            screen.blit(surf,buff) # Load new image to screen
+                        text_surface = my_font.render("Back", True, WHITE)
+                        rect = text_surface.get_rect(center=(30,30))
+                        bkgd_rect = pygame.draw.rect(screen, YOLK, (rect.left-15, rect.top-15, rect.width+30, rect.height+30))
+
+                        screen.blit(text_surface,rect)
+                        for event in pygame.event.get(): # event handling
+                            if((event.type is MOUSEBUTTONDOWN)):
+                                pos = pygame.mouse.get_pos()
+                                i,j = pos
+                                print ("touch at "+ str((i,j)))
+                            elif(event.type is MOUSEBUTTONUP):
+                                pos = pygame.mouse.get_pos()
+                                x,y = pos
+                                if y > 5 and y < 50:
+                                    if x > 0 and x < 60:
+                                        print "back"
+                                        server.send('b')
+                                        state = 1
+                    if state == 3: # DRIVE MODE
+
+                        # Graphics
+                        pygame.draw.circle(screen, YOLK, screen_center, 100, 20)
+                        title_top_surface = my_font.render("Press to drive", True, WHITE)
+                        title_top_rect = title_top_surface.get_rect(center=(160, 70))
+                        title_bottom_surface = my_font.render("in any direction!", True, WHITE)
+                        title_bottom_rect = title_bottom_surface.get_rect(center = (160, 90))
+                        text_surface = my_font.render("Back", True, WHITE)
+                        rect = text_surface.get_rect(center=(160,140))
+                        bkgd_rect = pygame.draw.rect(screen, YOLK, (rect.left-15, rect.top-15, rect.width+30, rect.height+30))
+
+                        screen.blit(text_surface,rect)
+                        screen.blit(title_top_surface, title_top_rect)
+                        screen.blit(title_bottom_surface, title_bottom_rect)
+
+
+                        for event in pygame.event.get(): # event handling
+                            if((event.type is MOUSEBUTTONDOWN)):
+                                pos = pygame.mouse.get_pos()
+                                i,j = pos
+                                deg = math.atan2(-(j-120),i-160) / math.pi*180
+                                server.send(str(deg)) # send the angular information of finger press
+                            elif(event.type is MOUSEBUTTONUP):
+                                pos = pygame.mouse.get_pos()
+                                x,y = pos
+                                if y > 95 and y < 145:
+                                    if x > 130 and x < 190:
+                                        print "back"
+                                        server.send('b')
+                                        state = 1
+                                else:
+                                    server.send('stop') # lifted finger
+
+
+
+                    pygame.display.flip()
+
+                s.close()
+                </code></pre>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; 2019</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom JavaScript for this theme -->
+  <script src="js/scrolling-nav.js"></script>
+
+</body>
+
+</html>
