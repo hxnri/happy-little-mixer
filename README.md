@@ -4,9 +4,11 @@ Created by Henri Clarke, Michael Rivera, and Priya Kattappurath
 ECE 4760: Digital Design Using Microcontrollers
 Cornell University
 
-Final PIC32 Code is in [/code/final/]("https://github.com/hxnri/happy-little-mixer/tree/master/code")
-Final Arduino Code is in [/code/Adafruit_TCS34725-master/examples/COLORSENSOR/COLORSENSOR]("https://github.com/hxnri/happy-little-mixer/tree/master/code/Adafruit_TCS34725-master/examples/COLORSENSOR/COLORSENSOR")
-[Read our hastily written lab report.]("hxnri.github.io/happy-little-mixer/")
+Final PIC32 Code is in [here]("https://github.com/hxnri/happy-little-mixer/tree/master/code")
+
+Final Arduino Code is in [here]("https://github.com/hxnri/happy-little-mixer/tree/master/code/Adafruit_TCS34725-master/examples/COLORSENSOR/COLORSENSOR")
+
+[Read our lab report.]("hxnri.github.io/happy-little-mixer/")
 
 We wanted to create something fun that would spark joy in its user -- a project that would be simultaneously technically interesting while also having a creative aspect. Through an inspiration-filled night of brainstorming, we decided to make an automatic ink color mixer. Why? Because it could be used to teach young artists the concepts of hue and saturation, to help artists mix colors, and because we wanted to learn more about creating accurate colors. We christened it “Happy Little Mixer,” because we were inspired by the well known phrase, “happy little trees,” used by Bob Ross on his show “Joy of Painting.”
 
