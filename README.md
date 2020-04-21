@@ -4,9 +4,9 @@ Created by Henri Clarke, Michael Rivera, and Priya Kattappurath
 ECE 4760: Digital Design Using Microcontrollers
 Cornell University
 
-Final PIC32 Code is in [here]("https://github.com/hxnri/happy-little-mixer/tree/master/code")
+Final PIC32 Code is in [here]("github.com/hxnri/happy-little-mixer/tree/master/code")
 
-Final Arduino Code is in [here]("https://github.com/hxnri/happy-little-mixer/tree/master/code/Adafruit_TCS34725-master/examples/COLORSENSOR/COLORSENSOR")
+Final Arduino Code is in [here]("github.com/hxnri/happy-little-mixer/tree/master/code/Adafruit_TCS34725-master/examples/COLORSENSOR/COLORSENSOR")
 
 [Read our lab report.]("hxnri.github.io/happy-little-mixer/")
 
